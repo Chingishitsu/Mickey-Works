@@ -11,6 +11,7 @@ class CreateMstResultsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('mst_results');
         Schema::create('mst_results', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name',255);

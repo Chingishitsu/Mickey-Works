@@ -11,9 +11,10 @@ class CreateMstCsubsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('mst_csubs');
         Schema::create('mst_csubs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name',255);
             $table->integer('rank');
         });
     }

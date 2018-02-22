@@ -1,7 +1,9 @@
 <?php
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+
 class CreateCompaniesTable extends Migration
 {
     /**
@@ -11,16 +13,17 @@ class CreateCompaniesTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('companies');
         Schema::create('companies', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('username',255)->unique();
+            $table->string('username',255);
 
             $table->string('password',255);
 
-            $table->string('email',255)->unique();
+            $table->string('email',255);
 
-            $table->string('name',255)->unique();
+            $table->string('name',255);
 
             $table->longText('address')->nullable();
 
@@ -35,6 +38,7 @@ class CreateCompaniesTable extends Migration
             $table->softDeletes();
         });
     }
+
     /**
      * Reverse the migrations.
      *
