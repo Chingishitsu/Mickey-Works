@@ -13,7 +13,7 @@ class CreateMstDegreesTable extends Migration
     {
         Schema::create('mst_degrees', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name',255);
             $table->integer('rank');
         });
     }
