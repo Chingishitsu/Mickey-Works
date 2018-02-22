@@ -1,7 +1,9 @@
 <?php
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+
 class CreateStudentsTable extends Migration
 {
     /**
@@ -14,7 +16,7 @@ class CreateStudentsTable extends Migration
         Schema::dropIfExists('students');
         Schema::create('students', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('username');
+            $table->string('username')->unique();
             $table->string('password');
             $table->string('email');
             $table->string('name');
@@ -28,6 +30,7 @@ class CreateStudentsTable extends Migration
             $table->softDeletes();
         });
     }
+
     /**
      * Reverse the migrations.
      *
