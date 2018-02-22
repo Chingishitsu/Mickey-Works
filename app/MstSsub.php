@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Mst_ssub extends Model
+class MstSsub extends Model
 {
-    //
+  protected $table = 'Mst_ssubs';
 }
