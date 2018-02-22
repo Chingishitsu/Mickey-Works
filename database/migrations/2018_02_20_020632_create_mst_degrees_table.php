@@ -11,6 +11,7 @@ class CreateMstDegreesTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('mst_degrees');
         Schema::create('mst_degrees', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');

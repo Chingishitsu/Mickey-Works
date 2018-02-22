@@ -13,6 +13,7 @@ class CreateMatchingTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('matching');
         Schema::create('matching', function (Blueprint $table) {
             $table->increments('id');
 
