@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="aBzuyKjZYw8pDJuPjESKsK8SO4awBYH8qcEYKHd8">
 
-    <title>管理者の企業登録</title>
+    <title>留学生登録</title>
 
     <!-- Styles -->
     <link href="http://localhost/mickey/public/css/app.css" rel="stylesheet">
@@ -25,12 +25,7 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
+                  <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                                                     <li><a class="nav-link" href="http://localhost/mickey/public/login">企業ユーザー</a></li>
@@ -46,7 +41,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card card-default">
-                <div class="card-header">新しい企業ユーザーを作る</div>
+                <div class="card-header">留学生新規入会</div>
 
                 <div class="card-body">
                     <form method="POST" action="http://localhost/mickey/public/register">
@@ -61,14 +56,13 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">企業本名</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">E-Mailアドレス</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="" required autofocus>
+                                <input id="email" type="email" class="form-control" name="email" value="" required>
 
                                                             </div>
                         </div>
-
 
 
                         <div class="form-group row">
@@ -89,13 +83,76 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">E-Mailアドレス</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-right">名前</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="" required>
+                                <input id="name" type="text" class="form-control" name="name" value="" required autofocus>
 
                                                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label for="birth" class="col-md-4 col-form-label text-md-right">誕生日</label>
+
+                            <div class="col-md-6">
+                                <input id="birth" type="text" class="form-control" name="birth" value="" required autofocus>
+
+                                                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="tel" class="col-md-4 col-form-label text-md-right">携帯</label>
+
+                            <div class="col-md-6">
+                                <input id="tel" type="text" class="form-control" name="tel" value="" required autofocus>
+
+                                                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="mst_degree_id" class="col-md-4 col-form-label text-md-right">最高学歴</label>
+
+                            <div class="col-md-6">
+                              <select class="form-control" id="csub">
+                                <option>小学</option>
+                                <option>中学</option>
+                                <option>販売</option>
+                                <option>高校</option>
+                                <option>専門学校</option>
+                                <option>大学</option>
+                                <option>修士</option>
+                                <option>博士</option>
+                              </select>
+
+                                                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="mst_ssub_id" class="col-md-4 col-form-label text-md-right">専門</label>
+
+                            <div class="col-md-6">
+                              <select class="form-control" id="csub">
+                                <option>IT</option>
+                                <option>経済</option>
+                                <option>販売</option>
+                                <option>飲食</option>
+                                <option>看護</option>
+                                <option>運送</option>
+                              </select>
+
+                                                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="message" class="col-md-4 col-form-label text-md-right">アピール</label>
+
+                            <div class="col-md-6">
+                                <textarea class="form-control" rows="5" id="message"></textarea>
+
+                                                            </div>
+                        </div>
+
+
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
