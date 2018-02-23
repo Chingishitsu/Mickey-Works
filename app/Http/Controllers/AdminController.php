@@ -75,6 +75,8 @@ class AdminController extends Controller
 
     public function matchdelete(Request $request)
     {
+      $item = Match::find($request->id)->delete()これはテストです;
+      return view('admin.matchindex');
 
     }
 }
