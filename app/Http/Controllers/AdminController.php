@@ -3,85 +3,59 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Match;
+use App\student;
+use Validator;
 use Illuminate\Support\Facades\DB;
+
 
 class AdminController extends Controller
 {
-  public function companyIndex(Request $request)
-  {
-
-    //requestのqueryから入力するのユーザー名、会社名、Email、給料、分野を取得する。
-    $login_user_name = $request->query("");
-    $company_name = $request->query("");
-    $company_email = $request->query("");
-    $company_salaries = $request->query("");
-    $company_field = $request->query("");
-
-    //入力されてない場合は、「""」空文字列を認める。
-    if(empty($login_user_name)) {
-      $login_user_name = "";
-    }else {
-      $query = $query->where("login_user_name","=",$login_user_name);
-    }
-    if (empty($company_name)) {
-      $company_name = "" ;
-    }else {
-      $query = $query->where("company_name","=",$company_name);
-    }
-    if (empty($company_email)) {
-      $company_email = "";
-    }else {
-      $query = $query->where("company_email","=",$company_email);
-    }
-    if (empty($company_salaries)) {
-      $company_salaries = "";
-    }else {
-      $query = $query->where("company_salaries","="$company_salaries);
-    }
-    if (empty($company_field)) {
-      $company_field = "";
-    }else {
-      $query = $query->where("company_field","=",$company_field);
-    }
-    //モデルのWhereメソッドを利用し、上記情報を検索する。
-    $companies = Company::all();
-
-    //検索の結果をテンプレートに渡す。
-    return view("admin.companyindex", array('companies' => $companys ));
-
-
-  }
-
-    public function Companyupdate(Request $qeruest)
+    public function matchindex(Request $request)
     {
-      //getでアクセスするの場合は、以下の処理を行う。
+      $query = Match::all();
+      $studentName = empty($request->$studentName) ? "" : $request->$studentName;
+      $companyName = empty($request->$companyName) ? "" : $request->$companyName;
+      if ($studentName != ""){
+        $query = $query->where("studentName","=",$studentName);
+      }
+      if ($companyName != ""){
+        $query = $query->where("companyName","=",$companyName);
+      }
+      $items = $query->get();
+      return view('admin.matchindex',['items'=>$items]);
+    }
+
+    public function matchupdate(Request $qeruest)
+    {
       if ($request->isMethod('get')){
-        $item = Company::find($request->id);
+        $item = Match::find($request->id);
         $students = DB::table('students')->all();
         $companies = DB::table('companies')->all();
-        return view('admin.companyupdate',['item'=>$item,'students'=>$students,'companies'=>$companies]);
+        return view('admin.matchupdate',['item'=>$item,'students'=>$students,'companies'=>$companies]);
       }else {
-        $validator = Validator::($request->all(),Company::$rules,Company::$messages);
+        $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
         if ($validator->fails()) {
           return redirect('admin.update/'.$request->id)
           ->withErrors($validator)
           ->withInput();
         }
-        $item = Company::find($request->id);
+        $item = Match::find($request->id);
         $form = $request->all();
         unset($form['_token']);
         $item->fill($form)->save();
-        return redirect('admin.Companyview'.$request->id);
+        return redirect('admin.matchview'.$request->id);
       }
     }
-    public function Companyadd(Request $request)
+
+    public function matchadd(Request $request)
     {
       if ($request->isMethod('get')) {
-        $companys = DB::table('company')->all();
+        $students = DB::table('students')->all();
         $companies = DB::table('companies')->all();
-        return('admin.Companyadd',['companys'=>$companys,'companies'=>$companies]);
+        return view('admin.matchadd',['students'=>$students,'companies'=>$companies]);
       }else {
-        $validator = Validator::($request->all(),Company::$rules,Company::$messages);
+        $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
         if ($validator->fails()) {
           return redirect('admin.matchadd')
           ->withErrors($validator)
@@ -91,18 +65,48 @@ class AdminController extends Controller
         $form = $request->all();
         unset($form['_token']);
         $item->fill($form)->save();
-        return view('admin.companyindex');
+        return view('admin.matchindex');
       }
     }
-    public function companyview(Request $request)
+
+    public function matchview(Request $request)
     {
       $item = Match::find($request->id);
-      return view('admin.companyview',['item'=>$item]);
+      return view('admin.matchview',['item'=>$item]);
     }
-    public function companydelete(Request $request)
+
+    public function matchdelete(Request $request)
     {
-      $item = Match::find($request->id)->delete();
-      return view('admin.companyindex');
+      $item = Match::find($request->id)->delete()これはテストです;
+      return view('admin.matchindex');
+
     }
-}
+
+    public function studentIndex(Request $request)
+    {
+      //requestのqueryから入力するユーザー名を取得する。
+      $student_name = $request->student_name;
+
+      //入力されてない場合は、「""」空文字列を認める。
+      $student_name = empty($student_name) ? "" : $student_name;
+
+      //モデルのWhereメソッドを利用し、上記情報を検索する。
+      $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(1);
+
+      //検索の結果をテンプレートに渡す。
+      return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
+    }
+
+/*    public function studentAdd(Request $request)
+    {
+
+
+
+
+
+
+      return view("admin.student_add",array());
+    }
+*/
+
 }

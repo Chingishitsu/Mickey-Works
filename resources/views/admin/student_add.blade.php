@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="aBzuyKjZYw8pDJuPjESKsK8SO4awBYH8qcEYKHd8">
 
-    <title>管理者の企業登録</title>
+    <title>管理者の留学生登録</title>
 
     <!-- Styles -->
     <link href="http://localhost/mickey/public/css/app.css" rel="stylesheet">
@@ -44,7 +44,7 @@
 <div class="row justify-content-center">
   <div class="col-md-8">
       <div class="card card-default">
-          <div class="card-header">管理者の企業ユーザー新規入会</div>
+          <div class="card-header">管理者の留学生ユーザー新規入会</div>
 
           <div class="card-body">
               <form method="POST" action="http://localhost/mickey/public/register">
@@ -59,7 +59,7 @@
                   </div>
 
                   <div class="form-group row">
-                      <label for="name" class="col-md-4 col-form-label text-md-right">企業本名</label>
+                      <label for="name" class="col-md-4 col-form-label text-md-right">名前</label>
 
                       <div class="col-md-6">
                           <input id="name" type="text" class="form-control" name="name" value="" required autofocus>
