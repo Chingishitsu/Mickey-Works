@@ -9,4 +9,9 @@ class Company extends Model
 {
   use SoftDeletes;
   protected $dates = ['deleted_at'];
+
+  public function matches()
+  {
+    return $this->hasMany("App\Match");
+  }
 }

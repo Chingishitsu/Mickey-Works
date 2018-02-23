@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class MstResult extends Model
 {
   protected $table = 'Mst_results';
+
+  public function matches()
+  {
+    return $this->hasMany("App\Match");
+  }
 }

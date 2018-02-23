@@ -19,6 +19,14 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('admin/matchindex','AdminController@matchindex');
+Route::get('admin/matchupdate/{id?}','AdminController@matchupdate');
+Route::post('admin/matchupdate/{id?}','AdminController@matchupdate');
+Route::get('admin/matchadd','AdminController@matchadd');
+Route::post('admin/matchadd','AdminController@matchadd');
+Route::get('admin/matchdelete/{id?}','AdminController@matchdelete');
+Route::get('admin/matchview/{id?}','AdminController@matchview');
+Route::get('admin/logout','AdminController@logout');
+Route::get('admin/login','AdminController@login');
+Route::get('admin/index','AdminController@index');

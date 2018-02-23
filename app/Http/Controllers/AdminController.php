@@ -6,21 +6,23 @@ use Illuminate\Http\Request;
 use App\Match;
 use Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class AdminController extends Controller
 {
     public function matchindex(Request $request)
     {
-      $query = Match::all();
-      $studentName = empty($request->$studentName) ? "" : $request->$studentName;
-      $companyName = empty($request->$companyName) ? "" : $request->$companyName;
-      if ($studentName != ""){
-        $query = $query->where("studentName","=",$studentName);
-      }
-      if ($companyName != ""){
-        $query = $query->where("companyName","=",$companyName);
-      }
-      $items = $query->get();
+
+      //requestのqueryから入力された学生名前と会社名前を取得する。
+      //取得された学生名前と会社名前を整形する。学生名前、会社名前を入力されてない場合は、「""」空文字列を認める。
+      $studentName = empty($request->student_name) ? "" : $request->student_name;
+      $companyName = empty($request->company_name) ? "" : $request->company_name;
+
+      //モデルの検索メソッドを利用し、上記情報を検索する。
+      $items = Match::all();
+
+      //検索の結果をテンプレートに渡す。
       return view('admin.matchindex',['items'=>$items]);
     }
 
@@ -32,7 +34,7 @@ class AdminController extends Controller
         $companies = DB::table('companies')->all();
         return view('admin.matchupdate',['item'=>$item,'students'=>$students,'companies'=>$companies]);
       }else {
-        $validator = Validator::($request->all(),Match::$rules,Match::$messages);
+        $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
         if ($validator->fails()) {
           return redirect('admin.update/'.$request->id)
           ->withErrors($validator)
@@ -51,9 +53,9 @@ class AdminController extends Controller
       if ($request->isMethod('get')) {
         $students = DB::table('students')->all();
         $companies = DB::table('companies')->all();
-        return('admin.matchadd',['students'=>$students,'companies'=>$companies]);
+        return view('admin.matchadd',['students'=>$students,'companies'=>$companies]);
       }else {
-        $validator = Validator::($request->all(),Match::$rules,Match::$messages);
+        $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
         if ($validator->fails()) {
           return redirect('admin.matchadd')
           ->withErrors($validator)
@@ -77,5 +79,27 @@ class AdminController extends Controller
     {
       $item = Match::find($request->id)->delete();
       return view('admin.matchindex');
+    }
+
+    public function logout(Request $request)
+    {
+      Auth::logout();
+      return view('home.index');
+    }
+
+    public function login(Request $request)
+    {
+      $username = $request->username;
+      $password = $request->password;
+      if (Auth::guard('admin')->attempt(['username'=>$username,'password'=>$password])) {
+        return view('admin.index');
+      }else {
+        return view('hello.index');
+      }
+    }
+
+    public function index(Request $request)
+    {
+      return view('admin.index');
     }
 }
