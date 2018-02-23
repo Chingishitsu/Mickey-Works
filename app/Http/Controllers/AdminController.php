@@ -101,7 +101,7 @@ class AdminController extends Controller
     }
     public function companydelete(Request $request)
     {
-      $item = Match::find($request->id)->delete()abc;
+      $item = Match::find($request->id)->delete();
       return view('admin.companyindex');
     }
 }
