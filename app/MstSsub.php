@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class MstSsub extends Model
 {
-  protected $table = 'Mst_ssubs';
+  protected $table = 'mst_ssubs';
+
+  public function students()
+  {
+    return $this->hasMany("App\Student");
+  }
 }

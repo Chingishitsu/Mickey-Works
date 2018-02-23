@@ -11,6 +11,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         $this->call(mst_ssubsTableSeeder::class);
+      // $this->call('mst_csubsTableSeeder');
+      // $this->call('mst_degressTableSeeder');
+      // $this->call('Mst_resultsTableSeeder');
+      // $this->call('mst_csubsTableSeeder');
+         $this->call(mst_csubsTableSeeder::class);
+         $this->call(mst_degressTableSeeder::class);
+         $this->call(Mst_resultsTableSeeder::class);
+         $this->call(Mst_ssubsTableSeeder::class);
     }
 }
