@@ -13,28 +13,29 @@ class Match extends Model
     'student_comment' => 'between:0,500',
   );
   public static $messages = array(
-    'student_id.required' => '留学を選択してください',
-    'company_id.required' => '会社を選択してください',
+    'student_id.required' => '留学idを選択してください',
+    'company_id.required' => '会社idを選択してください',
     'student_comment.between' => '最大500文字'
   );
 
   use SoftDeletes;
   protected $dates = ['deleted_at'];
   protected $table = 'matching';
+  protected $fillable = ['student_id','company_id','result_id','company_comment','student_comment'];
 
   public function company()
   {
-    return $this->belongsTo("App\Company");
+    return $this->belongsTo("App\Company",'company_id');
   }
 
   public function student()
   {
-    return $this->belongsTo("App\Student");
+    return $this->belongsTo("App\Student",'student_id');
   }
 
   public function result()
   {
-    return $this->belongsTo("App\MstResult");
+    return $this->belongsTo("App\MstResult",'result_id');
   }
 
 }
