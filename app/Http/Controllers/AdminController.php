@@ -12,6 +12,7 @@ use Validator;
 use Illuminate\Support\Facades\DB;
 
 
+
 class AdminController extends Controller
 {
     public function matchindex(Request $request)
@@ -139,25 +140,50 @@ class AdminController extends Controller
 
     }
 
-/*    public function studentCreate(Request $request)
-    {
-      $this -> validate($request,Admin::$rules);
 
-      $student = new Admin;
 
-      $form = $request -> all();
 
-      unset($form['_token']);
-
-      $student -> fill($form) ->save();
-
-      return redirect('admin/student_add');
-    }
-*/
-
-/*      public function studentEdit(Request $request)
+/*    public function companyAdd(Request $request)
       {
+      //getの場合 会社の新規ページーをレンダル。
+        if ($request->isMethod('get'))
+        {
+          $companys = DB::table('companys')->all();
+          return view("admin.company_add",)
+        }
+      //postの場合 requestのpostから会社ユーザー名、会社本名、パスワード、パスワード確認、emailを取得する。
+        if($request->isMethod('post'))
+        {
 
+        }
+      //上記情報をValidatorで検証する。
+
+      //失敗の場合は、エラーメッセージを連れて、本ページを戻す。
+
+      //成功の場合は、新しいDATAをsave()で新規する、詳細ページを戻す。
+
+
+        return view("admin.company_add",array());
+      }
+
+
+    public function companyEdit(Request $request)
+      {
+        //getでアクセスするの場合は Routeparameter連れているのIdを取得する。
+
+        //モデルの検索メソッドを利用し、上記情報を検索する。
+
+        //検索の結果をテンプレートに渡す。
+
+        //postでアクセスするの場合は、requestのpostから会社名、パスワード、などの情報を取得する。
+
+        //上記情報をValidatorで検証する。
+
+        //失敗の場合は、エラーメッセージを連れて、本ページを戻す。
+
+        //成功の場合は、新しいDATAをsave()で更新する、詳細ページを戻す。
+
+        return view("admin.company_edit",array());
       }
 */
 }

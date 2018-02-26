@@ -9,4 +9,12 @@ class Company extends Model
 {
   use SoftDeletes;
   protected $dates = ['deleted_at'];
+
+
+  public function csub()
+  {
+    return $this->belongsTo("App\MstCsub","mst_csub_id");
+  }
+
+
 }
