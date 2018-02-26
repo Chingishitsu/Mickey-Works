@@ -104,7 +104,7 @@ class AdminController extends Controller
       return view("admin.student_add",array());
     }
 */
-    public function companyindex(Request $request)
+    public function companyIndex(Request $request)
     {
       //requestのqueryから入力するのユーザー名、会社名、Email、給料、分野を取得する。
       $company_username = $request->company_username;
@@ -125,9 +125,16 @@ class AdminController extends Controller
     public function companyAdd(Request $request)
       {
       //getの場合 会社の新規ページーをレンダル。
-
+        if ($request->isMethod('get'))
+        {
+          $companys = DB::table('companys')->all();
+          return view("admin.company_add",)
+        }
       //postの場合 requestのpostから会社ユーザー名、会社本名、パスワード、パスワード確認、emailを取得する。
+        if($request->isMethod('post'))
+        {
 
+        }
       //上記情報をValidatorで検証する。
 
       //失敗の場合は、エラーメッセージを連れて、本ページを戻す。
