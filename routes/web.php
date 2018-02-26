@@ -28,3 +28,11 @@ Route::get('admin/index','AdminController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('admin/student_index', 'AdminController@studentIndex')->name('admin_student_index');
 Route::get('admin/student_add', 'AdminController@studentAdd')->name('admin_student_add');
+
+
+//company
+Route::get('company/login','CompanyController@login');
+Route::get('company/register','CompanyController@register');
+Route::post('company/register','CompanyController@register');
+Route::get('company/edit','CompanyController@edit');
+Route::post('company/edit','CompanyController@edit');
