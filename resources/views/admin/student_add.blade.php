@@ -25,11 +25,9 @@
           </button>
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <!-- Left Side Of Navbar -->
 
-              <!-- Right Side Of Navbar -->
               <ul class="navbar-nav ml-auto">
-                  <!-- Authentication Links -->
+
                   <li><a class="nav-link" href="#">管理画面に戻す</a></li>
                   <li><a class="nav-link" href="#">log out</a></li>
 
@@ -47,42 +45,39 @@
           <div class="card-header">管理者の留学生ユーザー新規入会</div>
 
           <div class="card-body">
-              <form method="POST" action="http://localhost/mickey/public/register">
-                  <input type="hidden" name="_token" value="aBzuyKjZYw8pDJuPjESKsK8SO4awBYH8qcEYKHd8">
+              <form method="post" action="">
+                  {{ csrf_field() }}
                   <div class="form-group row">
-                      <label for="name" class="col-md-4 col-form-label text-md-right">ユーザー名</label>
+                      <label class="col-md-4 col-form-label text-md-right">ユーザー名</label>
 
                       <div class="col-md-6">
                           <input id="username" type="text" class="form-control" name="username" value="" required autofocus>
-
-                                                      </div>
+                      </div>
                   </div>
 
                   <div class="form-group row">
-                      <label for="name" class="col-md-4 col-form-label text-md-right">名前</label>
+                      <label class="col-md-4 col-form-label text-md-right">名前</label>
 
                       <div class="col-md-6">
-                          <input id="name" type="text" class="form-control" name="name" value="" required autofocus>
+                          <input type="text" class="form-control" name="name" value="" required autofocus>
 
-                                                      </div>
+                      </div>
                   </div>
-
-
 
                   <div class="form-group row">
                       <label for="password" class="col-md-4 col-form-label text-md-right">パス―ワード</label>
 
                       <div class="col-md-6">
-                          <input id="password" type="password" class="form-control" name="password" required>
+                          <input type="password" class="form-control" name="password" required>
 
-                                                      </div>
+                      </div>
                   </div>
 
                   <div class="form-group row">
-                      <label for="password-confirm" class="col-md-4 col-form-label text-md-right">パスワード確認</label>
+                      <label class="col-md-4 col-form-label text-md-right">パスワード確認</label>
 
                       <div class="col-md-6">
-                          <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                          <input type="password" class="form-control" name="password" required>
                       </div>
                   </div>
 
@@ -90,9 +85,50 @@
                       <label for="email" class="col-md-4 col-form-label text-md-right">E-Mailアドレス</label>
 
                       <div class="col-md-6">
-                          <input id="email" type="email" class="form-control" name="email" value="" required>
+                          <input type="email" class="form-control" name="email" value="" required>
 
-                                                      </div>
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label class="col-md-4 col-form-label text-md-right">生年月日</label>
+
+                      <div class="col-md-6">
+                          <input type="text" class="form-control" name="birth" value="" required autofocus>
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label class="col-md-4 col-form-label text-md-right">最高学歴</label>
+
+                      <div class="col-md-6">
+                        <select class="form-control" name="mst_degree_id">
+                          @foreach($degrees as $degree)
+                          <option value="{{$degree->id}}">{{$degree->name}}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label class="col-md-4 col-form-label text-md-right">専門</label>
+
+                      <div class="col-md-6">
+                        <select class="form-control" name="mst_ssub_id">
+                          @foreach($ssubs as $ssub)
+                          <option value="{{$ssub->id}}">{{$ssub->name}}</option>
+                          @endforeach
+                        </select>
+
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label class="col-md-4 col-form-label text-md-right">アピール</label>
+
+                      <div class="col-md-6">
+                        <textarea class="form-control" rows="5" name="message"></textarea>
+                      </div>
                   </div>
 
                   <div class="form-group row mb-0">
