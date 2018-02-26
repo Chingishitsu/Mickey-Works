@@ -128,7 +128,7 @@ class AdminController extends Controller
         if ($request->isMethod('get'))
         {
           $companys = DB::table('companys')->all();
-          return view("admin.company_add",)
+          return view("admin.company_add",['company'=>$company]);
         }
       //postの場合 requestのpostから会社ユーザー名、会社本名、パスワード、パスワード確認、emailを取得する。
         if($request->isMethod('post'))
