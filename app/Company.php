@@ -10,8 +10,11 @@ class Company extends Model
   use SoftDeletes;
   protected $dates = ['deleted_at'];
 
-  public function matches()
+
+  public function csub()
   {
-    return $this->hasMany("App\Match");
+    return $this->belongsTo("App\MstCsub","mst_csub_id");
   }
+
+
 }
