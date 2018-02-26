@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>管理者の留学生ユーザー新規入会</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="aBzuyKjZYw8pDJuPjESKsK8SO4awBYH8qcEYKHd8">
-
-    <title>管理者の留学生登録</title>
-
-    <!-- Styles -->
-    <link href="http://localhost/mickey/public/css/app.css" rel="stylesheet">
+  <style>
+    div{margin: 25px}
+  </style>
 </head>
-
+  {{ csrf_field() }}
 <body>
   <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
       <div class="container">
@@ -91,8 +91,7 @@
 
                       <div class="col-md-6">
                           <input id="email" type="email" class="form-control" name="email" value="" required>
-
-                                                      </div>
+                     </div>
                   </div>
 
                   <div class="form-group row mb-0">

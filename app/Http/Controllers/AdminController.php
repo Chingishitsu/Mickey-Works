@@ -38,7 +38,7 @@ class AdminController extends Controller
       }else {
         $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
         if ($validator->fails()) {
-          return redirect('admin.update/'.$request->id)
+          return redirect('admin/update/'.$request->id)
           ->withErrors($validator)
           ->withInput();
         }
@@ -93,22 +93,66 @@ class AdminController extends Controller
       $student_name = empty($student_name) ? "" : $student_name;
 
       //モデルのWhereメソッドを利用し、上記情報を検索する。
-      $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(1);
+      $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(2);
 
       //検索の結果をテンプレートに渡す。
-      return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
+    return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
     }
 
-      public function studentAdd(Request $request)
-    {
+    public function studentAdd(Request $request)
+    {//  getでアクセスする場合、以下の処理を行う。登録画面をレンダルする。
+      if($request->isMethod('get'))
+      {
+        $items = Student::all();
+        return view("admin.student_add",['items' => $items]);
+        //postでアクセスする場合、以下の処理を行う。
+        //requestのpostから、登録情報を取得する
+      } else {
+        $rules = [
+          'username' => 'required',
+          'email' => 'email',
+          'password' => 'required|between:0,255|confirmed'
+          'birth' => 'numeric|between:0,150',
+          'name' => 'required',
+          'tel' => 'required',
+          'birth' => 'required',
+          ''
 
 
 
+        ];
+        $message = [
+          'username.required' => '名前を入れて下さい',
+          'age.numeric' => '整数の年齢を入れて下さい',
+          'age.between' => '年齢を0~150中に入れて下さい',
+          'mail.email' => '正しいのメールを入れて下さい',
+          'gender.required' => '性別を選んで下さい',
+          'sub.required' => 'subを入れて下さい',
+          'aihao.required' => '爱好を入れて下さい',
+          'aihao.array' => '爱好必须是数组'
+        ];
+//上記情報をValidatorで検証する。
+        $validator = Validator::make($request->all(),Student::$rules,Studnet::$message);
+        //失敗した場合：
+        //エラーメッセージを連れて、本ページを戻す
+
+        if ( $validator->fails() ) {
+          return redirect('student/add')
+            ->withErrors($validator)
+            ->withInput();
+        }
+        //成功した場合：
+        //新しいDATAをsave()で新規する、詳細ページを戻す
+        $student = new Student;
+        $form = $request->all();
+        unset($form['_token']);
+        $student->fill($form)->save();
+        return redirect('student');
+      }
+ }
+}
 
 
-
-      return view("admin.student_add",array());
-    }
 
     public function logout(Request $request)
     {
