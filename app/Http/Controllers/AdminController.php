@@ -35,8 +35,8 @@ class AdminController extends Controller
     {
       if ($request->isMethod('get')){
         $item = Match::find($request->id);
-        $students = DB::table('students')->all();
-        $companies = DB::table('companies')->all();
+          $students = Student::all();
+          $companies = Company::all();
         return view('admin.matchupdate',['item'=>$item,'students'=>$students,'companies'=>$companies]);
       }else {
         $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
