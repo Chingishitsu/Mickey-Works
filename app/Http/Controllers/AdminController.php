@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
-use App\MstResult;
 use Illuminate\Http\Request;
 use App\Match;
 use App\Student;
@@ -17,17 +15,16 @@ class AdminController extends Controller
 {
     public function matchindex(Request $request)
     {
-
-      //requestのqueryから入力された学生名前と会社名前を取得する。
-      //取得された学生名前と会社名前を整形する。学生名前、会社名前を入力されてない場合は、「""」空文字列を認める。
-
-      $studentName = empty($request->student_name) ? "" : $request->student_name;
-      $companyName = empty($request->company_name) ? "" : $request->company_name;
-
-      //モデルの検索メソッドを利用し、上記情報を検索する。
-      $items = Match::all();
-
-      //検索の結果をテンプレートに渡す。
+      $query = Match::all();
+      $studentName = empty($request->$studentName) ? "" : $request->$studentName;
+      $companyName = empty($request->$companyName) ? "" : $request->$companyName;
+      if ($studentName != ""){
+        $query = $query->where("studentName","=",$studentName);
+      }
+      if ($companyName != ""){
+        $query = $query->where("companyName","=",$companyName);
+      }
+      $items = $query->get();
       return view('admin.matchindex',['items'=>$items]);
     }
 
@@ -35,8 +32,8 @@ class AdminController extends Controller
     {
       if ($request->isMethod('get')){
         $item = Match::find($request->id);
-          $students = Student::all();
-          $companies = Company::all();
+        $students = DB::table('students')->all();
+        $companies = DB::table('companies')->all();
         return view('admin.matchupdate',['item'=>$item,'students'=>$students,'companies'=>$companies]);
       }else {
         $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
@@ -49,25 +46,24 @@ class AdminController extends Controller
         $form = $request->all();
         unset($form['_token']);
         $item->fill($form)->save();
-        return redirect('admin/matchview'.$request->id);
+        return redirect('admin.matchview'.$request->id);
       }
     }
 
     public function matchadd(Request $request)
     {
       if ($request->isMethod('get')) {
-          $items = MstResult::all();
-          $students = Student::all();
-          $companies = Company::all();
-          return view('admin.matchadd',['items' => $items,'students'=>$students,'companies'=>$companies]);
+        $students = DB::table('students')->all();
+        $companies = DB::table('companies')->all();
+        return view('admin.matchadd',['students'=>$students,'companies'=>$companies]);
       }else {
         $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
         if ($validator->fails()) {
-          return redirect('admin/matchadd')
+          return redirect('admin.matchadd')
           ->withErrors($validator)
           ->withInput();
         }
-        $item = new Match;
+        $item = new Macth;
         $form = $request->all();
         unset($form['_token']);
         $item->fill($form)->save();
@@ -127,17 +123,26 @@ class AdminController extends Controller
 
 
     public function companyAdd(Request $request)
-      {
+    {
       //getの場合 会社の新規ページーをレンダル。
         if ($request->isMethod('get'))
         {
           $companys = DB::table('companys')->all();
           return view("admin.company_add",['company'=>$company]);
-        }
+        }else {
+          $validator = Validator::make($request->all(),Company::$rules,Company::$messages);
+          if ($validator->fails()) {
+            return redirect('admin.companyadd')
+            ->withErrors($validator)
+            ->withInput();
       //postの場合 requestのpostから会社ユーザー名、会社本名、パスワード、パスワード確認、emailを取得する。
         if($request->isMethod('post'))
         {
-
+          $item = new Macth;
+          $form = $request->all();
+          unset($form['_token']);
+          $item->fill($form)->save();
+          return view('admin.companyindex');
         }
       //上記情報をValidatorで検証する。
 
@@ -147,11 +152,11 @@ class AdminController extends Controller
 
 
         return view("admin.company_add",array());
+        }
       }
-
-
+    }
     public function companyEdit(Request $request)
-      {
+    {
         //getでアクセスするの場合は Routeparameter連れているのIdを取得する。
 
         //モデルの検索メソッドを利用し、上記情報を検索する。
@@ -167,5 +172,5 @@ class AdminController extends Controller
         //成功の場合は、新しいDATAをsave()で更新する、詳細ページを戻す。
 
         return view("admin.company_edit",array());
-      }
+    }
 }
