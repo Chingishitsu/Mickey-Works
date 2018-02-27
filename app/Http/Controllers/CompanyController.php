@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-
+use Validator;
+use App\Company;
 class CompanyController extends Controller
 {
   public function register(Request $request)

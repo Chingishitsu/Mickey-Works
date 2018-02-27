@@ -57,12 +57,13 @@
                             <label for="username" class="col-md-4 col-form-label text-md-right">ユーザー名</label>
 
                             <div class="col-md-6">
-                                <input id="username" type="text" class="form-control" name="username" value="" required autofocus>
+                                <input id="username" type="text" class="form-control" name="username" value="" >
+
                             </div>
                             @if ($errors->has('username'))
                             {{$errors->first('username')}}
-                            {{var_dump($errors)}}
-                            exit()
+
+
                             @endif
 
                         </div>
@@ -71,9 +72,8 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">企業本名</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="" required autofocus>
-
-                                                            </div>
+                                <input id="name" type="text" class="form-control" name="name" value="" >
+                            </div>
                         </div>
 
 
@@ -82,16 +82,15 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">パス―ワード</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                                            </div>
+                                <input id="password" type="password" class="form-control" name="password" >
+                            </div>
                         </div>
 
                         <div class="form-group row">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">パスワード確認</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" >
                             </div>
                         </div>
 
@@ -99,7 +98,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">E-Mailアドレス</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="" required>
+                                <input id="email" type="email" class="form-control" name="email" value="" >
 
                                                             </div>
                         </div>
