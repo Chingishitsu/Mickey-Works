@@ -28,6 +28,7 @@ Route::get('admin/index','AdminController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('admin/student_index', 'AdminController@studentIndex')->name('admin_student_index');
 Route::get('admin/student_add', 'AdminController@studentAdd')->name('admin_student_add');
+<<<<<<< HEAD
 //管理者の企業
 Route::get('admin/company_index', 'AdminController@companyIndex')->name('admin_company_index');
 Route::get('admin/company_add', 'AdminController@companyAdd')->name('admin_company_add');
@@ -35,3 +36,17 @@ Route::get('admin/company_edit', 'AdminController@companyedit')->name('admin_com
 //留学生
 Route::get('student/student_index', 'StudentController@studentIndex');
 Route::get('student/student_add', 'StudentController@studentAdd');
+=======
+
+
+<<<<<<< HEAD
+//company
+Route::get('company/login','CompanyController@login');
+Route::get('company/register','CompanyController@register');
+Route::post('company/register','CompanyController@register');
+Route::get('company/edit','CompanyController@edit');
+Route::post('company/edit','CompanyController@edit');
+=======
+Route::post('admin/student_add','AdminController@studentAdd')->name('admin_student_add');
+>>>>>>> ee709bee9efc337eb4edea20c4102964ed802536
+>>>>>>> 05f56f0d59d201de01af8181d3c3e48c09a41853

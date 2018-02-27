@@ -10,6 +10,24 @@ class Student extends Model
   use SoftDeletes;
   protected $dates = ['deleted_at'];
 
+<<<<<<< HEAD
+=======
+  protected $guarded = array('id');
+
+  public static $rules = array(
+    'username' => 'required',
+    'name' => 'required',
+    'password' => 'required',
+    'email' => 'email',
+    'birth' => 'required',
+    'mst_degree_id' => 'required',
+    'mst_ssub_id' => 'required',
+    'message' => 'required',
+  );
+
+
+
+>>>>>>> 05f56f0d59d201de01af8181d3c3e48c09a41853
   public function degree()
   {
     return $this->belongsTo("App\MstDegree", "mst_degree_id");
