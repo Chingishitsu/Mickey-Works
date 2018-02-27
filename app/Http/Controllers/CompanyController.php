@@ -29,7 +29,12 @@ class CompanyController extends Controller
         $company = new Company;
         $form = $request->all();
         unset($form['_token']);
-        $company->fill($form)->save();
+        $company->username = $form->username;
+        $company->name = $form->name;
+        $company->password = $form->password;
+        $company->email = $form->email;
+
+        $company->save();
         //登録成功のメッセージとともに企業ログイン画面に遷移する。
         $msg = "登録成功しました";
         return view('company.login',['message' => $msg]);
