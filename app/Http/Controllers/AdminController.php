@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Match;
 use App\student;
+use App\MstSsub;
+use App\MstDegree;
 use Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -103,39 +105,16 @@ class AdminController extends Controller
     {//  getでアクセスする場合、以下の処理を行う。登録画面をレンダルする。
       if($request->isMethod('get'))
       {
-        $items = Student::all();
-        return view("admin.student_add",['items' => $items]);
+        $mstssub = MstSsub::all();
+        $mstdegree = MstDegree::all();
+        return view("admin.student_add",['mstssub'=>$mstssub,'mstdegree'=>$mstdegree]);
         //postでアクセスする場合、以下の処理を行う。
         //requestのpostから、登録情報を取得する
       } else {
-        $rules = [
-          'username' => 'required',
-          'email' => 'email',
-          'password' => 'required|between:0,255|confirmed'
-          'birth' => 'numeric|between:0,150',
-          'name' => 'required',
-          'tel' => 'required',
-          'birth' => 'required',
-          ''
-
-
-
-        ];
-        $message = [
-          'username.required' => '名前を入れて下さい',
-          'age.numeric' => '整数の年齢を入れて下さい',
-          'age.between' => '年齢を0~150中に入れて下さい',
-          'mail.email' => '正しいのメールを入れて下さい',
-          'gender.required' => '性別を選んで下さい',
-          'sub.required' => 'subを入れて下さい',
-          'aihao.required' => '爱好を入れて下さい',
-          'aihao.array' => '爱好必须是数组'
-        ];
-//上記情報をValidatorで検証する。
-        $validator = Validator::make($request->all(),Student::$rules,Studnet::$message);
+　　　　//上記情報をValidatorで検証する。
+        $validator = Validator::make($request->all(),Student::$rules,Studnet::$messages);
         //失敗した場合：
         //エラーメッセージを連れて、本ページを戻す
-
         if ( $validator->fails() ) {
           return redirect('student/add')
             ->withErrors($validator)
@@ -147,12 +126,9 @@ class AdminController extends Controller
         $form = $request->all();
         unset($form['_token']);
         $student->fill($form)->save();
-        return redirect('student');
+        return redirect('admin/student');
       }
- }
-}
-
-
+ 　}
 
     public function logout(Request $request)
     {
