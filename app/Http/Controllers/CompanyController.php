@@ -15,7 +15,7 @@ class CompanyController extends Controller
     } else {
   //postでアクセスする場合、以下の処理を行う。
   //requestで所得したデータを、バリテーションのルールとマッチングする。
-      $validator = Validator::make($request->all(),Company::$rules,Company::$message);
+      $validator = Validator::make($request->all(),Company::$rules,Company::$messages);
       // 失敗した場合：
       // 　　エラーメッセージと入力した情報とともに登録画面にリディレクトする。
       if ($validator->fails()) {
