@@ -28,6 +28,12 @@ Route::get('admin/index','AdminController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('admin/student_index', 'AdminController@studentIndex')->name('admin_student_index');
 Route::get('admin/student_add', 'AdminController@studentAdd')->name('admin_student_add');
+<<<<<<< HEAD
+Route::post('admin/student_add','AdminController@studentAdd')->name('admin_student_add');
+
+Route::get('admin/student_edit','AdminController@studentEdit')->name('admin_student_edit');
+Route::post('admin/student_edit','AdminController@studentEdit')->name('admin_student_edit');
+=======
 
 
 //company
@@ -37,3 +43,4 @@ Route::get('company/register','CompanyController@register');
 Route::post('company/register','CompanyController@register');
 Route::get('company/edit','CompanyController@edit');
 Route::post('company/edit','CompanyController@edit');
+>>>>>>> eea31d2f588b7437b4c348ab54dce36cf723fb97
