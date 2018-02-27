@@ -79,7 +79,7 @@
                         @endif
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">パス―ワード</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-right">パスワード</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control" name="password" value="{{old('password')}}">
@@ -116,6 +116,17 @@
                           {{$errors->first('email')}}
                         </p>
                         @endif
+
+                        <div class="form-group row">
+                          <label class="col-md-4 col-form-label text-md-right">専門</label>
+                          <div class="col-md-6">
+                            <select class="form-control" name="mst_csub_id">
+                              @foreach($csubs as $csub)
+                              <option value="{{$csub->id}}">{{$csub->name}}</option>
+                              @endforeach
+                            </select>
+                          </div>
+                        </div>
 
 
 

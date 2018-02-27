@@ -20,7 +20,8 @@ class Company extends Model
     'name' => 'required|between:5,50',
     'password' => 'required|alpha_num|between:6,16',
     'password_confirmation' => 'required|same:password',
-    'email' => 'required|email|max:50',
+    'email' => 'required|email',
+    'mst_csub_id' => 'required',
   );
   public static $messages = array(
     'username.required' => 'ユーザー名を入力してください',
@@ -40,7 +41,8 @@ class Company extends Model
 
     'email.required' => 'メールアドレスを入力してください',
     'email.email' => '正しいメールアドレスを入力してください',
-    'email.max' => 'メールアドレスを半角文字５０以内にしてください',
+
+    'mst_csub_id.required' => '分野を選んでください'
 
   );
 
