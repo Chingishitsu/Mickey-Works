@@ -32,6 +32,7 @@ Route::get('admin/student_add', 'AdminController@studentAdd')->name('admin_stude
 
 //company
 Route::get('company/login','CompanyController@login');
+Route::post('company/login','CompanyController@login');
 Route::get('company/register','CompanyController@register');
 Route::post('company/register','CompanyController@register');
 Route::get('company/edit','CompanyController@edit');
