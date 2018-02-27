@@ -10,10 +10,12 @@ class Company extends Model
   use SoftDeletes;
   protected $dates = ['deleted_at'];
 
-  public function matches()
+
+  public function csub()
   {
-    return $this->hasMany("App\Match");
+    return $this->belongsTo("App\MstCsub","mst_csub_id");
   }
+<<<<<<< HEAD
   public static public static $rules = array(
     'username' => 'required|alpha_dash|between:4,30',
     'name' => 'required|string|between:5,50',
@@ -38,5 +40,8 @@ class Company extends Model
     'email.max:50' => 'メールアドレスを半角文字５０以内にしてください',
 
   );
+=======
+
+>>>>>>> ee709bee9efc337eb4edea20c4102964ed802536
 
 }

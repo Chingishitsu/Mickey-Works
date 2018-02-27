@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
+use App\MstResult;
 use Illuminate\Http\Request;
 use App\Match;
 use App\student;
+use App\MstSsub;
+use App\MstDegree;
+use App\Admin;
 use Validator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 
 
 
@@ -18,6 +22,7 @@ class AdminController extends Controller
 
       //requestのqueryから入力された学生名前と会社名前を取得する。
       //取得された学生名前と会社名前を整形する。学生名前、会社名前を入力されてない場合は、「""」空文字列を認める。
+
       $studentName = empty($request->student_name) ? "" : $request->student_name;
       $companyName = empty($request->company_name) ? "" : $request->company_name;
 
@@ -32,8 +37,8 @@ class AdminController extends Controller
     {
       if ($request->isMethod('get')){
         $item = Match::find($request->id);
-        $students = DB::table('students')->all();
-        $companies = DB::table('companies')->all();
+          $students = Student::all();
+          $companies = Company::all();
         return view('admin.matchupdate',['item'=>$item,'students'=>$students,'companies'=>$companies]);
       }else {
         $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
@@ -46,24 +51,25 @@ class AdminController extends Controller
         $form = $request->all();
         unset($form['_token']);
         $item->fill($form)->save();
-        return redirect('admin.matchview'.$request->id);
+        return redirect('admin/matchview'.$request->id);
       }
     }
 
     public function matchadd(Request $request)
     {
       if ($request->isMethod('get')) {
-        $students = DB::table('students')->all();
-        $companies = DB::table('companies')->all();
-        return view('admin.matchadd',['students'=>$students,'companies'=>$companies]);
+          $items = MstResult::all();
+          $students = Student::all();
+          $companies = Company::all();
+          return view('admin.matchadd',['items' => $items,'students'=>$students,'companies'=>$companies]);
       }else {
         $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
         if ($validator->fails()) {
-          return redirect('admin.matchadd')
+          return redirect('admin/matchadd')
           ->withErrors($validator)
           ->withInput();
         }
-        $item = new Macth;
+        $item = new Match;
         $form = $request->all();
         unset($form['_token']);
         $item->fill($form)->save();
@@ -99,36 +105,89 @@ class AdminController extends Controller
       return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
     }
 
-      public function studentAdd(Request $request)
+    public function studentAdd(Request $request)
     {
+      $ssubs = MstSsub::all();
+      $degrees = MstDegree::all();
 
+      if($request->isMethod("get")) {
 
+/*      $username = DB::table('student')->all();
+        $name = DB::table('student')->all();
+        $password = DB::table('student')->all();
+        $email = DB::table('student')->all();
+        $birth = DB::table('student')->all();
+        $mst_degree_id = DB::table('student')->all();
+        $mst_ssub_id = DB::table('student')->all();
+        $message = DB::table('student')->all();
+*/
+        return view('admin/student_add', array('ssubs' => $ssubs, "degrees" => $degrees));
+      }else{
+        $validator = Validator::make($request->all(),Student::$rules);
+        if ($validator->fails()) {
+          return redirect('admin.student_add')
+          ->withErrors($validator)
+          ->withInput();
+        }
+        $student = new Student;
 
+        $form = $request -> all();
 
+        unset($form['_token']);
 
-
-      return view("admin.student_add",array());
-    }
-
-    public function logout(Request $request)
-    {
-      Auth::logout();
-      return view('home.index');
-    }
-
-    public function login(Request $request)
-    {
-      $username = $request->username;
-      $password = $request->password;
-      if (Auth::guard('admin')->attempt(['username'=>$username,'password'=>$password])) {
-        return view('admin.index');
-      }else {
-        return view('hello.index');
+        $student -> fill($form) ->save();
+/*        $ssubs = MstSsub::all();
+        $degrees = MstDegree::all();
+*/
+        return view('admin.student_add',array('ssubs' => $ssubs, "degrees" => $degrees));
       }
+
     }
 
-    public function index(Request $request)
-    {
-      return view('admin.index');
-    }
+
+
+
+/*    public function companyAdd(Request $request)
+      {
+      //getの場合 会社の新規ページーをレンダル。
+        if ($request->isMethod('get'))
+        {
+          $companys = DB::table('companys')->all();
+          return view("admin.company_add",)
+        }
+      //postの場合 requestのpostから会社ユーザー名、会社本名、パスワード、パスワード確認、emailを取得する。
+        if($request->isMethod('post'))
+        {
+
+        }
+      //上記情報をValidatorで検証する。
+
+      //失敗の場合は、エラーメッセージを連れて、本ページを戻す。
+
+      //成功の場合は、新しいDATAをsave()で新規する、詳細ページを戻す。
+
+
+        return view("admin.company_add",array());
+      }
+
+
+    public function companyEdit(Request $request)
+      {
+        //getでアクセスするの場合は Routeparameter連れているのIdを取得する。
+
+        //モデルの検索メソッドを利用し、上記情報を検索する。
+
+        //検索の結果をテンプレートに渡す。
+
+        //postでアクセスするの場合は、requestのpostから会社名、パスワード、などの情報を取得する。
+
+        //上記情報をValidatorで検証する。
+
+        //失敗の場合は、エラーメッセージを連れて、本ページを戻す。
+
+        //成功の場合は、新しいDATAをsave()で更新する、詳細ページを戻す。
+
+        return view("admin.company_edit",array());
+      }
+*/
 }
