@@ -204,28 +204,34 @@ class AdminController extends Controller
         if ($request->isMethod('get'))
         {   //モデルの検索メソッドを利用し、上記情報を検索する。
             //検索の結果をテンプレートに渡す
-          return view('admin/company_edit',array('csubs'=> $csubs));
+            $company = Company::find($request->id);
+            return view('admin.company_edit',['form'=>$company]);
         }else {
           //postでアクセスするの場合は、requestのpostから会社名、パスワード、などの情報を取得する。
           //上記情報をValidatorで検証する。
-          $validator = Validator::make($request->all(),Company::$rules);
+          $validator = Validator::make($request->all(),Company::$editrules, Company::$messages);
           if ($validator->fails()) {
+
+
             //失敗の場合は、エラーメッセージを連れて、本ページを戻す。
-            return redirect('admin/company_edit')
+            return redirect('admin/company_edit/'.$request->id)
             ->withErrors($validator)
             ->withInput();
         }
             //成功の場合は、新しいDATAをsave()で更新する、詳細ページを戻す
-            $company->username = $form["username"];
-            $company->name = $form["name"];
-            $company->password = $form["password"];
-            $company->email = $form["email"];
-            $company->mst_csub_id = $form["mst_csub_id"];
-            $company->money = $form["money"];
-            $company->message = $form["message"];
+            $company = Company::find($request->id);
+            $form = $request->all();
 
+            unset($form['_token']);
+            $company->username = $request->username;
+            // $company->name = $form["name"];
+            // $company->password = $form["password"];
+            $company->email = $request->email;
+            $company->mst_csub_id = $request->mst_csub_id;
+            $company->money = $request->money;
+            $company->message = $request->message;
             $company->save();
-        return view("admin.company_index");
+        return redirect("admin/company_index");
        }
      }
    }

@@ -57,7 +57,7 @@
                       <label for="name" class="col-md-4 col-form-label text-md-right">ユーザー名</label>
 
                       <div class="col-md-6">
-                          <input  type="text" class="form-control" name="username" value="{{old('username')}}" >
+                          <input  type="text" class="form-control" name="username" value="{{('username')}}" >
                       </div>
                 </div>
 
@@ -65,7 +65,7 @@
                       <label for="name" class="col-md-4 col-form-label text-md-right">企業本名</label>
 
                       <div class="col-md-6">
-                          <input type="text" class="form-control" name="name" value="{{old('name')}}" required autofocus>
+                          <input type="text" class="form-control" name="name" value="{{('name')}}" >
                       </div>
                 </div>
 
@@ -74,7 +74,7 @@
                   <div class="form-group row">
                       <label for="password" class="col-md-4 col-form-label text-md-right">パス―ワード</label>
                       <div class="col-md-6">
-                          <input  type="password" class="form-control" name="password" required>
+                          <input  type="password" class="form-control" name="password">
                       </div>
                   </div>
 
@@ -82,7 +82,7 @@
                       <label for="password-confirm" class="col-md-4 col-form-label text-md-right">パスワード確認</label>
 
                       <div class="col-md-6">
-                          <input  type="password" class="form-control" name="password_confirmation" required>
+                          <input  type="password" class="form-control" name="password_confirmation" >
                       </div>
                   </div>
 
@@ -103,7 +103,7 @@
                       <label for="email" class="col-md-4 col-form-label text-md-right">E-Mailアドレス</label>
 
                       <div class="col-md-6">
-                          <input  type="email" class="form-control" name="email" value="{{old('email')}}" required>
+                          <input  type="email" class="form-control" name="email" value="{{('email')}}">
                       </div>
                   </div>
 
