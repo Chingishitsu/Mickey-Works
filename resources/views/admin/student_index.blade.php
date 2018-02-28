@@ -78,8 +78,8 @@
         <td>{{$item->tel}}</td>
         <td>{{$item->birth}}</td>
 
-        <td>{{$item->degree->name}}</td>
         <td>{{$item->ssub->name}}</td>
+        <td>{{$item->degree->name}}</td>
       </tr>
       @endforeach
     </tbody>

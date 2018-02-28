@@ -7,6 +7,9 @@ use App\MstResult;
 use Illuminate\Http\Request;
 use App\Match;
 use App\Student;
+use App\MstSsub;
+use App\MstDegree;
+use App\Admin;
 use Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -99,36 +102,83 @@ class AdminController extends Controller
       $student_name = empty($student_name) ? "" : $student_name;
 
       //モデルのWhereメソッドを利用し、上記情報を検索する。
-      $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(1);
+      $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(5);
 
       //検索の結果をテンプレートに渡す。
       return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
     }
 
-/*    public function studentAdd(Request $request)
+    public function studentAdd(Request $request)
     {
-      return view("admin.student_add",array());
-    }
+      $ssubs = MstSsub::all();
+      $degrees = MstDegree::all();
+
+      if($request->isMethod("get")) {
+
+/*      $username = DB::table('student')->all();
+        $name = DB::table('student')->all();
+        $password = DB::table('student')->all();
+        $email = DB::table('student')->all();
+        $birth = DB::table('student')->all();
+        $mst_degree_id = DB::table('student')->all();
+        $mst_ssub_id = DB::table('student')->all();
+        $message = DB::table('student')->all();
 */
-    public function companyIndex(Request $request)
-    {
-      //requestのqueryから入力するのユーザー名、会社名、Email、給料、分野を取得する。
-      $company_username = $request->company_username;
+        return view('admin.student_add', array('ssubs' => $ssubs, "degrees" => $degrees));
+      }else{
+        $validator = Validator::make($request->all(),Student::$rules,Student::$messages);
+        if ($validator->fails()) {
+          return redirect('admin.student_add')
+          ->withErrors($validator)
+          ->withInput();
+        }
+        $student = new Student;
 
-      //入力されてない場合は、「""」空文字列を認める。
-      $company_username = empty($company_username) ? "" : $company_username;
+        $form = $request -> all();
 
-      //モデルのWhereメソッドを利用し、上記情報を検索する。
-      $items = Company::where('username','LIKE',"%$company_username%")->paginate(3);
+        unset($form['_token']);
 
-      //検索の結果をテンプレートに渡す。
+        unset($form['password_confirmation']);
 
+        $student -> fill($form) ->save();
+/*        $ssubs = MstSsub::all();
+        $degrees = MstDegree::all();
+*/
+        return redirect('admin/student_index'/*,array('ssubs' => $ssubs, "degrees" => $degrees)*/);
+      }
 
-      return view("admin.company_index",array("items" => $items, "company_username" => $company_username));
     }
 
+      public function studentEdit(Request $request)
+      {
+        $ssubs = MstSsub::all();
+        $degrees = MstDegree::all();
 
-    public function companyAdd(Request $request)
+        if ($request->isMethod('get')){
+          $item = Student::find($request->id);
+//            $students = Student::all();
+//            $companies = Company::all();
+          return view('admin.student_edit',array('ssubs' => $ssubs, 'degrees' => $degrees , 'item'=>$item));
+        }else {
+          $validator = Validator::make($request->all(),Student::$rules);
+          if ($validator->fails()) {
+            return redirect('admin.student_edit'.$request->id)
+            ->withErrors($validator)
+            ->withInput();
+          }
+          $item = Student::find($request->id);
+          $form = $request->all();
+          unset($form['_token']);
+          $item->fill($form)->save();
+          return redirect('admin.student_edit'.$request->id);
+        }
+
+//        return view('admin.student_edit',array('ssubs' => $ssubs, 'degrees' => $degrees));
+      }
+
+
+
+/*    public function companyAdd(Request $request)
       {
       //getの場合 会社の新規ページーをレンダル。
         if ($request->isMethod('get'))
@@ -170,7 +220,7 @@ class AdminController extends Controller
 
         return view("admin.company_edit",array());
       }
-
+*/
       public function index()
       {
           return view('admin.index');
