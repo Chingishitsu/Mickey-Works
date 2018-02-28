@@ -6,12 +6,14 @@ use App\Company;
 use App\MstResult;
 use Illuminate\Http\Request;
 use App\Match;
-use App\student;
+use App\Student;
 use App\MstSsub;
 use App\MstDegree;
 use App\Admin;
 use Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 
 
@@ -22,24 +24,26 @@ class AdminController extends Controller
 
       //requestのqueryから入力された学生名前と会社名前を取得する。
       //取得された学生名前と会社名前を整形する。学生名前、会社名前を入力されてない場合は、「""」空文字列を認める。
-
-      $studentName = empty($request->student_name) ? "" : $request->student_name;
-      $companyName = empty($request->company_name) ? "" : $request->company_name;
-
+      $student_name = empty($request->student_name) ? "" : $request->student_name;
+      $company_name = empty($request->company_name) ? "" : $request->company_name;
       //モデルの検索メソッドを利用し、上記情報を検索する。
-      $items = Match::all();
-
+      $items = Match::whereHas("student", function($query) use ($student_name) {
+            $query->where('name', 'like',"%". $student_name ."%");
+        })->whereHas("company", function($query) use ($company_name) {
+            $query->where('name', 'like',"%". $company_name ."%");
+        })->paginate(5);
       //検索の結果をテンプレートに渡す。
-      return view('admin.matchindex',['items'=>$items]);
+      return view('admin.matchindex',['items'=>$items,'student_name'=>$student_name,'company_name'=>$company_name]);
     }
 
-    public function matchupdate(Request $qeruest)
+    public function matchupdate(Request $request)
     {
       if ($request->isMethod('get')){
-        $item = Match::find($request->id);
+          $item = Match::find($request->id);
           $students = Student::all();
           $companies = Company::all();
-        return view('admin.matchupdate',['item'=>$item,'students'=>$students,'companies'=>$companies]);
+          $results = MstResult::all();
+        return view('admin.matchupdate',['item'=>$item,'students'=>$students,'companies'=>$companies,'results'=>$results]);
       }else {
         $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
         if ($validator->fails()) {
@@ -51,7 +55,7 @@ class AdminController extends Controller
         $form = $request->all();
         unset($form['_token']);
         $item->fill($form)->save();
-        return redirect('admin/matchview'.$request->id);
+        return redirect('admin/matchview/'.$request->id);
       }
     }
 
@@ -73,7 +77,7 @@ class AdminController extends Controller
         $form = $request->all();
         unset($form['_token']);
         $item->fill($form)->save();
-        return view('admin.matchindex');
+        return redirect('admin/matchindex');
       }
     }
 
@@ -85,9 +89,8 @@ class AdminController extends Controller
 
     public function matchdelete(Request $request)
     {
-      $item = Match::find($request->id)->delete();
-      return view('admin.matchindex');
-
+      Match::find($request->id)->delete();
+      return redirect('admin/matchindex');
     }
 
     public function studentIndex(Request $request)
@@ -239,7 +242,7 @@ class AdminController extends Controller
         if ($request->isMethod('get'))
         {
           $companys = DB::table('companys')->all();
-          return view("admin.company_add",)
+          return view("admin.company_add");
         }
       //postの場合 requestのpostから会社ユーザー名、会社本名、パスワード、パスワード確認、emailを取得する。
         if($request->isMethod('post'))
@@ -276,4 +279,23 @@ class AdminController extends Controller
         return view("admin.company_edit",array());
       }
 */
+      public function index()
+      {
+          return view('admin.index');
+      }
+
+      public function login(Request $request)
+      {
+          if ($request->isMethod("get")) {
+            return view('admin.login',['msg'=>'']);
+          } else {
+              $username = $request->username;
+              $password = $request->password;
+              if (Auth::guard('admin')->attempt(['username'=>$username,'password'=>$password])){
+                  return view('admin.index');
+              } else {
+                  return view('admin.login',['msg'=>'ユーザー名またはパスワードが違う']);
+              }
+          }
+      }
 }
