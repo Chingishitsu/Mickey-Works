@@ -9,10 +9,7 @@ use App\Match;
 use App\student;
 use App\MstSsub;
 use App\MstDegree;
-<<<<<<< HEAD
-=======
 use App\Admin;
->>>>>>> 05f56f0d59d201de01af8181d3c3e48c09a41853
 use Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -23,13 +20,8 @@ class AdminController extends Controller
 {
     public function matchindex(Request $request)
     {
-
       //requestのqueryから入力された学生名前と会社名前を取得する。
       //取得された学生名前と会社名前を整形する。学生名前、会社名前を入力されてない場合は、「""」空文字列を認める。
-<<<<<<< HEAD
-=======
-
->>>>>>> 05f56f0d59d201de01af8181d3c3e48c09a41853
       $studentName = empty($request->student_name) ? "" : $request->student_name;
       $companyName = empty($request->company_name) ? "" : $request->company_name;
 
@@ -40,7 +32,7 @@ class AdminController extends Controller
       return view('admin.matchindex',['items'=>$items]);
     }
 
-    public function matchupdate(Request $qeruest)
+    public function matchupdate(Request $request)
     {
       if ($request->isMethod('get')){
         $item = Match::find($request->id);
@@ -106,22 +98,14 @@ class AdminController extends Controller
       $student_name = empty($student_name) ? "" : $student_name;
 
       //モデルのWhereメソッドを利用し、上記情報を検索する。
-<<<<<<< HEAD
+
       $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(2);
 
       //検索の結果をテンプレートに渡す。
     return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
     }
 
-    public function studentAdd(Request $request)
-    {//  getでアクセスする場合、以下の処理を行う。登録画面をレンダルする。
-      if($request->isMethod('get'))
-=======
-      $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(1);
 
-      //検索の結果をテンプレートに渡す。
-      return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
-    }
 
     public function studentAdd(Request $request)
     {
@@ -130,15 +114,15 @@ class AdminController extends Controller
 
       if($request->isMethod("get")) {
 
-/*      $username = DB::table('student')->all();
+      /* $username = DB::table('student')->all();
         $name = DB::table('student')->all();
         $password = DB::table('student')->all();
         $email = DB::table('student')->all();
         $birth = DB::table('student')->all();
         $mst_degree_id = DB::table('student')->all();
         $mst_ssub_id = DB::table('student')->all();
-        $message = DB::table('student')->all();
-*/
+        $message = DB::table('student')->all();*/
+
         return view('admin/student_add', array('ssubs' => $ssubs, "degrees" => $degrees));
       }else{
         $validator = Validator::make($request->all(),Student::$rules);
@@ -154,9 +138,9 @@ class AdminController extends Controller
         unset($form['_token']);
 
         $student -> fill($form) ->save();
-/*        $ssubs = MstSsub::all();
+        $ssubs = MstSsub::all();
         $degrees = MstDegree::all();
-*/
+
         return view('admin.student_add',array('ssubs' => $ssubs, "degrees" => $degrees));
       }
 
@@ -165,8 +149,8 @@ class AdminController extends Controller
 
 
 
-/*    public function companyAdd(Request $request)
->>>>>>> 05f56f0d59d201de01af8181d3c3e48c09a41853
+   public function companyAdd(Request $request)
+
       {
         $mstssub = MstSsub::all();
         $mstdegree = MstDegree::all();
@@ -208,14 +192,12 @@ class AdminController extends Controller
       }else {
         return view('hello.index');
       }
-<<<<<<< HEAD
+
     }
 
     public function index(Request $request)
     {
       return view('admin.index');
     }
-=======
-*/
->>>>>>> 05f56f0d59d201de01af8181d3c3e48c09a41853
+
 }
