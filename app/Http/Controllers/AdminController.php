@@ -197,6 +197,7 @@ class AdminController extends Controller
       }
     public function companyEdit(Request $request)
     {
+        $csubs = MstCsub::all();
         //getでアクセスするの場合は Routeparameter連れているのIdを取得する。
         if ($request->isMethod('get'))
         {   //モデルの検索メソッドを利用し、上記情報を検索する。
@@ -222,5 +223,7 @@ class AdminController extends Controller
             $company->message = $form["message"];
 
             $company->save();
-        return view("admin.company_index);
-        
+        return view("admin.company_index");
+       }
+     }
+   }

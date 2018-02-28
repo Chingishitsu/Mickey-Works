@@ -70,7 +70,7 @@
       @foreach( $items as $item)
       <tr>
         <td>
-          <a href="#" >{{$item->username}}</a>
+          <a href="http://localhost/Mickey-Works/public/admin/company_edit" >{{$item->username}}</a>
         </td>
         <td>{{$item->address}}</td>
         <td>{{$item->email}}</td>
