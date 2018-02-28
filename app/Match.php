@@ -38,4 +38,15 @@ class Match extends Model
     return $this->belongsTo("App\MstResult",'result_id');
   }
 
+  public function scopeStudentName($query,$student_name)
+  {
+      return $query->where('student_name','LIKE',"%$student_name%");
+  }
+
+  public function scopeCompanyName($query,$company_name)
+  {
+      return $query->where('company_name','LIKE',"%$company_name%");
+  }
+
+
 }
