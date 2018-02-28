@@ -97,7 +97,7 @@ class AdminController extends Controller
       $student_name = empty($student_name) ? "" : $student_name;
 
       //モデルのWhereメソッドを利用し、上記情報を検索する。
-      $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(1);
+      $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(5);
 
       //検索の結果をテンプレートに渡す。
       return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
@@ -119,9 +119,9 @@ class AdminController extends Controller
         $mst_ssub_id = DB::table('student')->all();
         $message = DB::table('student')->all();
 */
-        return view('admin/student_add', array('ssubs' => $ssubs, "degrees" => $degrees));
+        return view('admin.student_add', array('ssubs' => $ssubs, "degrees" => $degrees));
       }else{
-        $validator = Validator::make($request->all(),Student::$rules);
+        $validator = Validator::make($request->all(),Student::$rules,Student::$messages);
         if ($validator->fails()) {
           return redirect('admin.student_add')
           ->withErrors($validator)
@@ -133,11 +133,13 @@ class AdminController extends Controller
 
         unset($form['_token']);
 
+        unset($form['password_confirmation']);
+
         $student -> fill($form) ->save();
 /*        $ssubs = MstSsub::all();
         $degrees = MstDegree::all();
 */
-        return view('admin.student_add',array('ssubs' => $ssubs, "degrees" => $degrees));
+        return redirect('admin/student_index'/*,array('ssubs' => $ssubs, "degrees" => $degrees)*/);
       }
 
     }

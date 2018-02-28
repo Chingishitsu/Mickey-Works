@@ -77,7 +77,7 @@
                       <label class="col-md-4 col-form-label text-md-right">パスワード確認</label>
 
                       <div class="col-md-6">
-                          <input type="password" class="form-control" name="password" required>
+                          <input type="password" class="form-control" name="password_confirmation" required>
                       </div>
                   </div>
 

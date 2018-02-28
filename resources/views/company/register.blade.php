@@ -51,58 +51,83 @@
                 <div class="card-body">
                     <form method="POST" action="">
                         {{ csrf_field() }}
-
-                        <input type="hidden" name="_token" value="aBzuyKjZYw8pDJuPjESKsK8SO4awBYH8qcEYKHd8">
                         <div class="form-group row">
                             <label for="username" class="col-md-4 col-form-label text-md-right">ユーザー名</label>
 
                             <div class="col-md-6">
-                                <input id="username" type="text" class="form-control" name="username" value="" required autofocus>
+                                <input id="username" type="text" class="form-control" name="username" value="{{old('username')}}" >
                             </div>
-                            @if ($errors->has('username'))
-                            {{$errors->first('username')}}
-                            {{var_dump($errors)}}
-                            exit()
-                            @endif
 
                         </div>
+                          @if ($errors->has('username'))
+                        <p align="center" >
+                          {{$errors->first('username')}}
+                        </p>
+                        @endif
 
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">企業本名</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="" required autofocus>
-
-                                                            </div>
+                                <input id="name" type="text" class="form-control" name="name" value="{{old('name')}}" >
+                            </div>
                         </div>
-
-
+                        @if ($errors->has('name'))
+                        <p align="center" >
+                          {{$errors->first('name')}}
+                        </p>
+                        @endif
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">パス―ワード</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-right">パスワード</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                                            </div>
+                                <input id="password" type="password" class="form-control" name="password" value="{{old('password')}}">
+                            </div>
                         </div>
+                        @if ($errors->has('password'))
+                        <p align="center" >
+                          {{$errors->first('password')}}
+                        </p>
+                        @endif
 
                         <div class="form-group row">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">パスワード確認</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" value="{{old('name')}}">
                             </div>
                         </div>
+                        @if ($errors->has('password_confirmation'))
+                        <p align="center" >
+                          {{$errors->first('password_confirmation')}}
+                        </p>
+                        @endif
 
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">E-Mailアドレス</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="" required>
-
-                                                            </div>
+                                <input id="email" type="email" class="form-control" name="email" value="{{old('email')}}" >
+                              </div>
                         </div>
+                        @if ($errors->has('email'))
+                        <p align="center" >
+                          {{$errors->first('email')}}
+                        </p>
+                        @endif
+
+                        <div class="form-group row">
+                          <label class="col-md-4 col-form-label text-md-right">専門</label>
+                          <div class="col-md-6">
+                            <select class="form-control" name="mst_csub_id">
+                              @foreach($csubs as $csub)
+                              <option value="{{$csub->id}}">{{$csub->name}}</option>
+                              @endforeach
+                            </select>
+                          </div>
+                        </div>
+
 
 
                         <div class="form-group row mb-0">

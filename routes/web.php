@@ -29,6 +29,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('admin/student_index', 'AdminController@studentIndex')->name('admin_student_index');
 Route::get('admin/student_add', 'AdminController@studentAdd')->name('admin_student_add');
 
+<<<<<<< HEAD
 Route::get('admin/company_index', 'AdminController@companyindex')->name('admin_company_index');
 Route::get('admin/company_add', 'AdminController@companyAdd')->name('admin_company_add');
 Route::post('admin/company_add','AdminController@companyAdd')->name('admin_company_add');
@@ -36,7 +37,18 @@ Route::get('admin/company_edit', 'AdminController@companyEdit')->name('admin_com
 Route::post('admin/company_edit','AdminController@companyEdit')->name('admin_company_edit');
 
 
+=======
+Route::post('admin/student_add','AdminController@studentAdd')->name('admin_student_add');
+
+Route::get('admin/student_edit','AdminController@studentEdit')->name('admin_student_edit');
+Route::post('admin/student_edit','AdminController@studentEdit')->name('admin_student_edit');
+
+
+
+//company
+>>>>>>> 22fc70b8fe42c35a3dc98df58678e4b93b4368f2
 Route::get('company/login','CompanyController@login');
+Route::post('company/login','CompanyController@login');
 Route::get('company/register','CompanyController@register');
 Route::post('company/register','CompanyController@register');
 Route::get('company/edit','CompanyController@edit');
