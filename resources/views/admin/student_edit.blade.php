@@ -30,7 +30,7 @@
               <!-- Right Side Of Navbar -->
               <ul class="navbar-nav ml-auto">
                   <!-- Authentication Links -->
-                  <li><a class="nav-link" href="#">管理画面に戻す</a></li>
+                  <li><a class="nav-link" href="index">管理画面に戻す</a></li>
                   <li><a class="nav-link" href="#">log out</a></li>
 
 
@@ -43,39 +43,64 @@
   <div class="container" style="margin-top:50px">
   <h2>管理者の留学生情報編集</h2>
   <form method="post" action="">
+    {{ csrf_field() }}
+    <input type="hidden" name="id" value="{{$item->id}}">
     <div class="form-group">
       <label for="name">留学生氏名</label>
-      <input type="text" class="form-control" name="name">
+      <input type="text" class="form-control" name="name" value="{{$item->name}}">
+      @if($errors->has('name'))
+        <p class="text-danger">{{$errors->first('name')}}</p>
+      @endif
     </div>
+
 
     <div class="form-group">
       <label for="pwd">パスワード</label>
-      <input type="password" class="form-control" name="password">
+      <input type="password" class="form-control" name="password" value="{{$item->password}}">
+      @if($errors->has('password'))
+        <p class="text-danger">{{$errors->first('password')}}</p>
+      @endif
     </div>
+
 
     <div class="form-group">
       <label for="pwd">パスワード確認</label>
-      <input type="password" class="form-control" name="password">
+      <input type="password" class="form-control" name="password_confirmation" value="{{$item->password}}">
+      @if($errors->has('password_confirmation'))
+        <p class="text-danger">{{$errors->first('password_confirmation')}}</p>
+      @endif
     </div>
+
 
     <div class="form-group">
       <label for="mail">E-mail</label>
-      <input type="text" class="form-control" name="email">
+      <input type="text" class="form-control" name="email" value="{{$item->email}}">
+      @if($errors->has('email'))
+        <p class="text-danger">{{$errors->first('email')}}</p>
+      @endif
     </div>
+
 
     <div class="form-group">
       <label for="tel">携帯</label>
-      <input type="text" class="form-control" name="tel">
+      <input type="text" class="form-control" name="tel" value="{{$item->tel}}">
+      @if($errors->has('tel'))
+        <p class="text-danger">{{$errors->first('tel')}}</p>
+      @endif
     </div>
+
 
     <div class="form-group">
       <label for="birth">誕生日</label>
-      <input type="text" class="form-control" name="birth">
+      <input type="text" class="form-control" name="birth" value="{{$item->birth}}">
+      @if($errors->has('birth'))
+        <p class="text-danger">{{$errors->first('birth')}}</p>
+      @endif
     </div>
 
     <div class="form-group">
       <label for="mst_degree_id">最高学歴</label>
-      <select class="form-control" name="mst_degree_id">
+      <select class="form-control" name="mst_degree_id" value="{{$item->mst_degree_id}}">
         @foreach($degrees as $degree)
         <option value="{{$degree->id}}">{{$degree->name}}</option>
         @endforeach
@@ -84,7 +109,7 @@
 
     <div class="form-group">
       <label for="mst_ssub_id">専門</label>
-      <select class="form-control" name="mst_ssub_id">
+      <select class="form-control" name="mst_ssub_id" value="{{$item->mst_ssub_id}}">
         @foreach($ssubs as $ssub)
         <option value="{{$ssub->id}}">{{$ssub->name}}</option>
         @endforeach
@@ -93,7 +118,10 @@
 
     <div class="form-group">
       <label for="message">アピール</label>
-      <textarea class="form-control" rows="5" name="message"></textarea>
+      <textarea class="form-control" rows="5" name="message">{{$item->message}}</textarea>
+      @if($errors->has('message'))
+        <p class="text-danger">{{$errors->first('message')}}</p>
+      @endif
     </div>
 
     <button type="submit" class="btn btn-primary">提出</button>

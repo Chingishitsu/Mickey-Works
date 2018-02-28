@@ -28,7 +28,7 @@
 
               <ul class="navbar-nav ml-auto">
 
-                  <li><a class="nav-link" href="#">管理画面に戻す</a></li>
+                  <li><a class="nav-link" href="index">管理画面に戻す</a></li>
                   <li><a class="nav-link" href="#">log out</a></li>
 
               </ul>
@@ -51,7 +51,10 @@
                       <label class="col-md-4 col-form-label text-md-right">ユーザー名</label>
 
                       <div class="col-md-6">
-                          <input id="username" type="text" class="form-control" name="username" value="" required autofocus>
+                          <input type="text" class="form-control" name="username" value="">
+                        @if($errors->has('username'))
+                          <p class="text-danger">{{$errors->first('username')}}</p>
+                        @endif
                       </div>
                   </div>
 
@@ -59,7 +62,10 @@
                       <label class="col-md-4 col-form-label text-md-right">名前</label>
 
                       <div class="col-md-6">
-                          <input type="text" class="form-control" name="name" value="" required autofocus>
+                          <input type="text" class="form-control" name="name" value="">
+                          @if($errors->has('name'))
+                            <p class="text-danger">{{$errors->first('name')}}</p>
+                          @endif
 
                       </div>
                   </div>
@@ -68,7 +74,10 @@
                       <label for="password" class="col-md-4 col-form-label text-md-right">パス―ワード</label>
 
                       <div class="col-md-6">
-                          <input type="password" class="form-control" name="password" required>
+                          <input type="password" class="form-control" name="password">
+                          @if($errors->has('password'))
+                            <p class="text-danger">{{$errors->first('password')}}</p>
+                          @endif
 
                       </div>
                   </div>
@@ -77,7 +86,10 @@
                       <label class="col-md-4 col-form-label text-md-right">パスワード確認</label>
 
                       <div class="col-md-6">
-                          <input type="password" class="form-control" name="password_confirmation" required>
+                          <input type="password" class="form-control" name="password_confirmation">
+                          @if($errors->has('password_confirmation'))
+                            <p class="text-danger">{{$errors->first('password_confirmation')}}</p>
+                          @endif
                       </div>
                   </div>
 
@@ -85,7 +97,10 @@
                       <label for="email" class="col-md-4 col-form-label text-md-right">E-Mailアドレス</label>
 
                       <div class="col-md-6">
-                          <input type="email" class="form-control" name="email" value="" required>
+                          <input type="email" class="form-control" name="email" value="">
+                          @if($errors->has('email'))
+                            <p class="text-danger">{{$errors->first('email')}}</p>
+                          @endif
 
                       </div>
                   </div>
@@ -94,7 +109,10 @@
                       <label class="col-md-4 col-form-label text-md-right">生年月日</label>
 
                       <div class="col-md-6">
-                          <input type="text" class="form-control" name="birth" value="" required autofocus>
+                          <input type="text" class="form-control" name="birth" value="">
+                          @if($errors->has('birth'))
+                            <p class="text-danger">{{$errors->first('birth')}}</p>
+                          @endif
                       </div>
                   </div>
 
@@ -128,6 +146,9 @@
 
                       <div class="col-md-6">
                         <textarea class="form-control" rows="5" name="message"></textarea>
+                        @if($errors->has('message'))
+                          <p class="text-danger">{{$errors->first('message')}}</p>
+                        @endif
                       </div>
                   </div>
 

@@ -105,6 +105,13 @@ class AdminController extends Controller
       return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
     }
 
+    public function studentInfo(Request $request)
+    {
+        $item = Student::find($request ->id);
+
+        return view('admin.student_info',['item' => $item]);
+    }
+
     public function studentAdd(Request $request)
     {
       $ssubs = MstSsub::all();
@@ -125,7 +132,7 @@ class AdminController extends Controller
       }else{
         $validator = Validator::make($request->all(),Student::$rules,Student::$messages);
         if ($validator->fails()) {
-          return redirect('admin.student_add')
+          return redirect('admin/student_add')
           ->withErrors($validator)
           ->withInput();
         }
@@ -138,9 +145,7 @@ class AdminController extends Controller
         unset($form['password_confirmation']);
 
         $student -> fill($form) ->save();
-/*        $ssubs = MstSsub::all();
-        $degrees = MstDegree::all();
-*/
+
         return redirect('admin/student_index'/*,array('ssubs' => $ssubs, "degrees" => $degrees)*/);
       }
 
@@ -150,12 +155,65 @@ class AdminController extends Controller
       {
         $ssubs = MstSsub::all();
         $degrees = MstDegree::all();
+        $item = DB::table('students')->where('id',$request->id)->first();
+
+        if($request->isMethod("get")){
+
+          return view('admin.student_edit',['item' => $item],array('ssubs' => $ssubs, "degrees" => $degrees));
+        }else{
+          $validator = Validator::make($request->all(),Student::$rules,Student::$messages);
+          if ($validator->fails()){
+            return redirect('admin/student_edit/'.$request->id)
+            ->withErrors($validator)
+            ->withInput();
+          }
+
+        $param = [
+          'id' => $request->id,
+          'name' => $request->name,
+          'password' => $request->password,
+          'email' => $request->email,
+          'tel' => $request->tel,
+          'birth' => $request->birth,
+          'mst_degree_id' => $request->mst_degree_id,
+          'mst_ssub_id' => $request->mst_ssub_id,
+          'message' => $request->message,
+        ];
+
+        unset($param['_token']);
+        unset($param['password_confirmation']);
+
+        DB::table('students')->where('id',$request->id)->update($param);
+        return redirect('admin/student_index');
+
+        }
+      }
+
+        public function index(Request $request)
+        {
+          return view('admin/index');
+        }
+
+        public function studentDelete(Request $request)
+        {
+          Student::find($request->id)->delete();
+          return redirect('admin/student_index');
+        }
+
+/*      public function studentEdit(Request $request)
+      {
+        $ssubs = MstSsub::all();
+        $degrees = MstDegree::all();
+
+        //Routeのparameterからidを取得する。
+
+
 
         if ($request->isMethod('get')){
           $item = Student::find($request->id);
-//            $students = Student::all();
-//            $companies = Company::all();
+
           return view('admin.student_edit',array('ssubs' => $ssubs, 'degrees' => $degrees , 'item'=>$item));
+
         }else {
           $validator = Validator::make($request->all(),Student::$rules);
           if ($validator->fails()) {
@@ -172,7 +230,7 @@ class AdminController extends Controller
 
 //        return view('admin.student_edit',array('ssubs' => $ssubs, 'degrees' => $degrees));
       }
-
+*/
 
 
 /*    public function companyAdd(Request $request)
