@@ -41,5 +41,6 @@ Route::get('company/login','CompanyController@login');
 Route::post('company/login','CompanyController@login');
 Route::get('company/register','CompanyController@register');
 Route::post('company/register','CompanyController@register');
+Route::get('company/view','CompanyController@view');
 Route::get('company/edit','CompanyController@edit');
 Route::post('company/edit','CompanyController@edit');

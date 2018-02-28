@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'users',
+        'passwords' => 'users',//パスワード変更のチャンス
     ],
 
     /*
@@ -44,6 +44,7 @@ return [
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
+            
         ],
     ],
 

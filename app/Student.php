@@ -12,7 +12,6 @@ class Student extends Model
 
   protected $guarded = array('id');
 
-
   public static $rules = [
     'username' => 'required|regex:/^[0-9a-zA-Z-_]+$/|between:6,30',
     'name' => 'required|between:3,30',
@@ -44,7 +43,7 @@ class Student extends Model
 
     'mst_degree_id.required' => '最高学位を選択して下さい',
     'mst_ssub_id.required' => '専門を選択して下さい',
-    
+
     'message.required' => 'アピールを記入してください',
     'message.max' => '最大の字数は500です'
   ];
@@ -61,7 +60,10 @@ class Student extends Model
     'message' => 'required',
   );
 */
-
+  public function matchs()
+  {
+    return $this->hasMany("App\Match");
+  }
 
   public function degree()
   {
