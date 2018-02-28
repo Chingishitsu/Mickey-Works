@@ -10,6 +10,19 @@ class Student extends Model
   use SoftDeletes;
   protected $dates = ['deleted_at'];
 
+  protected $guarded = array('id');
+
+  public static $rules = array(
+    'username' => 'required',
+    'name' => 'required',
+    'password' => 'required',
+    'email' => 'email',
+    'birth' => 'required',
+    'mst_degree_id' => 'required',
+    'mst_ssub_id' => 'required',
+    'message' => 'required',
+  );
+
 
 
   public function degree()
