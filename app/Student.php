@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 class Student extends Model
 {
   use SoftDeletes;
@@ -13,19 +14,18 @@ class Student extends Model
   protected $guarded = array('id');
 
   public static $rules = [
-    'username' => 'required|regex:/^[0-9a-zA-Z-_]+$/|between:6,30',
+    'username' => 'required|between:6,30',
     'name' => 'required|between:3,30',
-    'password' => 'required|between:8,30|confirmed',
+    'password' => 'required|between:8,30',
     'password_confirmation' => 'same:password',
     'email' => 'required|email',
     'birth' => 'required|date_format:Y-m-d',
-    'mst_degree_id' => 'required',
-    'mst_ssub_id' => 'required',
+    // 'mst_degree_id' => 'required',
+    // 'mst_ssub_id' => 'required',
     'message' => 'required|max:500'
   ];
    public static $messages = [
     'username.required' => 'ユーザー名を入力して下さい',
-    'username.regex' => '英字、数字、”_”、”-”を入力してください',
     'username.between' => '字数は6から30まで入力してください',
 
     'name.required' => '名前を入力して下さい',

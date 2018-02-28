@@ -14,7 +14,7 @@
                 @php
                 $select = (old('student_id') == $student->id)? "selected":"";
                 @endphp
-                <option value="{{$student->id}}" {{$select}}>{{$student->name.'|'.$student->email}}</option>
+                <option value="{{$student->id}}" {{$select}}>{{$student->id.'|'.$student->name.'|'.$student->email}}</option>
             @endforeach
         </select>
     </div>
@@ -27,13 +27,13 @@
                 @php
                     $select = (old('company_id') == $company->id)? "selected":"";
                 @endphp
-                <option value="{{$company->id}}" {{$select}}>{{$company->name}}</option>
+                <option value="{{$company->id}}" {{$select}}>{{$company->id.'|'.$company->name}}</option>
             @endforeach
         </select>
     </div>
 
     <div class="form-group">
-      <label>留学生アピール</label>
+      <span>学生アピール</span><span style="color: #bd2130">{{$errors->first('student_comment')}}</span>
       <textarea class="form-control" rows="5"  name="student_comment">{{old('student_comment')}}</textarea>
     </div>
 

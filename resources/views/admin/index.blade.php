@@ -1,32 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>管理画面</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
-  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
-  <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-
-  <style>
-    div{margin: 25px}
-  </style>
-</head>
-<body>
-  <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-      <div class="container">
-          <a class="navbar-brand" href="http://localhost/mickey/public">
-              Mickey_Works
-          </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-
-      </div>
-  </nav>
-
-
+@extends('layouts.admin_layout')
+@section('title','')
+@section('content')
   <div class="container">
 
     <div class="card bg-info text-white">
@@ -37,7 +11,7 @@
     <br>
     <div class="card bg-warning text-white">
       <div class="card-body">
-        <a href="#" style="color:white;font-size:30px;">留学生の検索</a>
+        <a href="student_index" style="color:white;font-size:30px;">留学生の検索</a>
       </div>
     </div>
     <br>
@@ -48,6 +22,4 @@
     </div>
 
   </div>
-
-
-</body>
+@endsection
