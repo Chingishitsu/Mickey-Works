@@ -13,7 +13,10 @@ use App\Admin;
 use Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+<<<<<<< HEAD
+=======
 
+>>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
 
 
 
@@ -21,11 +24,16 @@ class AdminController extends Controller
 {
     public function matchindex(Request $request)
     {
-
       //requestのqueryから入力された学生名前と会社名前を取得する。
       //取得された学生名前と会社名前を整形する。学生名前、会社名前を入力されてない場合は、「""」空文字列を認める。
+<<<<<<< HEAD
+      $studentName = empty($request->student_name) ? "" : $request->student_name;
+      $companyName = empty($request->company_name) ? "" : $request->company_name;
+
+=======
       $student_name = empty($request->student_name) ? "" : $request->student_name;
       $company_name = empty($request->company_name) ? "" : $request->company_name;
+>>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
       //モデルの検索メソッドを利用し、上記情報を検索する。
       $items = Match::whereHas("student", function($query) use ($student_name) {
             $query->where('name', 'like',"%". $student_name ."%");
@@ -47,7 +55,7 @@ class AdminController extends Controller
       }else {
         $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
         if ($validator->fails()) {
-          return redirect('admin.update/'.$request->id)
+          return redirect('admin/update/'.$request->id)
           ->withErrors($validator)
           ->withInput();
         }
@@ -102,18 +110,27 @@ class AdminController extends Controller
       $student_name = empty($student_name) ? "" : $student_name;
 
       //モデルのWhereメソッドを利用し、上記情報を検索する。
+<<<<<<< HEAD
+
+      $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(2);
+=======
       $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(5);
+>>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
 
       //検索の結果をテンプレートに渡す。
-      return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
+    return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
     }
 
+<<<<<<< HEAD
+
+=======
     public function studentInfo(Request $request)
     {
         $item = Student::find($request ->id);
 
         return view('admin.student_info',['item' => $item]);
     }
+>>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
 
     public function studentAdd(Request $request)
     {
@@ -122,16 +139,22 @@ class AdminController extends Controller
 
       if($request->isMethod("get")) {
 
-/*      $username = DB::table('student')->all();
+      /* $username = DB::table('student')->all();
         $name = DB::table('student')->all();
         $password = DB::table('student')->all();
         $email = DB::table('student')->all();
         $birth = DB::table('student')->all();
         $mst_degree_id = DB::table('student')->all();
         $mst_ssub_id = DB::table('student')->all();
+<<<<<<< HEAD
+        $message = DB::table('student')->all();*/
+
+        return view('admin/student_add', array('ssubs' => $ssubs, "degrees" => $degrees));
+=======
         $message = DB::table('student')->all();
 */
         return view('admin.student_add', array('ssubs' => $ssubs, "degrees" => $degrees));
+>>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
       }else{
         $validator = Validator::make($request->all(),Student::$rules,Student::$messages);
         if ($validator->fails()) {
@@ -148,8 +171,15 @@ class AdminController extends Controller
         unset($form['password_confirmation']);
 
         $student -> fill($form) ->save();
+<<<<<<< HEAD
+        $ssubs = MstSsub::all();
+        $degrees = MstDegree::all();
+
+        return view('admin.student_add',array('ssubs' => $ssubs, "degrees" => $degrees));
+=======
 
         return redirect('admin/student_index'/*,array('ssubs' => $ssubs, "degrees" => $degrees)*/);
+>>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
       }
 
     }
@@ -236,6 +266,9 @@ class AdminController extends Controller
 */
 
 
+<<<<<<< HEAD
+   public function companyAdd(Request $request)
+=======
 /*    public function companyAdd(Request $request)
       {
       //getの場合 会社の新規ページーをレンダル。
@@ -247,35 +280,59 @@ class AdminController extends Controller
       //postの場合 requestのpostから会社ユーザー名、会社本名、パスワード、パスワード確認、emailを取得する。
         if($request->isMethod('post'))
         {
+>>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
 
+      {
+        $mstssub = MstSsub::all();
+        $mstdegree = MstDegree::all();
+        return view("admin.student_add",['mstssub'=>$mstssub,'mstdegree'=>$mstdegree]);
+        //postでアクセスする場合、以下の処理を行う。
+        //requestのpostから、登録情報を取得する
+      } else {
+　　　　//上記情報をValidatorで検証する。
+        $validator = Validator::make($request->all(),Student::$rules,Studnet::$messages);
+        //失敗した場合：
+        //エラーメッセージを連れて、本ページを戻す
+        if ( $validator->fails() ) {
+          return redirect('student/add')
+            ->withErrors($validator)
+            ->withInput();
         }
-      //上記情報をValidatorで検証する。
+        //成功した場合：
+        //新しいDATAをsave()で新規する、詳細ページを戻す
+        $student = new Student;
+        $form = $request->all();
+        unset($form['_token']);
+        $student->fill($form)->save();
+        return redirect('admin/student');
+      }
+ 　}
 
-      //失敗の場合は、エラーメッセージを連れて、本ページを戻す。
+    public function logout(Request $request)
+    {
+      Auth::logout();
+      return view('home.index');
+    }
 
-      //成功の場合は、新しいDATAをsave()で新規する、詳細ページを戻す。
-
-
-        return view("admin.company_add",array());
+    public function login(Request $request)
+    {
+      $username = $request->username;
+      $password = $request->password;
+      if (Auth::guard('admin')->attempt(['username'=>$username,'password'=>$password])) {
+        return view('admin.index');
+      }else {
+        return view('hello.index');
       }
 
+    }
 
-    public function companyEdit(Request $request)
-      {
-        //getでアクセスするの場合は Routeparameter連れているのIdを取得する。
+    public function index(Request $request)
+    {
+      return view('admin.index');
+    }
 
-        //モデルの検索メソッドを利用し、上記情報を検索する。
-
-        //検索の結果をテンプレートに渡す。
-
-        //postでアクセスするの場合は、requestのpostから会社名、パスワード、などの情報を取得する。
-
-        //上記情報をValidatorで検証する。
-
-        //失敗の場合は、エラーメッセージを連れて、本ページを戻す。
-
-        //成功の場合は、新しいDATAをsave()で更新する、詳細ページを戻す。
-
+<<<<<<< HEAD
+=======
         return view("admin.company_edit",array());
       }
 */
@@ -298,4 +355,5 @@ class AdminController extends Controller
               }
           }
       }
+>>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
 }
