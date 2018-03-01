@@ -15,8 +15,12 @@ class Company extends Model
   {
     return $this->belongsTo("App\MstCsub","mst_csub_id");
   }
+  public function matchs()
+  {
+    return $this->hasMany("App\Match");
+  }
   public static $rules = array(
-    'username' => 'required|alpha_dash|between:4,30',
+    'username' => 'required|regex:/^[a-zA-Z0-9-_]+$/|between:4,30',
     'name' => 'required|between:5,50',
     'password' => 'required|alpha_num|between:6,16',
     'password_confirmation' => 'required|same:password',
@@ -27,7 +31,7 @@ class Company extends Model
   );
 /*  public static $messages = array(
     'username.required' => 'ユーザー名を入力してください',
-    'username.alpha_dash' => 'ユーザー名は英字、数字、"_"、"-"から使ってください',
+    'username.regex' => 'ユーザー名は英字、数字、"_"、"-"から使ってください',
     'username.between' => 'ユーザー名を４から３０文字まで入力してください',
 
     'name.required' => '会社名を入力してください',
