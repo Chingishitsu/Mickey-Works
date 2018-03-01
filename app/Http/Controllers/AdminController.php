@@ -10,6 +10,7 @@ use App\MstDegree;
 use App\Admin;
 use App\Company;
 use App\MstCsub;
+use Illuminate\Support\Facades\Hash;
 use Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -180,8 +181,11 @@ class AdminController extends Controller
           return view('admin/company_add',array('csubs'=> $csubs));
         }else {
             //上記情報をValidatorで検証する。
-          $validator = Validator::make($request->all(),Company::$rules);
+          $validator = Validator::make($request->all(),Company::$rules,Company::$messages);
           if ($validator->fails()) {
+
+            // var_dump($validator->errors());
+            // exit;
             return redirect('admin/company_add')
             ->withErrors($validator)
             ->withInput();
@@ -197,7 +201,7 @@ class AdminController extends Controller
 
           $company->username = $form["username"];
           $company->name = $form["name"];
-          $company->password = $form["password"];
+          $company->password = Hash::make($form["password"]);
           $company->email = $form["email"];
           $company->mst_csub_id = $form["mst_csub_id"];
 
@@ -245,4 +249,21 @@ class AdminController extends Controller
         return redirect("admin/company_index");
        }
      }
+     public function companyView(Request $request)
+     {
+       $item = Company::find($request->id);
+       return view('admin/company_view',['item' => $item]);
+     }
+     public function companyDelete(Request $request)
+     {
+       Company::find($request->id)->delete();
+       return redirect('admin/company_index');
+     }
+
+
+     public function Index(Request $request)
+     {
+       return view('admin.Index');
+     }
+
    }

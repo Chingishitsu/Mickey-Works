@@ -20,13 +20,11 @@ class Company extends Model
     return $this->hasMany("App\Match");
   }
   public static $rules = array(
-    'username' => 'required|regex:/^[a-zA-Z0-9-_]+$/|between:4,30',
+    'username' => 'required|between:4,30',
     'name' => 'required|between:5,50',
     'password' => 'required|alpha_num|between:6,16',
     'password_confirmation' => 'required|same:password',
     'email' => 'required|email',
-    'message' => 'required' ,
-    'money' => 'required',
     'mst_csub_id' => 'required',
   );
 /*  public static $messages = array(
@@ -55,7 +53,7 @@ class Company extends Model
     'money' => '給料を入力してください'
   );*/
     public static $editrules = array(
-      'username' => 'alpha_dash|between:4,30',
+      'name' => 'alpha_dash|between:4,30',
       'address' => 'required',
       'email' => 'required',
       'message' => 'required' ,

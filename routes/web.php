@@ -53,7 +53,9 @@ Route::get('admin/company_add', 'AdminController@companyAdd')->name('admin_compa
 Route::post('admin/company_add','AdminController@companyAdd')->name('admin_company_add');
 Route::get('admin/company_edit/{id?}', 'AdminController@companyEdit');
 Route::post('admin/company_edit/{id?}','AdminController@companyEdit');
-
+Route::get('admin/company_view/{id?}','AdminController@companyView')->name('admin_company_view');
+Route::get('admin/company_del/{id?}','AdminController@companyDelete');
+Route::post('admin/company_del/{id?}','AdminController@companyDelete');
 
 
 Route::post('admin/student_add','AdminController@studentAdd')->name('admin_student_add');

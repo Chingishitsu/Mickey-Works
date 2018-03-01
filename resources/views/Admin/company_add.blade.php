@@ -34,7 +34,7 @@
               <!-- Right Side Of Navbar -->
               <ul class="navbar-nav ml-auto">
                   <!-- Authentication Links -->
-                  <li><a class="nav-link" href="#">管理画面に戻す</a></li>
+                  <li><a class="nav-link" href="index">管理画面に戻す</a></li>
                   <li><a class="nav-link" href="#">log out</a></li>
 
               </ul>
@@ -54,10 +54,13 @@
               <form method="post" action="">
                 {{ csrf_field() }}
                 <div class="form-group row">
-                      <label for="name" class="col-md-4 col-form-label text-md-right">ユーザー名</label>
+                      <label for="name" class="col-md-4 col-form-label text-md-right">企業名</label>
 
                       <div class="col-md-6">
-                          <input  type="text" class="form-control" name="username" value="{{('username')}}" >
+                          <input  type="text" class="form-control" name="username" value="" >
+                          @if($errors -> has('username'))
+                          <tr><th>ERROR</th><td>{{$errors->first('username')}}</td></tr>
+                          @endif
                       </div>
                 </div>
 
@@ -65,7 +68,10 @@
                       <label for="name" class="col-md-4 col-form-label text-md-right">企業本名</label>
 
                       <div class="col-md-6">
-                          <input type="text" class="form-control" name="name" value="{{('name')}}" >
+                          <input type="text" class="form-control" name="name" value="" >
+                          @if($errors -> has('name'))
+                          <tr><th>ERROR</th><td>{{$errors->first('name')}}</td></tr>
+                          @endif
                       </div>
                 </div>
 
@@ -75,6 +81,9 @@
                       <label for="password" class="col-md-4 col-form-label text-md-right">パス―ワード</label>
                       <div class="col-md-6">
                           <input  type="password" class="form-control" name="password">
+                          @if($errors -> has('password'))
+                          <tr><th>ERROR</th><td>{{$errors->first('password')}}</td></tr>
+                          @endif
                       </div>
                   </div>
 
@@ -83,11 +92,14 @@
 
                       <div class="col-md-6">
                           <input  type="password" class="form-control" name="password_confirmation" >
+                          @if($errors -> has('password_confirmation'))
+                          <tr><th>ERROR</th><td>{{$errors->first('password_confirmation')}}</td></tr>
+                          @endif
                       </div>
                   </div>
 
                   <div class="form-group row">
-                      <label class="col-md-4 col-form-label text-md-right">専門</label>
+                      <label class="col-md-4 col-form-label text-md-right">分野</label>
 
                       <div class="col-md-6">
                         <select class="form-control" name="mst_csub_id">
@@ -103,8 +115,12 @@
                       <label for="email" class="col-md-4 col-form-label text-md-right">E-Mailアドレス</label>
 
                       <div class="col-md-6">
-                          <input  type="email" class="form-control" name="email" value="{{('email')}}">
+                          <input  type="email" class="form-control" name="email" value="">
+                          @if($errors -> has('email'))
+                          <tr><th>ERROR</th><td>{{$errors->first('email')}}</td></tr>
+                          @endif
                       </div>
+
                   </div>
 
                   <div class="form-group row mb-0">
