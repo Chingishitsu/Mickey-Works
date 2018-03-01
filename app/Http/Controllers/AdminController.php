@@ -17,12 +17,10 @@ use Illuminate\Support\Facades\Auth;
 
 
 
-
 class AdminController extends Controller
 {
     public function matchindex(Request $request)
     {
-
       //requestのqueryから入力された学生名前と会社名前を取得する。
       //取得された学生名前と会社名前を整形する。学生名前、会社名前を入力されてない場合は、「""」空文字列を認める。
       $student_name = empty($request->student_name) ? "" : $request->student_name;
@@ -48,7 +46,7 @@ class AdminController extends Controller
       }else {
         $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
         if ($validator->fails()) {
-          return redirect('admin.update/'.$request->id)
+          return redirect('admin/update/'.$request->id)
           ->withErrors($validator)
           ->withInput();
         }
@@ -105,7 +103,7 @@ class AdminController extends Controller
       $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(5);
 
       //検索の結果をテンプレートに渡す。
-      return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
+    return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
     }
 
     public function studentInfo(Request $request)
@@ -122,7 +120,7 @@ class AdminController extends Controller
 
       if($request->isMethod("get")) {
 
-/*      $username = DB::table('student')->all();
+      /* $username = DB::table('student')->all();
         $name = DB::table('student')->all();
         $password = DB::table('student')->all();
         $email = DB::table('student')->all();
@@ -266,4 +264,25 @@ class AdminController extends Controller
        return view('admin.Index');
      }
 
-   }
+
+
+
+    public function logout(Request $request)
+    {
+      Auth::logout();
+      return view('home.index');
+    }
+
+    public function login(Request $request)
+    {
+      $username = $request->username;
+      $password = $request->password;
+      if (Auth::guard('admin')->attempt(['username'=>$username,'password'=>$password])) {
+        return view('admin.index');
+      }else {
+        return view('hello.index');
+      }
+
+    }
+
+}
