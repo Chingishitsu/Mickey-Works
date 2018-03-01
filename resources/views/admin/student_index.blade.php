@@ -74,7 +74,7 @@
       @foreach( $items as $item)
       <tr>
         <td>
-          <a href="student_info?id={{$item->id}}">{{$item->username}}</a>
+          <a href="student_info/{{$item->id}}">{{$item->username}}</a>
         </td>
         <td>{{$item->name}}</td>
         <td>{{$item->email}}</td>

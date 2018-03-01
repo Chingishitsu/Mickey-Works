@@ -35,14 +35,14 @@ Route::get('admin/student_del/{id?}','AdminController@studentDelete');
 Route::post('admin/student_del/{id?}','AdminController@studentDelete');
 
 Route::get('admin/student_add', 'AdminController@studentAdd')->name('admin_student_add');
-<<<<<<< HEAD
+
 Route::post('admin/student_add','AdminController@studentAdd')->name('admin_student_add');
 
 Route::get('admin/student_edit/{id?}','AdminController@studentEdit');
 Route::post('admin/student_edit/{id?}','AdminController@studentEdit');
-=======
 
-//管理者の企業
+
+
 Route::get('admin/company_index', 'AdminController@companyIndex')->name('admin_company_index');
 Route::get('admin/company_add', 'AdminController@companyAdd')->name('admin_company_add');
 Route::post('admin/company_add', 'AdminController@companyAdd')->name('admin_company_add');
@@ -53,11 +53,7 @@ Route::post('admin/student_add','AdminController@studentAdd')->name('admin_stude
 
 Route::get('admin/student_edit','AdminController@studentEdit')->name('admin_student_edit');
 Route::post('admin/student_edit','AdminController@studentEdit')->name('admin_student_edit');
->>>>>>> b9f394794a95a8267d8fcce555ec3ab34fdc8f7c
 
-
-
-//company
 Route::get('company/login','CompanyController@login');
 Route::post('company/login','CompanyController@login');
 Route::get('company/register','CompanyController@register');

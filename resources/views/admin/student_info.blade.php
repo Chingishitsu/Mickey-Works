@@ -28,8 +28,8 @@
 
               <!-- Right Side Of Navbar -->
               <ul class="navbar-nav ml-auto">
-                  <!-- Authentication Links -->
-                  <li><a class="nav-link" href="index">管理画面に戻す</a></li>
+                  <li><a class="nav-link" href="http://localhost/mickey/public/admin/student_index">留学生一覧に戻す</a></li>
+                  <li><a class="nav-link" href="http://localhost/mickey/public/admin/index">管理画面に戻す</a></li>
                   <li><a class="nav-link" href="#">log out</a></li>
 
 
@@ -44,7 +44,7 @@
 
   <ul class="list-group">
 
-    <li class="list-group-item list-group-item-dark">ID:{{$item->name}}</li>
+    <li class="list-group-item list-group-item-dark">ID:{{$item->id}}</li>
     <li class="list-group-item list-group-item-secondary">ユーザー名：{{$item->username}}</li>
     <li class="list-group-item list-group-item-dark">氏名：{{$item->name}}</li>
     <li class="list-group-item list-group-item-secondary">メールアドレス：{{$item->email}}</li>

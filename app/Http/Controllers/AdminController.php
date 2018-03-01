@@ -158,44 +158,54 @@ class AdminController extends Controller
       {
         $ssubs = MstSsub::all();
         $degrees = MstDegree::all();
-        $item = DB::table('students')->where('id',$request->id)->first();
+
+        $student = Student::find($request->id);
 
         if($request->isMethod("get")){
 
-          return view('admin.student_edit',['item' => $item],array('ssubs' => $ssubs, "degrees" => $degrees));
+          return view('admin.student_edit',['student' => $student],array('ssubs' => $ssubs, "degrees" => $degrees));
         }else{
-          $validator = Validator::make($request->all(),Student::$rules,Student::$messages);
+          $validator = Validator::make($request->all(),Student::$editrules,Student::$messages);
           if ($validator->fails()){
+
+            // var_dump($validator->errors());
+            // exit;
+
             return redirect('admin/student_edit/'.$request->id)
             ->withErrors($validator)
             ->withInput();
           }
 
-        $param = [
-          'id' => $request->id,
-          'name' => $request->name,
-          'password' => $request->password,
-          'email' => $request->email,
-          'tel' => $request->tel,
-          'birth' => $request->birth,
-          'mst_degree_id' => $request->mst_degree_id,
-          'mst_ssub_id' => $request->mst_ssub_id,
-          'message' => $request->message,
-        ];
+          $form = $request -> all();
 
-        unset($param['_token']);
-        unset($param['password_confirmation']);
+        // $param = [
+        //   'id' => $request->id,
+        //   'name' => $request->name,
+        //   'password' => $request->password,
+        //   'email' => $request->email,
+        //   'tel' => $request->tel,
+        //   'birth' => $request->birth,
+        //   'mst_degree_id' => $request->mst_degree_id,
+        //   'mst_ssub_id' => $request->mst_ssub_id,
+        //   'message' => $request->message,
+        // ];
 
-        DB::table('students')->where('id',$request->id)->update($param);
+        unset($form['_token']);
+
+        unset($form['password_confirmation']);
+
+        $student ->fill($form) ->save();
+
+        // DB::table('students')->where('id',$request->id)->update($form);
         return redirect('admin/student_index');
 
         }
       }
 
-        public function index(Request $request)
-        {
-          return view('admin/index');
-        }
+        // public function index(Request $request)
+        // {
+        //   return view('admin/index');
+        // }
 
         public function studentDelete(Request $request)
         {
@@ -279,6 +289,7 @@ class AdminController extends Controller
         return view("admin.company_edit",array());
       }
 */
+
       public function index()
       {
           return view('admin.index');
