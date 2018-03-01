@@ -10,6 +10,7 @@ use App\MstDegree;
 use App\Admin;
 use App\Company;
 use App\MstCsub;
+use App\MstResult;
 use Illuminate\Support\Facades\Hash;
 use Validator;
 use Illuminate\Support\Facades\DB;
@@ -63,9 +64,10 @@ class AdminController extends Controller
     public function matchadd(Request $request)
     {
       if ($request->isMethod('get')) {
-        $students = DB::table('students')->all();
-        $companies = DB::table('companies')->all();
-        return view('admin.matchadd',['students'=>$students,'companies'=>$companies]);
+        $students = Student::all();
+        $companies = Company::all();
+        $results = MstResult::all();
+        return view('admin.matchadd',['students'=>$students,'companies'=>$companies,'results'=>$results]);
       }else {
         $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
         if ($validator->fails()) {
@@ -73,7 +75,7 @@ class AdminController extends Controller
           ->withErrors($validator)
           ->withInput();
         }
-        $item = new Macth;
+        $item = new Match;
         $form = $request->all();
         unset($form['_token']);
         $item->fill($form)->save();
@@ -159,37 +161,6 @@ class AdminController extends Controller
 
     }
 
-    public function studentEdit(Request $request)
-    {
-        $ssubs = MstSsub::all();
-        $degrees = MstDegree::all();
-        $item = DB::table('students')->where('id',$request->id)->first();
-
-        if($request->isMethod("get")){
-
-          return view('admin.student_edit',['item' => $item],array('ssubs' => $ssubs, "degrees" => $degrees));
-        }else{
-          $validator = Validator::make($request->all(),Student::$rules,Student::$messages);
-          if ($validator->fails()){
-            return redirect('admin/student_edit/'.$request->id)
-            ->withErrors($validator)
-            ->withInput();
-          }
-
-      //入力されてない場合は、「""」空文字列を認める。
-      $company_username = empty($company_username) ? "" : $company_username;
-
-      //モデルのWhereメソッドを利用し、上記情報を検索する。
-      $items = Company::where('username','LIKE',"%$company_username%")->paginate(3);
-
-      //検索の結果をテンプレートに渡す。
-
-
-      public function index(Request $request)
-      {
-          return view('admin/index');
-      }
-
 
       public function studentDelete(Request $request)
       {
@@ -227,10 +198,6 @@ class AdminController extends Controller
           return redirect('admin/company_index');
         }
       }
-//    public function companyEdit(Request $request)
-//    {
-//        $csubs = MstCsub::all();
-//
 
     public function index()
     {

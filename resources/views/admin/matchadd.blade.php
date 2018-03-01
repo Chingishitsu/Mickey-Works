@@ -45,8 +45,8 @@
     <div class="form-group">
       <label>マッチング結果</label>
       <select class="form-control" name="result_id">
-          @foreach($items as $item)
-            <option value="{{$item->id}}">{{$item->name}}</option>
+          @foreach($results as $result)
+            <option value="{{$result->id}}">{{$result->name}}</option>
           @endforeach
       </select>
     </div>
