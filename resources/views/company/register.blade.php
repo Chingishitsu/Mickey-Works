@@ -33,8 +33,8 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                                                    <li><a class="nav-link" href="http://localhost/mickey/public/login">企業ユーザー</a></li>
-                            <li><a class="nav-link" href="http://localhost/mickey/public/login">留学生ユーザー</a></li>
+                            <li><a class="nav-link" href="http://localhost/Mickey-Works/public/company/login">ログインに戻る</a></li>
+
 
                                             </ul>
                 </div>
@@ -120,13 +120,24 @@
                         <div class="form-group row">
                           <label class="col-md-4 col-form-label text-md-right">専門</label>
                           <div class="col-md-6">
-                            <select class="form-control" name="mst_csub_id">
+                            <select class="form-control" name="mst_csub_id" >
+                              <option value="">分野を選んでください</option>
                               @foreach($csubs as $csub)
-                              <option value="{{$csub->id}}">{{$csub->name}}</option>
+                              <option value="{{$csub->id}}"
+                                @if (old('mst_csub_id') == $csub->id)
+                                {{ "selected" }}
+                                @endif
+                                >{{$csub->name}}
+                              </option>
                               @endforeach
                             </select>
                           </div>
                         </div>
+                        @if ($errors->has('mst_csub_id'))
+                        <p align="center" >
+                          {{$errors->first('mst_csub_id')}}
+                        </p>
+                        @endif
 
 
 
@@ -141,7 +152,7 @@
                                 </button>
                             </div>
                         </div>
-
+                      
                     </form>
                 </div>
             </div>

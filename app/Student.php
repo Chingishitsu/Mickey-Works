@@ -15,7 +15,6 @@ class Student extends Model
 =======
   protected $guarded = array('id');
 
-
   public static $rules = [
     'username' => 'required|between:6,30',
     'name' => 'required|between:3,30',
@@ -44,26 +43,29 @@ class Student extends Model
     'birth.required' => '誕生日を選択して下さい',
     'birth.date_format' => '正しい日付の書き方で記入してください',
 
-    // 'mst_degree_id.required' => '最高学位を選択して下さい',
-    // 'mst_ssub_id.required' => '専門を選択して下さい',
+    'mst_degree_id.required' => '最高学位を選択して下さい',
+    'mst_ssub_id.required' => '専門を選択して下さい',
 
     'message.required' => 'アピールを記入してください',
     'message.max' => '最大の字数は500です'
   ];
 
-//   public static $rules = array(
-//     'username' => 'required',
-//     'name' => 'required',
-//     'password' => 'required',
-// //    'repassword' => 'same:password',
-//     'email' => 'email',
-//     'birth' => 'required',
-//     'mst_degree_id' => 'required',
-//     'mst_ssub_id' => 'required',
-//     'message' => 'required',
-//   );
-
-
+/*  public static $rules = array(
+    'username' => 'required',
+    'name' => 'required',
+    'password' => 'required',
+//    'repassword' => 'same:password',
+    'email' => 'email',
+    'birth' => 'required',
+    'mst_degree_id' => 'required',
+    'mst_ssub_id' => 'required',
+    'message' => 'required',
+  );
+*/
+  public function matchs()
+  {
+    return $this->hasMany("App\Match");
+  }
 
 >>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
   public function degree()
