@@ -13,6 +13,7 @@
   </style>
 </head>
 <body>
+
   <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
       <div class="container">
           <a class="navbar-brand" href="http://localhost/mickey/public">
@@ -38,64 +39,24 @@
       </div>
   </nav>
 
-
   <div class="container">
-  <h2>留学生のユーザー名を記入して検索する</h2>
-  <form action="" method="get">
-    <div class="form-inline">
-      <input type="text" class="form-control" name="student_name"
-        value="{{$student_name}}"
-      >
-      <input type="submit" class="btn btn-info" value="検索">
-    </div>
+  <h2>留学生詳細情報</h2>
 
-  </form>
+  <ul class="list-group">
+
+    <li class="list-group-item list-group-item-dark">ID:{{$item->name}}</li>
+    <li class="list-group-item list-group-item-secondary">ユーザー名：{{$item->username}}</li>
+    <li class="list-group-item list-group-item-dark">氏名：{{$item->name}}</li>
+    <li class="list-group-item list-group-item-secondary">メールアドレス：{{$item->email}}</li>
+    <li class="list-group-item list-group-item-dark">生年月日：{{$item->birth}}</li>
+    <li class="list-group-item list-group-item-secondary">最高学歴：{{$item->degree->name}}</li>
+    <li class="list-group-item list-group-item-dark">専門：{{$item->ssub->name}}</li>
+    <li class="list-group-item list-group-item-secondary">アピール：{{$item->message}}</li>
+
+  </ul>
+
+
 </div>
-
-<div class="container">
-
-  <h3>留学生ユーザー一覧</h3>
-  <a href="student_add" class="btn btn-info">留学生新規</a>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>ユーザー名</th>
-        <th>名前</th>
-        <th>E-mail</th>
-        <th>携帯</th>
-        <th>誕生日</th>
-        <th>専門</th>
-        <th>最高学歴</th>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach( $items as $item)
-      <tr>
-        <td>
-          <a href="student_info?id={{$item->id}}">{{$item->username}}</a>
-        </td>
-        <td>{{$item->name}}</td>
-        <td>{{$item->email}}</td>
-        <td>{{$item->tel}}</td>
-        <td>{{$item->birth}}</td>
-
-        <td>{{$item->ssub->name}}</td>
-        <td>{{$item->degree->name}}</td>
-        <td>
-          <a href="student_edit/{{$item->id}}" class="btn btn-info">編集</a>
-        </td>
-        <td>
-          <a href="student_del/{{$item->id}}" class="btn btn-info">削除</a>
-        </td>
-      </tr>
-      @endforeach
-    </tbody>
-  </table>
-
-  {{ $items->links() }}
-</div>
-
 
 </body>
+</html>

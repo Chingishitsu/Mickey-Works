@@ -96,6 +96,15 @@ return [
             'model' => App\Admin::class,
         ],
 
+        // 'company' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Company::class,
+        // ]
+        // 'admin' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Admin::class,
+        // ]
+
         'companies' => [
             'driver' => 'eloquent',
             'model' => App\Company::class,

@@ -11,7 +11,7 @@
     <br>
     <div class="card bg-warning text-white">
       <div class="card-body">
-        <a href="#" style="color:white;font-size:30px;">留学生の検索</a>
+        <a href="student_index" style="color:white;font-size:30px;">留学生の検索</a>
       </div>
     </div>
     <br>
