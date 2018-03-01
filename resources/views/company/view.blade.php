@@ -48,6 +48,11 @@
 <div class="container"　 style="margin-top:50px">
 
   <h2>企業の詳細情報</h2>
+  @if (session('msg'))
+  <p align="center">
+    {{ session('msg') }}
+  </p>
+  @endif
 
   <table class="table table-bordered">
 
@@ -111,6 +116,10 @@
         <th>氏名</th>
         <th>学歴</th>
         <th>専門</th>
+        <th>学生アピール</th>
+        <th>詳細情報</th>
+        <th>結果</th>
+
       </tr>
     </thead>
     <tbody>
@@ -119,6 +128,10 @@
         <td>{{$match->student->name}}</td>
         <td>{{$match->student->degree->name}}</td>
         <td>{{$match->student->ssub->name}}</td>
+        <td>{{$match->student_comment}}</td>
+        <td><a href="student/index/{{$match->id}}">詳細情報</a></td>
+        <td>{{$match->result->name}}</td>
+
       </tr>
       @endforeach
     </tbody>

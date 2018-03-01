@@ -15,13 +15,14 @@
                 </p>
                 @endif
                 <div class="card-body">
-                    <form method="POST" action="http://localhost/mickey/public/login">
-                        <input type="hidden" name="_token" value="aBzuyKjZYw8pDJuPjESKsK8SO4awBYH8qcEYKHd8">
+                    <form method="POST" action="">
+                      {{ csrf_field() }}
+                        
                         <div class="form-group row">
-                            <label for="email" class="col-sm-4 col-form-label text-md-right">企業ユーザー名</label>
+                            <label for="" class="col-sm-4 col-form-label text-md-right">企業ユーザー名</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="" required autofocus>
+                                <input id="email" type="text" class="form-control" name="username" value="" >
 
                                                             </div>
                         </div>
@@ -30,7 +31,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">パスワード</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
+                                <input id="password" type="password" class="form-control" name="password" >
 
                                                             </div>
                         </div>

@@ -54,15 +54,27 @@ class CompanyController extends Controller
   {
     if ($request->isMethod('get')) {
       return view('company.login');
+    } else {
+      $username = $request->username;
+      $password = $request->password;
+      if (Auth::guard('company')->attempt(['username'=>$username,'password'=>$password])){
+          return redirect('company/view');
+      } else {
+          return redirect('company/login')->with('msg','ユーザー名またはパスワードが間違っています');
+      }
     }
+
   }
   public function view(Request $request)
   {
 
+
     //AuthコンポーネントからIDを取得する。
+    $item = Company::find(Auth::guard('company')->id());
+
     $id = "2";//Auth::id();
     //取得したIDにより、モデールを通じてデータベースから、企業情報を取得する。
-    $item = Company::find($id);
+
     //取得した企業情報とともに情報一覧画面にリディレクトする。
     return view('company.view',['item' => $item]);
   }
@@ -80,7 +92,7 @@ class CompanyController extends Controller
     } else {
       //postでアクセスする場合、以下の処理を行う。
         //authコンポーネントから、編集情報を取得し、バリテーションのルールとマッチングする。
-      $validator = Validator::make($request->all(),Company::$rules,Company::$messages);
+      $validator = Validator::make($request->all(),Company::$rules_edit,Company::$messages);
 //       失敗した場合：
 // 　　エラーメッセージと入力した情報とともに情報編集画面にリディレクトする。
       if ($validator->fails()) {
@@ -89,7 +101,8 @@ class CompanyController extends Controller
         ->withInput();
       } else {
         // 成功した場合：
-        // 編集成功のメッセージとともに企業情報一覧画面に遷移する。
+        //編集した情報をデータベースに保存する。
+        $company = Company::find(1);
         $form = $request->all();
         unset($form['_token']);
         $company->message = $form["message"];
@@ -98,9 +111,8 @@ class CompanyController extends Controller
         $company->email = $form["email"];
         $company->address = $form["address"];
         $company->mst_csub_id = $form["mst_csub_id"];
-
         $company->save();
-        //登録成功のメッセージとともに企業ログイン画面に遷移する。
+        // 編集成功のメッセージとともに企業情報一覧画面に遷移する。
 
         return redirect('/company/view')->with('msg','編集成功しました');
       }

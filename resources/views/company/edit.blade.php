@@ -43,21 +43,33 @@
 
   <div class="container" style="margin-top:50px">
   <h2>企業登録情報の編集</h2>
-  <form>
+  <form method="POST" action="">
+    {{ csrf_field() }}
     <div class="form-group">
       <label for="name">企業名</label>
-      <input type="text" class="form-control" name="itemsname" value="{{ $items->name }}">
+      <input type="text" class="form-control" name="name" value="{{ $items->name }}">
     </div>
+    @if ($errors->has('name'))
+    <p align="center" >
+      {{$errors->first('name')}}
+    </p>
+    @endif
 
     <div class="form-group">
       <label for="address">本社所在地</label>
       <input type="text" class="form-control" name="address" value="{{ $items->address }}">
     </div>
 
+
     <div class="form-group">
       <label for="mail">E-mail</label>
       <input type="text" class="form-control" name="email" value="{{ $items->email }}">
     </div>
+    @if ($errors->has('email'))
+    <p align="center" >
+      {{$errors->first('email')}}
+    </p>
+    @endif
 
     <div class="form-group">
       <label for="csub">分野</label>
@@ -79,13 +91,26 @@
     @endif
 
     <div class="form-group">
-      <label for="money">給料</label>
-      <input type="text" class="form-control" name="money" value="{{ $items->money }}">
+      <label for="money">年俸</label>
+      <input type="text" class="form-control" name="money" value=
+      @if (old('$items->money') != null)
+      {{old('$items->moneyt')}}
+      @else
+      "{{ $items->money }}"
+      @endif
+      >
     </div>
+
 
     <div class="form-group">
       <label for="message">アピール</label>
-      <textarea class="form-control" rows="5" name="message">{{ $items->company_comment }}</textarea>
+      <textarea class="form-control" rows="5" name="message">
+        @if (old('$items->company_comment') != null)
+        {{old('$items->company_comment')}}
+        @else
+        {{ $items->company_comment }}
+        @endif
+      </textarea>
     </div>
 
     <button type="submit" class="btn btn-primary">提出</button>

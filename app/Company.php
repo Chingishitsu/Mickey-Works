@@ -4,12 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
-class Company extends Model
+use Illuminate\Foundation\Auth\User as Authenticatable;
+class Company extends Authenticatable
 {
   use SoftDeletes;
   protected $dates = ['deleted_at'];
 
+  protected $table = 'companies';
+
+  
 
   public function csub()
   {
@@ -24,6 +27,11 @@ class Company extends Model
     'name' => 'required|between:5,50',
     'password' => 'required|alpha_num|between:6,16',
     'password_confirmation' => 'required|same:password',
+    'email' => 'required|email',
+    'mst_csub_id' => 'required',
+  );
+  public static $rules_edit = array(
+    'name' => 'required|between:5,50',
     'email' => 'required|email',
     'mst_csub_id' => 'required',
   );
@@ -49,5 +57,6 @@ class Company extends Model
     'mst_csub_id.required' => '分野を選んでください'
 
   );
+
 
 }
