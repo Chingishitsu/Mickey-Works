@@ -36,8 +36,11 @@ Route::post('admin/student_del/{id?}','AdminController@studentDelete');
 
 Route::get('admin/student_add', 'AdminController@studentAdd')->name('admin_student_add');
 
+Route::post('admin/student_add','AdminController@studentAdd')->name('admin_student_add');
 
-//管理者の企業
+Route::get('admin/student_edit/{id?}','AdminController@studentEdit');
+Route::post('admin/student_edit/{id?}','AdminController@studentEdit');
+
 Route::get('admin/company_index', 'AdminController@companyIndex')->name('admin_company_index');
 Route::get('admin/company_add', 'AdminController@companyAdd')->name('admin_company_add');
 Route::get('admin/company_edit', 'AdminController@companyedit')->name('admin_company_edit');
@@ -50,11 +53,25 @@ Route::get('student/student_edit', 'StudentController@studentEdit');
 Route::post('student/student_edit', 'StudentController@studentEdit');
 
 
+<<<<<<< HEAD
+
+Route::get('admin/company_index', 'AdminController@companyindex')->name('admin_company_index');
+Route::get('admin/company_add', 'AdminController@companyAdd')->name('admin_company_add');
+Route::post('admin/company_add','AdminController@companyAdd')->name('admin_company_add');
+Route::get('admin/company_edit/{id?}', 'AdminController@companyEdit');
+Route::post('admin/company_edit/{id?}','AdminController@companyEdit');
+Route::get('admin/company_view/{id?}','AdminController@companyView')->name('admin_company_view');
+Route::get('admin/company_del/{id?}','AdminController@companyDelete');
+Route::post('admin/company_del/{id?}','AdminController@companyDelete');
+
+
+=======
 //adminのstudent
 Route::get('admin/student_info/{id?}','AdminController@studentInfo');
 Route::get('admin/student_del/{id?}','AdminController@studentDelete');
 Route::post('admin/student_del/{id?}','AdminController@studentDelete');
 Route::get('admin/student_add', 'AdminController@studentAdd')->name('admin_student_add');
+>>>>>>> 25876658521dcd77c5ef20c5fa9625dcb304e0a3
 Route::post('admin/student_add','AdminController@studentAdd')->name('admin_student_add');
 Route::get('admin/student_edit/{id?}','AdminController@studentEdit');
 Route::post('admin/student_edit/{id?}','AdminController@studentEdit');
@@ -66,7 +83,6 @@ Route::post('admin/student_edit','AdminController@studentEdit')->name('admin_stu
 
 
 
-//company
 Route::get('company/login','CompanyController@login');
 Route::post('company/login','CompanyController@login');
 Route::get('company/register','CompanyController@register');

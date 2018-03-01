@@ -34,7 +34,7 @@
               <!-- Right Side Of Navbar -->
               <ul class="navbar-nav ml-auto">
                   <!-- Authentication Links -->
-                  <li><a class="nav-link" href="#">管理画面に戻す</a></li>
+                  <li><a class="nav-link" href="index">管理画面に戻す</a></li>
                   <li><a class="nav-link" href="#">log out</a></li>
 
               </ul>
@@ -51,42 +51,63 @@
           <div class="card-header">管理者の企業ユーザー新規入会</div>
 
           <div class="card-body">
-              <form method="POST" action="http://localhost/Mickey-Works/public/register">
-                  <input type="hidden" name="_token" value="aBzuyKjZYw8pDJuPjESKsK8SO4awBYH8qcEYKHd8">
-                  <div class="form-group row">
-                      <label for="name" class="col-md-4 col-form-label text-md-right">ユーザー名</label>
+              <form method="post" action="">
+                {{ csrf_field() }}
+                <div class="form-group row">
+                      <label for="name" class="col-md-4 col-form-label text-md-right">企業名</label>
 
                       <div class="col-md-6">
-                          <input id="username" type="text" class="form-control" name="username" value="" required autofocus>
+                          <input  type="text" class="form-control" name="username" value="" >
+                          @if($errors -> has('username'))
+                          <tr><th>ERROR</th><td>{{$errors->first('username')}}</td></tr>
+                          @endif
+                      </div>
+                </div>
 
-                                                      </div>
-                  </div>
-
-                  <div class="form-group row">
+                <div class="form-group row">
                       <label for="name" class="col-md-4 col-form-label text-md-right">企業本名</label>
 
                       <div class="col-md-6">
-                          <input id="name" type="text" class="form-control" name="name" value="" required autofocus>
-
-                                                      </div>
-                  </div>
+                          <input type="text" class="form-control" name="name" value="" >
+                          @if($errors -> has('name'))
+                          <tr><th>ERROR</th><td>{{$errors->first('name')}}</td></tr>
+                          @endif
+                      </div>
+                </div>
 
 
 
                   <div class="form-group row">
                       <label for="password" class="col-md-4 col-form-label text-md-right">パス―ワード</label>
-
                       <div class="col-md-6">
-                          <input id="password" type="password" class="form-control" name="password" required>
-
-                                                      </div>
+                          <input  type="password" class="form-control" name="password">
+                          @if($errors -> has('password'))
+                          <tr><th>ERROR</th><td>{{$errors->first('password')}}</td></tr>
+                          @endif
+                      </div>
                   </div>
 
                   <div class="form-group row">
                       <label for="password-confirm" class="col-md-4 col-form-label text-md-right">パスワード確認</label>
 
                       <div class="col-md-6">
-                          <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                          <input  type="password" class="form-control" name="password_confirmation" >
+                          @if($errors -> has('password_confirmation'))
+                          <tr><th>ERROR</th><td>{{$errors->first('password_confirmation')}}</td></tr>
+                          @endif
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label class="col-md-4 col-form-label text-md-right">分野</label>
+
+                      <div class="col-md-6">
+                        <select class="form-control" name="mst_csub_id">
+                          @foreach($csubs as $csub)
+                          <option value="{{$csub->id}}">{{$csub->name}}</option>
+                          @endforeach
+                        </select>
+
                       </div>
                   </div>
 
@@ -94,9 +115,12 @@
                       <label for="email" class="col-md-4 col-form-label text-md-right">E-Mailアドレス</label>
 
                       <div class="col-md-6">
-                          <input id="email" type="email" class="form-control" name="email" value="" required>
+                          <input  type="email" class="form-control" name="email" value="">
+                          @if($errors -> has('email'))
+                          <tr><th>ERROR</th><td>{{$errors->first('email')}}</td></tr>
+                          @endif
+                      </div>
 
-                                                      </div>
                   </div>
 
                   <div class="form-group row mb-0">

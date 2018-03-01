@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
-use App\MstResult;
 use Illuminate\Http\Request;
 use App\Match;
 use App\Student;
 use App\MstSsub;
 use App\MstDegree;
 use App\Admin;
+use App\Company;
+use App\MstCsub;
+use Illuminate\Support\Facades\Hash;
 use Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -24,10 +25,8 @@ class AdminController extends Controller
     {
       //requestのqueryから入力された学生名前と会社名前を取得する。
       //取得された学生名前と会社名前を整形する。学生名前、会社名前を入力されてない場合は、「""」空文字列を認める。
-
-      $studentName = empty($request->student_name) ? "" : $request->student_name;
-      $companyName = empty($request->company_name) ? "" : $request->company_name;
-
+      $student_name = empty($request->student_name) ? "" : $request->student_name;
+      $company_name = empty($request->company_name) ? "" : $request->company_name;
       //モデルの検索メソッドを利用し、上記情報を検索する。
       $items = Match::whereHas("student", function($query) use ($student_name) {
             $query->where('name', 'like',"%". $student_name ."%");
@@ -64,18 +63,17 @@ class AdminController extends Controller
     public function matchadd(Request $request)
     {
       if ($request->isMethod('get')) {
-          $items = MstResult::all();
-          $students = Student::all();
-          $companies = Company::all();
-          return view('admin.matchadd',['items' => $items,'students'=>$students,'companies'=>$companies]);
+        $students = DB::table('students')->all();
+        $companies = DB::table('companies')->all();
+        return view('admin.matchadd',['students'=>$students,'companies'=>$companies]);
       }else {
         $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
         if ($validator->fails()) {
-          return redirect('admin/matchadd')
+          return redirect('admin.matchadd')
           ->withErrors($validator)
           ->withInput();
         }
-        $item = new Match;
+        $item = new Macth;
         $form = $request->all();
         unset($form['_token']);
         $item->fill($form)->save();
@@ -104,15 +102,11 @@ class AdminController extends Controller
       $student_name = empty($student_name) ? "" : $student_name;
 
       //モデルのWhereメソッドを利用し、上記情報を検索する。
-
       $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(5);
-
 
       //検索の結果をテンプレートに渡す。
     return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
     }
-
-
 
     public function studentInfo(Request $request)
     {
@@ -120,7 +114,6 @@ class AdminController extends Controller
 
         return view('admin.student_info',['item' => $item]);
     }
-
 
     public function studentAdd(Request $request)
     {
@@ -183,26 +176,14 @@ class AdminController extends Controller
             ->withInput();
           }
 
-        $param = [
-          'id' => $request->id,
-          'name' => $request->name,
-          'password' => $request->password,
-          'email' => $request->email,
-          'tel' => $request->tel,
-          'birth' => $request->birth,
-          'mst_degree_id' => $request->mst_degree_id,
-          'mst_ssub_id' => $request->mst_ssub_id,
-          'message' => $request->message,
-        ];
+      //入力されてない場合は、「""」空文字列を認める。
+      $company_username = empty($company_username) ? "" : $company_username;
 
-        unset($param['_token']);
-        unset($param['password_confirmation']);
+      //モデルのWhereメソッドを利用し、上記情報を検索する。
+      $items = Company::where('username','LIKE',"%$company_username%")->paginate(3);
 
-        DB::table('students')->where('id',$request->id)->update($param);
-        return redirect('admin/student_index');
+      //検索の結果をテンプレートに渡す。
 
-        }
-      }
 
       public function index(Request $request)
       {
@@ -216,7 +197,7 @@ class AdminController extends Controller
           return redirect('admin/student_index');
       }
 
-/*      public function studentEdit(Request $request)
+      public function studentEdit(Request $request)
       {
         $ssubs = MstSsub::all();
         $degrees = MstDegree::all();
@@ -230,26 +211,43 @@ class AdminController extends Controller
 
           return view('admin.student_edit',array('ssubs' => $ssubs, 'degrees' => $degrees , 'item'=>$item));
 
+          return view('admin/company_add',array('csubs'=> $csubs));
         }else {
-          $validator = Validator::make($request->all(),Student::$rules);
+            //上記情報をValidatorで検証する。
+          $validator = Validator::make($request->all(),Company::$rules,Company::$messages);
           if ($validator->fails()) {
-            return redirect('admin.student_edit'.$request->id)
+
+            // var_dump($validator->errors());
+            // exit;
+            return redirect('admin/company_add')
             ->withErrors($validator)
             ->withInput();
+            //失敗の場合は、エラーメッセージを連れて、本ページを戻す。
+
+            //成功の場合は、新しいDATAをsave()で新規する、詳細ページを戻す。
           }
-          $item = Student::find($request->id);
+          $company = new Company;
+
           $form = $request->all();
+
           unset($form['_token']);
-          $item->fill($form)->save();
-          return redirect('admin.student_edit'.$request->id);
+
+          $company->username = $form["username"];
+          $company->name = $form["name"];
+          $company->password = Hash::make($form["password"]);
+          $company->email = $form["email"];
+          $company->mst_csub_id = $form["mst_csub_id"];
+
+          $company->save();
+          return redirect('admin/company_index');
         }
 
-//        return view('admin.student_edit',array('ssubs' => $ssubs, 'degrees' => $degrees));
       }
-*/
+    public function companyEdit(Request $request)
+    {
+        $csubs = MstCsub::all();
 
 
-        
     public function login(Request $request)
     {
       $username = $request->username;
