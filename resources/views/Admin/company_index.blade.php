@@ -48,7 +48,7 @@
         value="{{$company_username}}">
       <input type="submit" class="btn btn-info" value="検索">
     </div>
-　<a href="{{url('admin/company_add')}}">企業新規</a>
+　<a href="{{url('admin/company_add')}}" class="btn btn-info">企業新規</a>
   </form>
 </div>
 

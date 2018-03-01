@@ -53,7 +53,7 @@ class Company extends Model
     public static $editrules = array(
       'username' => 'alpha_dash|between:4,30',
       'address' => 'required',
-      'email' => 'required|email',
+      'email' => 'required',
       'message' => 'required' ,
       'money' => 'required',
       'mst_csub_id' => 'required'
@@ -61,7 +61,7 @@ class Company extends Model
     );
     public static $messages = array(
       'address' => '会社所在地を入力してください',
-      'email' => 'メールアドレスを入力してください',
+      'email.required' => 'メールアドレスを入力してください',
       'message' => '最大500文字' ,
       'money' => '給料を入力してください',
       'mst_csub_id' => '分野を選んでください'

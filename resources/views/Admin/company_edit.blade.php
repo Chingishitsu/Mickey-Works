@@ -82,12 +82,10 @@
     <div class="form-group">
       <label for="csub">分野</label>
       <select class="form-control" name="mst_csub_id" value="{{$form->mst_csub_id}}">
-        <option>IT</option>
-        <option>経済</option>
-        <option>販売</option>
-        <option>飲食</option>
-        <option>看護</option>
-        <option>運送</option>
+        @foreach($csubs as $csub)
+        <option value="{{$csub->id}}">{{$csub->name}}</option>
+        @endforeach
+
       </select>
       @if($errors -> has('mst_csub_id'))
       <tr><th>ERROR</th><td>{{$errors->first('mst_csub_id')}}</td></tr>
