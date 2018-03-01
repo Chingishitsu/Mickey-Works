@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Auth;
 
 
 
+
+
 class AdminController extends Controller
 {
     public function matchindex(Request $request)
@@ -127,9 +129,10 @@ class AdminController extends Controller
         $birth = DB::table('student')->all();
         $mst_degree_id = DB::table('student')->all();
         $mst_ssub_id = DB::table('student')->all();
-        $message = DB::table('student')->all();
-*/
-        return view('admin.student_add', array('ssubs' => $ssubs, "degrees" => $degrees));
+
+        $message = DB::table('student')->all();*/
+
+        return view('admin/student_add', array('ssubs' => $ssubs, "degrees" => $degrees));
       }else{
         $validator = Validator::make($request->all(),Student::$rules,Student::$messages);
         if ($validator->fails()) {
@@ -147,15 +150,31 @@ class AdminController extends Controller
 
         $student -> fill($form) ->save();
 
-        return redirect('admin/student_index'/*,array('ssubs' => $ssubs, "degrees" => $degrees)*/);
+        $ssubs = MstSsub::all();
+        $degrees = MstDegree::all();
+
+        return view('admin.student_add',array('ssubs' => $ssubs, "degrees" => $degrees));
+
       }
 
     }
 
-    public function companyindex(Request $request)
+    public function studentEdit(Request $request)
     {
-      //requestのqueryから入力するのユーザー名、会社名、Email、給料、分野を取得する。
-      $company_username = $request->company_username;
+        $ssubs = MstSsub::all();
+        $degrees = MstDegree::all();
+        $item = DB::table('students')->where('id',$request->id)->first();
+
+        if($request->isMethod("get")){
+
+          return view('admin.student_edit',['item' => $item],array('ssubs' => $ssubs, "degrees" => $degrees));
+        }else{
+          $validator = Validator::make($request->all(),Student::$rules,Student::$messages);
+          if ($validator->fails()){
+            return redirect('admin/student_edit/'.$request->id)
+            ->withErrors($validator)
+            ->withInput();
+          }
 
       //入力されてない場合は、「""」空文字列を認める。
       $company_username = empty($company_username) ? "" : $company_username;
@@ -166,35 +185,36 @@ class AdminController extends Controller
       //検索の結果をテンプレートに渡す。
 
 
-      return view("admin.company_index",array("items" => $items, "company_username" => $company_username));
-    }
+      public function index(Request $request)
+      {
+          return view('admin/index');
+      }
 
-    public function companyAdd(Request $request)
-    {
-      $csubs = MstCsub::all();
-      //getの場合 会社の新規ページーをレンダル。
-        if ($request->isMethod('get'))
-        {
 
-          return view('admin/company_add',array('csubs'=> $csubs));
+      public function studentDelete(Request $request)
+      {
+          Student::find($request->id)->delete();
+          return redirect('admin/student_index');
+      }
+
+
+      public function studentEdit(Request $request)
+      {
+        $ssubs = MstSsub::all();
+        $degrees = MstDegree::all();
+        if ($request->isMethod('get')){
+          $item = Student::find($request->id);
+          return view('admin.student_edit',array('ssubs' => $ssubs, 'degrees' => $degrees , 'item'=>$item));
         }else {
             //上記情報をValidatorで検証する。
           $validator = Validator::make($request->all(),Company::$rules,Company::$messages);
           if ($validator->fails()) {
-
-            // var_dump($validator->errors());
-            // exit;
             return redirect('admin/company_add')
             ->withErrors($validator)
             ->withInput();
-            //失敗の場合は、エラーメッセージを連れて、本ページを戻す。
-
-            //成功の場合は、新しいDATAをsave()で新規する、詳細ページを戻す。
           }
           $company = new Company;
-
           $form = $request->all();
-
           unset($form['_token']);
 
           $company->username = $form["username"];
@@ -206,23 +226,11 @@ class AdminController extends Controller
           $company->save();
           return redirect('admin/company_index');
         }
-
       }
-    public function companyEdit(Request $request)
-    {
-        $csubs = MstCsub::all();
-
-        //getでアクセスするの場合は Routeparameter連れているのIdを取得する。
-        if ($request->isMethod('get'))
-        {   //モデルの検索メソッドを利用し、上記情報を検索する。
-            //検索の結果をテンプレートに渡す
-            $company = Company::find($request->id);
-            return view('admin.company_edit',['form'=>$company],array('csubs'=>$csubs));
-        }else {
-          //postでアクセスするの場合は、requestのpostから会社名、パスワード、などの情報を取得する。
-          //上記情報をValidatorで検証する。
-          $validator = Validator::make($request->all(),Company::$editrules, Company::$messages);
-          if ($validator->fails()) {
+//    public function companyEdit(Request $request)
+//    {
+//        $csubs = MstCsub::all();
+//
 
 
             //失敗の場合は、エラーメッセージを連れて、本ページを戻す。
@@ -269,20 +277,30 @@ class AdminController extends Controller
 
     public function logout(Request $request)
     {
-      Auth::logout();
-      return view('home.index');
+        return view('admin.index');
     }
 
     public function login(Request $request)
     {
-      $username = $request->username;
-      $password = $request->password;
-      if (Auth::guard('admin')->attempt(['username'=>$username,'password'=>$password])) {
-        return view('admin.index');
-      }else {
-        return view('hello.index');
+      if ($request->isMethod("get"))
+      {
+          return view('admin.login',['msg'=>'']);
+        } else {
+            $username = $request->username;
+            $password = $request->password;
+            if (Auth::guard('admin')->attempt(['username'=>$username,'password'=>$password])){
+                return view('admin.index');
+            } else {
+                return view('admin.login',['msg'=>'ユーザー名またはパスワードが違う']);
+            }
       }
 
+    }
+
+    public function logout()
+    {
+        Auth::guard('admin')->logout();
+        return redirect('admin/login');
     }
 
 }

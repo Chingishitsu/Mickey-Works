@@ -9,10 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Student extends Model
 {
   use SoftDeletes;
+
   protected $dates = ['deleted_at'];
 
-<<<<<<< HEAD
-=======
   protected $guarded = array('id');
 
   public static $rules = [
@@ -62,24 +61,20 @@ class Student extends Model
     'message' => 'required',
   );
 */
-  public function matchs()
-  {
-    return $this->hasMany("App\Match");
-  }
 
->>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
   public function degree()
   {
     return $this->belongsTo("App\MstDegree", "mst_degree_id");
-  }
-  public function matchs()
-  {
-    return $this->hasMany("App\match");
   }
 
   public function ssub()
   {
     return $this->belongsTo("App\MstSsub", "mst_ssub_id");
+  }
+
+  public function matchs()
+  {
+      return $this->hasMany("App\Match","id");
   }
 
   public static $rules = [
@@ -93,6 +88,7 @@ class Student extends Model
    'mst_ssub_id' => 'required',
    'message' => 'required|max:500'
  ];
+
   public static $messages = [
    'username.required' => 'ユーザー名を入力して下さい',
    'username.regex' => '英字、数字、”_”、”-”を入力してください',
@@ -111,5 +107,4 @@ class Student extends Model
    'message.required' => 'アピールを記入してください',
    'message.max' => '最大の字数は500です'
  ];
-
 }

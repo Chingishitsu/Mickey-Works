@@ -15,10 +15,7 @@ class Company extends Model
   {
     return $this->belongsTo("App\MstCsub","mst_csub_id");
   }
-  public function matchs()
-  {
-    return $this->hasMany("App\Match");
-  }
+
   public static $rules = array(
     'username' => 'required|between:4,30',
     'name' => 'required|between:5,50',
@@ -60,7 +57,15 @@ class Company extends Model
       'money' => 'required',
       'mst_csub_id' => 'required'
 
-    );
+
+  public function matchs()
+  {
+      return $this->hasMany("App\Match","id");
+  }
+
+
+
+
     public static $messages = array(
       'address' => '会社所在地を入力してください',
       'email.required' => 'メールアドレスを入力してください',
@@ -68,4 +73,5 @@ class Company extends Model
       'money' => '給料を入力してください',
       'mst_csub_id' => '分野を選んでください'
     );
+
 }
