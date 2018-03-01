@@ -5,7 +5,7 @@
 
     <div class="card bg-info text-white">
       <div class="card-body">
-        <a href="#" style="color:white;font-size:30px;">企業の検索</a>
+        <a href="company_index" style="color:white;font-size:30px;">企業の検索</a>
       </div>
     </div>
     <br>

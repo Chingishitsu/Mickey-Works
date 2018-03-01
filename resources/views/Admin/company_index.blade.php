@@ -29,8 +29,8 @@
               <!-- Right Side Of Navbar -->
               <ul class="navbar-nav ml-auto">
                   <!-- Authentication Links -->
-                  <li><a class="nav-link" href="#">管理画面に戻す</a></li>
-                  <li><a class="nav-link" href="#">log out</a></li>
+                  <li><a class="nav-link" href="index">管理画面に戻す</a></li>
+                  <li><a class="nav-link" href="">log out</a></li>
 
 
               </ul>
@@ -48,7 +48,7 @@
         value="{{$company_username}}">
       <input type="submit" class="btn btn-info" value="検索">
     </div>
-
+　<a href="{{url('admin/company_add')}}" class="btn btn-info">企業新規</a>
   </form>
 </div>
 
@@ -69,14 +69,14 @@
     <tbody>
       @foreach( $items as $item)
       <tr>
-        <td>
-          <a href="#" >{{$item->username}}</a>
-        </td>
+        <td><a href="company_view/{{$item->id}}">{{$item->username}}</a></td>
         <td>{{$item->address}}</td>
         <td>{{$item->email}}</td>
         <td>{{$item->csub->name}}</td>
         <td>{{$item->money}}</td>
         <td>{{$item->message}}</td>
+        <td><a href="company_edit/{{$item->id}}">編集</a></td>
+        <td><a href="company_del/{{$item->id}}">削除</a></td>
       </tr>
       @endforeach
     </tbody>

@@ -13,12 +13,6 @@ use App\Admin;
 use Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-<<<<<<< HEAD
-=======
-
->>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
-
-
 
 class AdminController extends Controller
 {
@@ -26,14 +20,10 @@ class AdminController extends Controller
     {
       //requestのqueryから入力された学生名前と会社名前を取得する。
       //取得された学生名前と会社名前を整形する。学生名前、会社名前を入力されてない場合は、「""」空文字列を認める。
-<<<<<<< HEAD
-      $studentName = empty($request->student_name) ? "" : $request->student_name;
-      $companyName = empty($request->company_name) ? "" : $request->company_name;
 
-=======
       $student_name = empty($request->student_name) ? "" : $request->student_name;
       $company_name = empty($request->company_name) ? "" : $request->company_name;
->>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
+
       //モデルの検索メソッドを利用し、上記情報を検索する。
       $items = Match::whereHas("student", function($query) use ($student_name) {
             $query->where('name', 'like',"%". $student_name ."%");
@@ -110,27 +100,21 @@ class AdminController extends Controller
       $student_name = empty($student_name) ? "" : $student_name;
 
       //モデルのWhereメソッドを利用し、上記情報を検索する。
-<<<<<<< HEAD
 
-      $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(2);
-=======
       $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(5);
->>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
+
 
       //検索の結果をテンプレートに渡す。
     return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
     }
 
-<<<<<<< HEAD
-
-=======
     public function studentInfo(Request $request)
     {
         $item = Student::find($request ->id);
 
         return view('admin.student_info',['item' => $item]);
     }
->>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
+
 
     public function studentAdd(Request $request)
     {
@@ -149,12 +133,10 @@ class AdminController extends Controller
 <<<<<<< HEAD
         $message = DB::table('student')->all();*/
 
-        return view('admin/student_add', array('ssubs' => $ssubs, "degrees" => $degrees));
-=======
-        $message = DB::table('student')->all();
-*/
+
+
         return view('admin.student_add', array('ssubs' => $ssubs, "degrees" => $degrees));
->>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
+
       }else{
         $validator = Validator::make($request->all(),Student::$rules,Student::$messages);
         if ($validator->fails()) {
@@ -171,15 +153,10 @@ class AdminController extends Controller
         unset($form['password_confirmation']);
 
         $student -> fill($form) ->save();
-<<<<<<< HEAD
-        $ssubs = MstSsub::all();
-        $degrees = MstDegree::all();
 
-        return view('admin.student_add',array('ssubs' => $ssubs, "degrees" => $degrees));
-=======
 
         return redirect('admin/student_index'/*,array('ssubs' => $ssubs, "degrees" => $degrees)*/);
->>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
+
       }
 
     }
@@ -266,10 +243,8 @@ class AdminController extends Controller
 */
 
 
-<<<<<<< HEAD
-   public function companyAdd(Request $request)
-=======
-/*    public function companyAdd(Request $request)
+
+      public function companyAdd(Request $request)
       {
       //getの場合 会社の新規ページーをレンダル。
         if ($request->isMethod('get'))
@@ -280,7 +255,7 @@ class AdminController extends Controller
       //postの場合 requestのpostから会社ユーザー名、会社本名、パスワード、パスワード確認、emailを取得する。
         if($request->isMethod('post'))
         {
->>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
+
 
       {
         $mstssub = MstSsub::all();
@@ -326,34 +301,4 @@ class AdminController extends Controller
 
     }
 
-    public function index(Request $request)
-    {
-      return view('admin.index');
-    }
-
-<<<<<<< HEAD
-=======
-        return view("admin.company_edit",array());
-      }
-*/
-      public function index()
-      {
-          return view('admin.index');
-      }
-
-      public function login(Request $request)
-      {
-          if ($request->isMethod("get")) {
-            return view('admin.login',['msg'=>'']);
-          } else {
-              $username = $request->username;
-              $password = $request->password;
-              if (Auth::guard('admin')->attempt(['username'=>$username,'password'=>$password])){
-                  return view('admin.index');
-              } else {
-                  return view('admin.login',['msg'=>'ユーザー名またはパスワードが違う']);
-              }
-          }
-      }
->>>>>>> 8ce523fd6883edd3eef5216dc3e29832a7191424
-}
+  

@@ -17,7 +17,7 @@
 <body>
   <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
       <div class="container">
-          <a class="navbar-brand" href="http://localhost/mickey/public">
+          <a class="navbar-brand" href="http://localhost/Mickey-Works/public">
               Mickey_Works
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,52 +42,70 @@
 
   <div class="container" style="margin-top:50px">
   <h2>管理者の企業情報編集</h2>
-  <form>
+  <form method="post" action="">
+    {{ csrf_field()}}
+
     <div class="form-group">
       <label for="name">企業名</label>
-      <input type="text" class="form-control" id="name">
+      <input type="text" class="form-control" name="username" value="{{$form->username}}">
+      @if($errors -> has('username'))
+      <tr><th>ERROR</th><td>{{$errors->first('username')}}</td></tr>
+      @endif
     </div>
 
-    <div class="form-group">
-      <label for="pwd">パスワード</label>
-      <input type="password" class="form-control" id="pwd">
-    </div>
-
-    <div class="form-group">
-      <label for="pwd">パスワード確認</label>
-      <input type="password" class="form-control" id="pwd">
-    </div>
 
     <div class="form-group">
       <label for="address">本社所在地</label>
-      <input type="text" class="form-control" id="address">
+      <input type="text" class="form-control" name="address" value="{{$form->address}}">
+      @if($errors -> has('address'))
+      <tr><th>ERROR</th><td>{{$errors->first('address')}}</td></tr>
+      @endif
     </div>
 
+
+    <!-- <div class="form-group">
+        <label for="password">パス―ワード</label>
+            <input  type="password" class="form-control" name="password">
+    </div>
+    <div class="form-group ">
+        <label for="password-confirm">パスワード確認</label>
+            <input  type="password" class="form-control" name="password_confirmation" >
+    </div> -->
     <div class="form-group">
       <label for="mail">E-mail</label>
-      <input type="text" class="form-control" id="mail">
+      <input type="text" class="form-control" name="email" value="{{$form->email}}">
+      @if($errors -> has('email'))
+      <tr><th>ERROR</th><td>{{$errors->first('email')}}</td></tr>
+      @endif
     </div>
 
     <div class="form-group">
       <label for="csub">分野</label>
-      <select class="form-control" id="csub">
-        <option>IT</option>
-        <option>経済</option>
-        <option>販売</option>
-        <option>飲食</option>
-        <option>看護</option>
-        <option>運送</option>
+      <select class="form-control" name="mst_csub_id" value="{{$form->mst_csub_id}}">
+        @foreach($csubs as $csub)
+        <option value="{{$csub->id}}">{{$csub->name}}</option>
+        @endforeach
+
       </select>
+      @if($errors -> has('mst_csub_id'))
+      <tr><th>ERROR</th><td>{{$errors->first('mst_csub_id')}}</td></tr>
+      @endif
     </div>
 
     <div class="form-group">
       <label for="money">給料</label>
-      <input type="text" class="form-control" id="money">
+      <input type="text" class="form-control" name="money" value="{{$form->money}}">
+      @if($errors -> has('money'))
+      <tr><th>ERROR</th><td>{{$errors->first('money')}}</td></tr>
+      @endif
     </div>
 
     <div class="form-group">
       <label for="message">アピール</label>
-      <textarea class="form-control" rows="5" id="message"></textarea>
+      <textarea class="form-control" rows="5" name="message" value="{{$form->message}}"></textarea>
+      @if($errors -> has('message'))
+      <tr><th>ERROR</th><td>{{$errors->first('message')}}</td></tr>
+      @endif
     </div>
 
     <button type="submit" class="btn btn-primary">提出</button>
