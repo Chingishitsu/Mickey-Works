@@ -74,4 +74,8 @@ class Student extends Model
     return $this->belongsTo("App\MstSsub", "mst_ssub_id");
   }
 
+  public function matchs()
+  {
+      return $this->hasMany("App\Match","id");
+  }
 }

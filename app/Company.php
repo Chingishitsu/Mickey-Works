@@ -46,4 +46,9 @@ class Company extends Model
 
   );
 
+  public function matchs()
+  {
+      return $this->hasMany("App\Match","id");
+  }
+
 }

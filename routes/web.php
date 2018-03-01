@@ -15,16 +15,16 @@ Route::get('/', function () {
 });
 Auth::routes();
 Route::get('admin/matchindex','AdminController@matchindex')->middleware('auth:admin');
-Route::get('admin/matchupdate/{id?}','AdminController@matchupdate');
-Route::post('admin/matchupdate/{id?}','AdminController@matchupdate');
-Route::get('admin/matchadd','AdminController@matchadd');
-Route::post('admin/matchadd','AdminController@matchadd');
-Route::get('admin/matchdelete/{id?}','AdminController@matchdelete');
-Route::get('admin/matchview/{id?}','AdminController@matchview');
+Route::get('admin/matchupdate/{id?}','AdminController@matchupdate')->middleware('auth:admin');
+Route::post('admin/matchupdate/{id?}','AdminController@matchupdate')->middleware('auth:admin');
+Route::get('admin/matchadd','AdminController@matchadd')->middleware('auth:admin');
+Route::post('admin/matchadd','AdminController@matchadd')->middleware('auth:admin');
+Route::get('admin/matchdelete/{id?}','AdminController@matchdelete')->middleware('auth:admin');
+Route::get('admin/matchview/{id?}','AdminController@matchview')->middleware('auth:admin');
 Route::get('admin/logout','AdminController@logout');
 Route::get('admin/login','AdminController@login');
 Route::post('admin/login','AdminController@login');
-Route::get('admin/index','AdminController@index');
+Route::get('admin/index','AdminController@index')->middleware('auth:admin');
 
 Route::get('/home','HomeController@index')->name('home');
 Route::get('admin/student_index', 'AdminController@studentIndex')->name('admin_student_index');
@@ -51,3 +51,7 @@ Route::get('company/register','CompanyController@register');
 Route::post('company/register','CompanyController@register');
 Route::get('company/edit','CompanyController@edit');
 Route::post('company/edit','CompanyController@edit');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

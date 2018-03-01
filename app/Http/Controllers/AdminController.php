@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 
 
+
 class AdminController extends Controller
 {
     public function matchindex(Request $request)
@@ -221,23 +222,30 @@ class AdminController extends Controller
         return view("admin.company_edit",array());
       }
 */
-      public function index()
-      {
-          return view('admin.index');
-      }
+    public function index()
+    {
+        return view('admin.index');
+    }
 
-      public function login(Request $request)
+    public function login(Request $request)
+    {
+      if ($request->isMethod("get"))
       {
-          if ($request->isMethod("get")) {
-            return view('admin.login',['msg'=>'']);
-          } else {
-              $username = $request->username;
-              $password = $request->password;
-              if (Auth::guard('admin')->attempt(['username'=>$username,'password'=>$password])){
-                  return view('admin.index');
-              } else {
-                  return view('admin.login',['msg'=>'ユーザー名またはパスワードが違う']);
-              }
-          }
+          return view('admin.login',['msg'=>'']);
+        } else {
+            $username = $request->username;
+            $password = $request->password;
+            if (Auth::guard('admin')->attempt(['username'=>$username,'password'=>$password])){
+                return view('admin.index');
+            } else {
+                return view('admin.login',['msg'=>'ユーザー名またはパスワードが違う']);
+            }
       }
+    }
+
+    public function logout()
+    {
+        Auth::guard('admin')->logout();
+        return redirect('admin/login');
+    }
 }
