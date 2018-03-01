@@ -95,10 +95,7 @@ return [
             'driver' => 'eloquent',
             'model' => App\Admin::class,
         ],
-         'students' => [
-             'driver' => 'eloquent',
-             'model' => App\Student::class,
-         ]
+
         // 'company' => [
         //     'driver' => 'eloquent',
         //     'model' => App\Company::class,

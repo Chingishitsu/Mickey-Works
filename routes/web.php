@@ -39,18 +39,16 @@ Route::get('student/student_add', 'StudentController@studentAdd');
 Route::post('student/student_add', 'StudentController@studentAdd');
 Route::get('student/student_login', 'StudentController@studentLogin');
 Route::get('student/student_index', 'StudentController@studentIndex');
+Route::get('student/student_edit', 'StudentController@studentEdit');
+Route::post('student/student_edit', 'StudentController@studentEdit');
 
-Route::get('student/student_index', 'StudentController@studentIndex');
-=======
+
+//adminのstudent
 Route::get('admin/student_info/{id?}','AdminController@studentInfo');
-
 Route::get('admin/student_del/{id?}','AdminController@studentDelete');
 Route::post('admin/student_del/{id?}','AdminController@studentDelete');
-
 Route::get('admin/student_add', 'AdminController@studentAdd')->name('admin_student_add');
-
 Route::post('admin/student_add','AdminController@studentAdd')->name('admin_student_add');
-
 Route::get('admin/student_edit/{id?}','AdminController@studentEdit');
 Route::post('admin/student_edit/{id?}','AdminController@studentEdit');
 
@@ -65,5 +63,3 @@ Route::get('company/register','CompanyController@register');
 Route::post('company/register','CompanyController@register');
 Route::get('company/edit','CompanyController@edit');
 Route::post('company/edit','CompanyController@edit');
-
-Route::post('admin/student_add','AdminController@studentAdd')->name('admin_student_add');

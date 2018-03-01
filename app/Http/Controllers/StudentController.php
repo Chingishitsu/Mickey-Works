@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Match;
@@ -51,7 +51,7 @@ class StudentController extends Controller
       $student->$message = $form['message'];
       $student->save();
       //登録成功のメッセージとともに留学生ログイン画面に遷移する。
-      return redirect('student/student_login');
+      return redirect('student/student_login')->with('message','登録成功しました');
     }
   }
 
@@ -95,18 +95,23 @@ class StudentController extends Controller
   {
     if ($request->isMethod('get'))
     {
-      $item = Student::find($request->id);
-      $students = Student::all();
-      return view('student.student_edit',['item'=>$item,'students'=>$students]);
+      //Routeパラメータから連れているのIDを取得する。
+　　　//モデルの検索メソッドを利用し、上記情報を検索する。
+     //検索の結果をテンプレートに渡す。
+      $students = Student::find(1);
+      $mstssubs = MstSsub::all();
+      return view('student.student_edit',['students'=>$students,'mstssubs'=>$mstssubs]);
     } else {
+      //requestのpostからユーザー名、メールアドレス、パスワード、名前、誕生(年、月、日)、携帯、最高学位、専門、アピールの情報を取得する。
+      //上記情報をバリデーションで検証する。
       $validator = Validator::make($request->all(),Student::$rules,Student::$messages);
       if ($validator->fails())
       {
-        return redirect('student/student_edit/'.$request->id)
+        return redirect('student/student_edit/')
         ->withErrors($validator)
         ->withInput();
       }
-      $item = Student::find($request->id);
+      $students = Student::find(1);
       $form = $request->all();
       unset($form['_token']);
 
@@ -118,9 +123,11 @@ class StudentController extends Controller
       $student->$mst_degree = $form['mst_degree_id'];
       $student->$mst_ssub = $form['mst_ssub_id'];
       $student->$message = $form['message'];
+      //成功した場合：
+      //新しいデータをsave()で更新する。
       $student->save();
 
-      return redirect('student/student_index'.$request->id);
+      return redirect('student/student_index')->with('message','編集成功しました');
     }
   }
 
