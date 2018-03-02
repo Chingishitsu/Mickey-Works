@@ -193,7 +193,7 @@ class AdminController extends Controller
             return redirect('admin/student_index');
         }
     }
-    
+
     public function studentDelete(Request $request)
     {
         Student::find($request->id)->delete();
