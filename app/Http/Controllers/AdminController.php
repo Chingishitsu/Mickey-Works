@@ -42,6 +42,9 @@ class AdminController extends Controller
     {
       if ($request->isMethod('get')){
           $item = Match::find($request->id);
+          if ($item == null){
+              return view('admin.index');
+          }
           $students = Student::all();
           $companies = Company::all();
           $results = MstResult::all();
@@ -86,6 +89,9 @@ class AdminController extends Controller
     public function matchview(Request $request)
     {
       $item = Match::find($request->id);
+      if ($item == null){
+          return view('admin.index');
+      }
       return view('admin.matchview',['item'=>$item]);
     }
 
@@ -94,111 +100,7 @@ class AdminController extends Controller
       Match::find($request->id)->delete();
       return redirect('admin/matchindex');
     }
-
-    public function studentIndex(Request $request)
-    {
-      //requestのqueryから入力するユーザー名を取得する。
-      $student_name = $request->student_name;
-
-      //入力されてない場合は、「""」空文字列を認める。
-      $student_name = empty($student_name) ? "" : $student_name;
-
-      //モデルのWhereメソッドを利用し、上記情報を検索する。
-      $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(5);
-
-      //検索の結果をテンプレートに渡す。
-    return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
-    }
-
-    public function studentInfo(Request $request)
-    {
-        $item = Student::find($request ->id);
-
-        return view('admin.student_info',['item' => $item]);
-    }
-
-    public function studentAdd(Request $request)
-    {
-      $ssubs = MstSsub::all();
-      $degrees = MstDegree::all();
-
-      if($request->isMethod("get")) {
-
-      /* $username = DB::table('student')->all();
-        $name = DB::table('student')->all();
-        $password = DB::table('student')->all();
-        $email = DB::table('student')->all();
-        $birth = DB::table('student')->all();
-        $mst_degree_id = DB::table('student')->all();
-        $mst_ssub_id = DB::table('student')->all();
-
-        $message = DB::table('student')->all();*/
-
-        return view('admin/student_add', array('ssubs' => $ssubs, "degrees" => $degrees));
-      }else{
-        $validator = Validator::make($request->all(),Student::$rules,Student::$messages);
-        if ($validator->fails()) {
-          return redirect('admin/student_add')
-          ->withErrors($validator)
-          ->withInput();
-        }
-        $student = new Student;
-
-        $form = $request -> all();
-
-        unset($form['_token']);
-
-        unset($form['password_confirmation']);
-
-        $student -> fill($form) ->save();
-
-        $ssubs = MstSsub::all();
-        $degrees = MstDegree::all();
-
-        return view('admin.student_add',array('ssubs' => $ssubs, "degrees" => $degrees));
-
-      }
-
-    }
-
-
-      public function studentDelete(Request $request)
-      {
-          Student::find($request->id)->delete();
-          return redirect('admin/student_index');
-      }
-
-
-      public function studentEdit(Request $request)
-      {
-        $ssubs = MstSsub::all();
-        $degrees = MstDegree::all();
-        if ($request->isMethod('get')){
-          $item = Student::find($request->id);
-          return view('admin.student_edit',array('ssubs' => $ssubs, 'degrees' => $degrees , 'item'=>$item));
-        }else {
-            //上記情報をValidatorで検証する。
-          $validator = Validator::make($request->all(),Company::$rules,Company::$messages);
-          if ($validator->fails()) {
-            return redirect('admin/company_add')
-            ->withErrors($validator)
-            ->withInput();
-          }
-          $company = new Company;
-          $form = $request->all();
-          unset($form['_token']);
-
-          $company->username = $form["username"];
-          $company->name = $form["name"];
-          $company->password = Hash::make($form["password"]);
-          $company->email = $form["email"];
-          $company->mst_csub_id = $form["mst_csub_id"];
-
-          $company->save();
-          return redirect('admin/company_index');
-        }
-      }
-
+    
     public function index()
     {
         return view('admin.index');

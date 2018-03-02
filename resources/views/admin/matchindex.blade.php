@@ -2,7 +2,6 @@
 @section('title','マッチング一覧')
 
 @section('content')
-  <a href="{{url('admin/matchadd')}}">新規</a>
   <div class="container">
   <h2>マッチング情報の検索</h2>
   <form action="" method="get">
@@ -16,6 +15,8 @@
 
     <input type="submit" class="btn btn-info" value="検索">
   </form>
+    <br>
+    <a href="{{url('admin/matchadd')}} " class="btn btn-info">新規</a>
 </div>
 
 <div class="container">
