@@ -8,14 +8,15 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="aBzuyKjZYw8pDJuPjESKsK8SO4awBYH8qcEYKHd8">
 
-    <title>管理者の留学生登録</title>
+    <title>管理者の留学生ユーザー新規入会</title>
 
     <!-- Styles -->
     <link href="http://localhost/mickey/public/css/app.css" rel="stylesheet">
 </head>
-
+  {{ csrf_field() }}
 <body>
   <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+
       <div class="container">
           <a class="navbar-brand" href="http://localhost/mickey/public">
               Mickey_Works
@@ -27,20 +28,20 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
               <ul class="navbar-nav ml-auto">
-
-                  <li><a class="nav-link" href="index">管理画面に戻す</a></li>
-                  <li><a class="nav-link" href="#">log out</a></li>
+                  <li><a class="btn btn-outline-info" href="http://localhost/mickey/public/admin/student_index">留学生一覧に戻す</a></li>
+                  <li><a class="btn btn-outline-info" href="index">管理画面に戻す</a></li>
+                  <li><a class="btn btn-outline-info" href="#">log out</a></li>
 
               </ul>
           </div>
-
       </div>
   </nav>
 
   <main class="py-4">
-      <div class="container">
-<div class="row justify-content-center">
+  <div class="container">
+  <div class="row justify-content-center">
   <div class="col-md-8">
+
       <div class="card card-default">
           <div class="card-header">管理者の留学生ユーザー新規入会</div>
 
@@ -166,10 +167,12 @@
 
               </form>
           </div>
+
       </div>
+      </div>
+
+
   </div>
-</div>
-</div>
+  </div>
   </main>
-</div>
 </body>

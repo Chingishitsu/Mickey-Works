@@ -14,6 +14,7 @@ class Student extends Model
   protected $guarded = array('id');
 
 
+
   public static $editrules = [
     'name' => 'required|between:3,30',
     'password' => 'required|between:8,30',
@@ -23,6 +24,7 @@ class Student extends Model
     'tel' => 'numeric',
     'message' => 'required|max:500'
   ];
+
 
   public static $rules = [
     'username' => 'required|between:6,30',
@@ -56,35 +58,32 @@ class Student extends Model
 
     'tel.numeric' => '携帯番号は必ず数字です',
 
-    // 'mst_degree_id.required' => '最高学位を選択して下さい',
-    // 'mst_ssub_id.required' => '専門を選択して下さい',
+    'mst_degree_id.required' => '最高学位を選択して下さい',
+    'mst_ssub_id.required' => '専門を選択して下さい',
 
     'message.required' => 'アピールを記入してください',
     'message.max' => '最大の字数は500です'
   ];
 
-//   public static $rules = array(
-//     'username' => 'required',
-//     'name' => 'required',
-//     'password' => 'required',
-// //    'repassword' => 'same:password',
-//     'email' => 'email',
-//     'birth' => 'required',
-//     'mst_degree_id' => 'required',
-//     'mst_ssub_id' => 'required',
-//     'message' => 'required',
-//   );
 
-
+//   public function matchs()
+//   {
+//     return $this->hasMany("App\Match");
+//   }
 
   public function degree()
   {
     return $this->belongsTo("App\MstDegree", "mst_degree_id");
+  }
+  public function matchs()
+  {
+    return $this->hasMany("App\match");
   }
 
   public function ssub()
   {
     return $this->belongsTo("App\MstSsub", "mst_ssub_id");
   }
+
 
 }

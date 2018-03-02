@@ -29,9 +29,9 @@
 
               <!-- Right Side Of Navbar -->
               <ul class="navbar-nav ml-auto">
-                  <li><a class="nav-link" href="http://localhost/mickey/public/admin/student_index">留学生一覧に戻す</a></li>
-                  <li><a class="nav-link" href="http://localhost/mickey/public/admin/index">管理画面に戻す</a></li>
-                  <li><a class="nav-link" href="#">log out</a></li>
+                  <li><a class="btn btn-outline-info" href="http://localhost/mickey/public/admin/student_index">留学生一覧に戻す</a></li>
+                  <li><a class="btn btn-outline-info" href="http://localhost/mickey/public/admin/index">管理画面に戻す</a></li>
+                  <li><a class="btn btn-outline-info" href="#">log out</a></li>
 
 
               </ul>

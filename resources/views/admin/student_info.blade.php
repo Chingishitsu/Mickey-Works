@@ -10,6 +10,7 @@
   <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
   <style>
     div{margin: 25px}
+    th{width:15%}
   </style>
 </head>
 <body>
@@ -28,9 +29,9 @@
 
               <!-- Right Side Of Navbar -->
               <ul class="navbar-nav ml-auto">
-                  <li><a class="nav-link" href="http://localhost/mickey/public/admin/student_index">留学生一覧に戻す</a></li>
-                  <li><a class="nav-link" href="http://localhost/mickey/public/admin/index">管理画面に戻す</a></li>
-                  <li><a class="nav-link" href="#">log out</a></li>
+                  <li><a class="btn btn-outline-info" href="http://localhost/mickey/public/admin/student_index">留学生一覧に戻す</a></li>
+                  <li><a class="btn btn-outline-info" href="http://localhost/mickey/public/admin/index">管理画面に戻す</a></li>
+                  <li><a class="btn btn-outline-info" href="#">log out</a></li>
 
 
               </ul>
@@ -39,7 +40,7 @@
       </div>
   </nav>
 
-  <div class="container">
+  <!-- <div class="container">
   <h2>留学生詳細情報</h2>
 
   <ul class="list-group">
@@ -54,9 +55,40 @@
     <li class="list-group-item list-group-item-secondary">アピール：{{$item->message}}</li>
 
   </ul>
+</div> -->
 
-
+  <div class="container">
+  <h2>留学生詳細情報</h2>
+  <table class="table table-dark table-hover">
+    <tr>
+      <th>ID</th><td>{{$item->id}}</td>
+    </tr>
+    <tr>
+      <th>ユーザー名</th><td>{{$item->username}}</td>
+    </tr>
+    <tr>
+      <th>氏名</th><td>{{$item->name}}</td>
+    </tr>
+    <tr>
+      <th>メールアドレス</th><td>{{$item->email}}</td>
+    </tr>
+    <tr>
+      <th>生年月日</th><td>{{$item->birth}}</td>
+    </tr>
+    <tr>
+      <th>最高学歴</th><td>{{$item->degree->name}}</td>
+    </tr>
+    <tr>
+      <th>専門</th><td>{{$item->ssub->name}}</td>
+    </tr>
+    <tr>
+      <th>アピール</th><td>{{$item->message}}</td>
+    </tr>
+  </table>
 </div>
+
+
+
 
 </body>
 </html>

@@ -29,8 +29,8 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
-                    <li><a class="nav-link" href="{{url('admin/index')}}">管理画面に戻す</a></li>
-                    <li><a class="nav-link" href="{{url('admin/logout')}}">log out</a></li>
+                    <li><a class="btn btn-outline-info" href="{{url('admin/index')}}">管理画面に戻す</a></li>
+                    <li><a class="btn btn-outline-info" href="{{url('admin/logout')}}">log out</a></li>
 
 
                 </ul>
