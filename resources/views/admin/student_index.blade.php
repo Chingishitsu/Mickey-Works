@@ -40,7 +40,7 @@
 
 
   <div class="container">
-  <h2>留学生のユーザー名を記入して検索する</h2>
+  <h2>留学生名を記入して検索する</h2>
   <form action="" method="get">
     <div class="form-inline">
       <input type="text" class="form-control" name="student_name"
