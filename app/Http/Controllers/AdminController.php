@@ -19,15 +19,16 @@ use Illuminate\Support\Facades\Auth;
 
 
 
-
 class AdminController extends Controller
 {
     public function matchindex(Request $request)
     {
       //requestのqueryから入力された学生名前と会社名前を取得する。
       //取得された学生名前と会社名前を整形する。学生名前、会社名前を入力されてない場合は、「""」空文字列を認める。
+
       $student_name = empty($request->student_name) ? "" : $request->student_name;
       $company_name = empty($request->company_name) ? "" : $request->company_name;
+
       //モデルの検索メソッドを利用し、上記情報を検索する。
       $items = Match::whereHas("student", function($query) use ($student_name) {
             $query->where('name', 'like',"%". $student_name ."%");
@@ -74,7 +75,7 @@ class AdminController extends Controller
       }else {
         $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
         if ($validator->fails()) {
-          return redirect('admin.matchadd')
+          return redirect('admin/matchadd')
           ->withErrors($validator)
           ->withInput();
         }
@@ -100,7 +101,7 @@ class AdminController extends Controller
       Match::find($request->id)->delete();
       return redirect('admin/matchindex');
     }
-    
+
     public function index()
     {
         return view('admin.index');
@@ -123,6 +124,7 @@ class AdminController extends Controller
 
     }
 
+
     public function logout()
     {
         Auth::guard('admin')->logout();
@@ -141,63 +143,87 @@ class AdminController extends Controller
         return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
     }
 
+
     public function studentInfo(Request $request)
     {
         $item = Student::find($request ->id);
         return view('admin.student_info',['item' => $item]);
     }
 
+
     public function studentAdd(Request $request)
     {
-        $ssubs = MstSsub::all();
-        $degrees = MstDegree::all();
-        if($request->isMethod("get")) {
-            return view('admin.student_add', array('ssubs' => $ssubs, "degrees" => $degrees));
-        }else{
-            $validator = Validator::make($request->all(),Student::$rules,Student::$messages);
-            if ($validator->fails()) {
-                return redirect('admin/student_add')
-                    ->withErrors($validator)
-                    ->withInput();
-            }
-            $student = new Student;
-            $form = $request -> all();
-            unset($form['_token']);
-            unset($form['password_confirmation']);
-            $student -> fill($form) ->save();
-            return redirect('admin/student_index'/*,array('ssubs' => $ssubs, "degrees" => $degrees)*/);
+      $ssubs = MstSsub::all();
+      $degrees = MstDegree::all();
+
+      if($request->isMethod("get")) {
+
+
+        return view('admin.student_add', array('ssubs' => $ssubs, "degrees" => $degrees));
+
+      }else{
+        $validator = Validator::make($request->all(),Student::$rules,Student::$messages);
+        if ($validator->fails()) {
+          return redirect('admin/student_add')
+          ->withErrors($validator)
+          ->withInput();
         }
+        $student = new Student;
+
+        $form = $request -> all();
+
+        unset($form['_token']);
+
+        unset($form['password_confirmation']);
+
+        $student -> fill($form) ->save();
+
+
+        return redirect('admin/student_index'/*,array('ssubs' => $ssubs, "degrees" => $degrees)*/);
+      }
+
     }
 
-    public function studentEdit(Request $request)
-    {
+      public function studentEdit(Request $request)
+      {
         $ssubs = MstSsub::all();
         $degrees = MstDegree::all();
+
         $student = Student::find($request->id);
-        if($request->isMethod("get")){
-            return view('admin.student_edit',['student' => $student],array('ssubs' => $ssubs, "degrees" => $degrees));
-        }else{
-            $validator = Validator::make($request->all(),Student::$editrules,Student::$messages);
-            if ($validator->fails()){
-                // var_dump($validator->errors());
-                // exit;
-                return redirect('admin/student_edit/'.$request->id)
-                    ->withErrors($validator)
-                    ->withInput();
-            }
-            $form = $request -> all();
-            unset($form['_token']);
-            unset($form['password_confirmation']);
-            $student ->fill($form) ->save();
-            // DB::table('students')->where('id',$request->id)->update($form);
-            return redirect('admin/student_index');
-        }
-    }
 
-    public function studentDelete(Request $request)
-    {
-        Student::find($request->id)->delete();
+        if($request->isMethod("get")){
+
+          return view('admin.student_edit',['student' => $student],array('ssubs' => $ssubs, "degrees" => $degrees));
+        }else{
+          $validator = Validator::make($request->all(),Student::$editrules,Student::$messages);
+          if ($validator->fails()){
+
+            // var_dump($validator->errors());
+            // exit;
+
+            return redirect('admin/student_edit/'.$request->id)
+            ->withErrors($validator)
+            ->withInput();
+          }
+
+          $form = $request -> all();
+
+        unset($form['_token']);
+
+        unset($form['password_confirmation']);
+
+        $student ->fill($form) ->save();
+
+        // DB::table('students')->where('id',$request->id)->update($form);
         return redirect('admin/student_index');
-    }
+
+        }
+      }
+
+        public function studentDelete(Request $request)
+        {
+          Student::find($request->id)->delete();
+          return redirect('admin/student_index');
+        }
 
 }

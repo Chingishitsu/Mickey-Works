@@ -27,9 +27,9 @@
 
               <!-- Right Side Of Navbar -->
               <ul class="navbar-nav ml-auto">
-                  <!-- Authentication Links -->
-                  <li><a class="nav-link" href="index">管理画面に戻す</a></li>
-                  <li><a class="nav-link" href="#">log out</a></li>
+                  <li><a href="student_add" class="btn btn-outline-info">留学生新規</a></li>
+                  <li><a class="btn btn-outline-info" href="index">管理画面に戻す</a></li>
+                  <li><a class="btn btn-outline-info" href="#">log out</a></li>
 
 
               </ul>
@@ -55,7 +55,6 @@
 <div class="container">
 
   <h3>留学生ユーザー一覧</h3>
-  <a href="student_add" class="btn btn-info">留学生新規</a>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -74,7 +73,7 @@
       @foreach( $items as $item)
       <tr>
         <td>
-          <a href="student_info?id={{$item->id}}">{{$item->username}}</a>
+          <a href="student_info/{{$item->id}}">{{$item->username}}</a>
         </td>
         <td>{{$item->name}}</td>
         <td>{{$item->email}}</td>
@@ -84,10 +83,10 @@
         <td>{{$item->ssub->name}}</td>
         <td>{{$item->degree->name}}</td>
         <td>
-          <a href="student_edit/{{$item->id}}" class="btn btn-info">編集</a>
+          <a href="student_edit/{{$item->id}}" class="btn btn-outline-warning btn-primary btn-sm">編集</a>
         </td>
         <td>
-          <a href="student_del/{{$item->id}}" class="btn btn-info">削除</a>
+          <a href="student_del/{{$item->id}}" class="btn btn-outline-danger btn-primary btn-sm">削除</a>
         </td>
       </tr>
       @endforeach
