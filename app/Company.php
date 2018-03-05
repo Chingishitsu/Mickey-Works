@@ -70,4 +70,10 @@ class Company extends Authenticatable
       return $this->hasMany("App\Match",'company_id');
   }
 
+
+  public function scopeMoney($query,$n)
+  {
+    return $query->where('money','=',$n);
+  }
+
 }

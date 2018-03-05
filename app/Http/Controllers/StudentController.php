@@ -11,6 +11,8 @@ use App\Student;
 use App\MstSsub;
 use App\MstDegree;
 use App\Company;
+use App\MstCsub;
+use PharIo\Manifest\CopyrightElement;
 use Validator;
 
 
@@ -158,8 +160,17 @@ class StudentController extends Controller
     $company_address = empty($request->company_address)?"":$request->company_address;
     $company_mst_csub_id = empty($request->company_mst_csub_id)?"":$request->company_mst_csub_id;
     $company_money = empty($request->company_money)?"":$request->company_money;
+    $csubs = MstCsub::all();
     $items = Company::where('name','like',"%".$company_name."%")->where('address','like',"%".$company_address."%")->get();
-    return view('student.student_match',['items'=>$items,'company_name'=>$company_name,'company_address'=>$company_address,'company_mst_csub_id'=>$company_mst_csub_id,'company_money'=>$company_money]);
+    if ($company_money != "") {
+        $items = $items->where('money',$company_money);
+    }
+
+    if ($company_mst_csub_id != "") {
+        $items = $items->where('mst_csub_id',$company_mst_csub_id);
+    }
+
+    return view('student.student_match',['items'=>$items,'company_name'=>$company_name,'company_address'=>$company_address,'company_mst_csub_id'=>$company_mst_csub_id,'company_money'=>$company_money,'csubs'=>$csubs]);
   }
 
 

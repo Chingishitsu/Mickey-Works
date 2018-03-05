@@ -80,4 +80,5 @@ class Student extends Authenticatable
   'message.max' => '最大の字数は500です'
 ];
 
+ 
 }

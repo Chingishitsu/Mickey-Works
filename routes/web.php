@@ -78,3 +78,5 @@ Route::get('student/student_match', 'StudentController@studentMatch')->middlewar
 Route::get('student/student_application/{id?}', 'StudentController@studentApplication')->middleware('auth');
 Route::post('student/student_application/{id?}', 'StudentController@studentApplication')->middleware('auth');
 Route::get('student/student_logout','StudentController@studentLogout');
+
+Route::get('/login','CompanyController@login');
