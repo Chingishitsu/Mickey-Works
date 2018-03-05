@@ -5,13 +5,13 @@
 
     <div class="card bg-info text-white">
       <div class="card-body">
-        <a href="company_index" style="color:white;font-size:30px;">企業の検索</a>
+        <a href="{{url('admin/company_index')}}" style="color:white;font-size:30px;">企業の検索</a>
       </div>
     </div>
     <br>
     <div class="card bg-warning text-white">
       <div class="card-body">
-        <a href="student_index" style="color:white;font-size:30px;">留学生の検索</a>
+        <a href="{{url('admin/student_index')}}" style="color:white;font-size:30px;">留学生の検索</a>
       </div>
     </div>
     <br>
