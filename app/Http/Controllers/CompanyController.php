@@ -146,4 +146,10 @@ class CompanyController extends Controller
       Auth::guard('company')->logout();
       return redirect('/company/login');
   }
+
+  public function clickrank()
+  {
+      $clicks = Company::orderBy('clicks','desc')->take(5)->get();
+      return view('company.clickrank',['clicks' => $clicks]);
+  }
 }

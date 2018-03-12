@@ -26,7 +26,7 @@
       <!-- Authentication Links -->
 
 
-      <li><a class="btn btn-outline-info" href="{{url('student/student_login')}}">log out</a></li>
+      <li><a class="btn btn-outline-info" href="{{url('student/student_logout')}}">log out</a></li>
       </ul>
       </div>
       </div>

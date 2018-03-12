@@ -62,7 +62,7 @@ Route::post('company/view','CompanyController@view')->middleware('auth:company')
 Route::get('company/edit','CompanyController@edit')->middleware('auth:company');
 Route::post('company/edit','CompanyController@edit')->middleware('auth:company');
 Route::get('company/logout','CompanyController@logout');
-
+Route::get('company/clickrank','CompanyController@clickrank');
 Route::get('/home', 'HomeController@index')->name('home');
 
 //student
@@ -79,4 +79,10 @@ Route::get('student/student_application/{id?}', 'StudentController@studentApplic
 Route::post('student/student_application/{id?}', 'StudentController@studentApplication')->middleware('auth');
 Route::get('student/student_logout','StudentController@studentLogout');
 
-Route::get('/login','CompanyController@login');
+//mail Test
+Route::get('mail/send','MailController@send');
+
+
+
+
+

@@ -16,6 +16,7 @@ use PharIo\Manifest\CopyrightElement;
 use Validator;
 
 
+
 class StudentController extends Controller
 {
   public function studentAdd(Request $request)
@@ -82,7 +83,7 @@ class StudentController extends Controller
   public function studentLogout(Request $request)
   {
     Auth::guard('student')->logout();
-    return view('student.student_login');
+    return redirect('student/student_login');
   }
 
 
@@ -182,6 +183,10 @@ class StudentController extends Controller
       if($item == null){
         return redirect('student/student_index');
       }
+      $clicks = $item->clicks;
+      $clicks = $clicks + 1;
+      $item->clicks = $clicks;
+      $item->save();
       return view('student.student_application',['item'=>$item]);
     }else {
       $id = Auth::id();
