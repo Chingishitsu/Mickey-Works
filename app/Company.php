@@ -32,12 +32,12 @@ class Company extends Authenticatable
   );
 
   public static $rules = array(
-    'username' => 'required|between:4,30',
+    'username' => 'required|between:4,30|unique:companies,username',
     'name' => 'required|between:5,50',
     'password' => 'required|alpha_num|between:6,16',
     'password_confirmation' => 'required|same:password',
     'email' => 'required|email',
-    'mst_csub_id' => 'required',
+    'mst_csub_id' => 'required' ,
   );
   public static $rules_edit = array(
     'name' => 'required|between:5,50',
@@ -71,7 +71,7 @@ class Company extends Authenticatable
     'money' => '給料を入力してください'
   );
     public static $editrules = array(
-      'name' => 'alpha_dash|between:4,30',
+      'name' => 'between:4,30',
       'address' => 'required',
       'email' => 'required',
       'message' => 'required' ,
@@ -82,7 +82,13 @@ class Company extends Authenticatable
 
   public function matchs()
   {
-      return $this->hasMany("App\Match");
+      return $this->hasMany("App\Match",'company_id');
+  }
+
+
+  public function scopeMoney($query,$n)
+  {
+    return $query->where('money','=',$n);
   }
 
 }

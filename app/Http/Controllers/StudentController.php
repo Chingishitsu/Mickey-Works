@@ -15,6 +15,8 @@ use App\Student;
 use App\MstSsub;
 use App\MstDegree;
 use App\Company;
+
+use PharIo\Manifest\CopyrightElement;
 use Validator;
 
 
@@ -119,9 +121,9 @@ class StudentController extends Controller
     $id = Auth::id();
     //取得したIDにより、モデールを通じてデータベースから、留学生登録情報を取得する。
     //取得した留学生"登録情報"を表示する。
-    $item = Student::find($id);
+    $students = Student::find($id);
 
-    return view('student.student_index',['items'=>$item]);
+    return view('student.student_index',['students'=>$students]);
     // }
     // $items = DB::table('students')->orderBy($sort,'asc')->paginate(5);
     // return view('student.student_index',['items' => $items,'sort'=>$sort,'student'=>$student]);
@@ -187,8 +189,17 @@ class StudentController extends Controller
     $company_address = empty($request->company_address)?"":$request->company_address;
     $company_mst_csub_id = empty($request->company_mst_csub_id)?"":$request->company_mst_csub_id;
     $company_money = empty($request->company_money)?"":$request->company_money;
+    $csubs = MstCsub::all();
     $items = Company::where('name','like',"%".$company_name."%")->where('address','like',"%".$company_address."%")->get();
-    return view('student.student_match',['items'=>$items,'company_name'=>$company_name,'company_address'=>$company_address,'company_mst_csub_id'=>$company_mst_csub_id,'company_money'=>$company_money]);
+    if ($company_money != "") {
+        $items = $items->where('money',$company_money);
+    }
+
+    if ($company_mst_csub_id != "") {
+        $items = $items->where('mst_csub_id',$company_mst_csub_id);
+    }
+
+    return view('student.student_match',['items'=>$items,'company_name'=>$company_name,'company_address'=>$company_address,'company_mst_csub_id'=>$company_mst_csub_id,'company_money'=>$company_money,'csubs'=>$csubs]);
   }
 
 
@@ -200,11 +211,14 @@ class StudentController extends Controller
       if($item == null){
         return redirect('student/student_index');
       }
+      $clicks = $item->clicks;
+      $clicks = $clicks + 1;
+      $item->clicks = $clicks;
+      $item->save();
       return view('student.student_application',['item'=>$item]);
     }else {
       $id = Auth::id();
       $items = Match::where('student_id',$id)->get();
-
       $company_id = $request->company_id;
       foreach ($items as $item) {
         if ($company_id == $item->company_id){

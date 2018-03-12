@@ -58,6 +58,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th>ユーザー名</th>
         <th>企業名</th>
         <th>本社所在地</th>
         <th>E-mail</th>
@@ -70,6 +71,7 @@
       @foreach( $items as $item)
       <tr>
         <td><a href="company_view/{{$item->id}}">{{$item->username}}</a></td>
+        <td>{{$item->name}}</td>
         <td>{{$item->address}}</td>
         <td>{{$item->email}}</td>
         <td>{{$item->csub->name}}</td>

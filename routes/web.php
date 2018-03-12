@@ -88,3 +88,5 @@ Route::get('student/email_request','StudentController@showStudentLinkRequestForm
 Route::post('student/email_request','StudentController@sendResetLinkEmail');
 Route::get('student/reset/{token}','StudentController@showStudentResetForm');
 Route::post('student/reset','StudentController@reset');
+//mail Test
+Route::get('mail/send','MailController@send');

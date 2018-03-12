@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        Commands\SendEmails::class,
     ];
 
     /**
@@ -24,6 +25,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('email:send')
+            ->daily()
+//            ->sendOutputTo($filePath)
+            ->emailOutputTo('qq259487515@yahoo.co.jp');
         // $schedule->command('inspire')
         //          ->hourly();
     }

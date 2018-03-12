@@ -37,15 +37,23 @@
   </div>
 
   <div class="form-inline">
-    <h3>本社所在地記入</h3><input type="text" class="form-control" name="company_address" value="{{old('company_address')}}">
+    <h3>本社所在地記入</h3><input type="text" class="form-control" name="company_address" value="{{$company_address}}">
   </div>
 
   <div class="form-inline">
-    <h3>分野記入</h3><input type="text" class="form-control" name="company_mst_csub_id" value="{{old('company_mst_csub_id')}}">
+    <h3>分野記入</h3><select name="company_mst_csub_id">
+          <option value="">分野を選択してください</option>
+          @foreach($csubs as $csub)
+              @php
+              $select = ($company_mst_csub_id == $csub->id)? "selected":"";
+              @endphp
+              <option value="{{$csub->id}}" {{$select}}>{{$csub->name}}</option>
+          @endforeach
+      </select>
   </div>
 
   <div class="form-inline">
-    <h3>給料記入</h3><input type="text" class="form-control" name="company_money" value="{{old('company_money')}}">
+    <h3>給料記入</h3><input type="text" class="form-control" name="company_money" value="{{$company_money}}">
   </div>
   <input type="submit" class="btn btn-outline-info" value="検索">
   <a class="btn btn-outline-info" href="{{url('student/student_index')}}">詳細情報を返す</a>

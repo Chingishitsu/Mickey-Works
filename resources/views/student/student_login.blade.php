@@ -25,7 +25,7 @@
   <label for="password" class="col-md-4 col-form-label text-md-right">パスワード</label>
   <div class="col-md-6">
   <input type="password" class="btn btn-outline-info btn-lg" name="password">
-  <br>{{$msg}}
+
   </div>
   </div>
   @if ($errors->has('password'))

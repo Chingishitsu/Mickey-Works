@@ -44,21 +44,29 @@
   <h2>管理者の企業情報編集</h2>
   <form method="post" action="">
     {{ csrf_field()}}
+    <input type="hidden" name="id" value="{{$company->id}}">
+    <div class="form-group">
+      <label for="name">ユーザー名</label>
+      <input type="text" class="form-control" name="username" value="{{$company->username}}">
+      @if($errors -> has('username'))
+      <tr><th>必須:</th><td>{{$errors->first('username')}}</td></tr>
+      @endif
+    </div>
 
     <div class="form-group">
       <label for="name">企業名</label>
-      <input type="text" class="form-control" name="username" value="{{$form->username}}">
-      @if($errors -> has('username'))
-      <tr><th>ERROR</th><td>{{$errors->first('username')}}</td></tr>
+      <input type="text" class="form-control" name="name" value="{{$company->name}}">
+      @if($errors -> has('name'))
+      <tr><th>必須:</th><td>{{$errors->first('name')}}</td></tr>
       @endif
     </div>
 
 
     <div class="form-group">
       <label for="address">本社所在地</label>
-      <input type="text" class="form-control" name="address" value="{{$form->address}}">
+      <input type="text" class="form-control" name="address" value="{{$company->address}}">
       @if($errors -> has('address'))
-      <tr><th>ERROR</th><td>{{$errors->first('address')}}</td></tr>
+      <tr><th>必須:</th><td>{{$errors->first('address')}}</td></tr>
       @endif
     </div>
 
@@ -73,38 +81,41 @@
     </div> -->
     <div class="form-group">
       <label for="mail">E-mail</label>
-      <input type="text" class="form-control" name="email" value="{{$form->email}}">
+      <input type="text" class="form-control" name="email" value="{{$company->email}}">
       @if($errors -> has('email'))
-      <tr><th>ERROR</th><td>{{$errors->first('email')}}</td></tr>
+      <tr><th>必須:</th><td>{{$errors->first('email')}}</td></tr>
       @endif
     </div>
 
     <div class="form-group">
       <label for="csub">分野</label>
-      <select class="form-control" name="mst_csub_id" value="{{$form->mst_csub_id}}">
+      <select class="form-control" name="mst_csub_id" value="{{$company->mst_csub_id}}">
         @foreach($csubs as $csub)
-        <option value="{{$csub->id}}">{{$csub->name}}</option>
+        <option value="{{$csub->id}}"
+          @if ($company->mst_csub_id == $csub->id)
+          {{ "selected" }}
+          @endif
+          >{{$csub->name}}</option>
         @endforeach
-
       </select>
       @if($errors -> has('mst_csub_id'))
-      <tr><th>ERROR</th><td>{{$errors->first('mst_csub_id')}}</td></tr>
+      <tr><th>必須:</th><td>{{$errors->first('mst_csub_id')}}</td></tr>
       @endif
     </div>
 
     <div class="form-group">
       <label for="money">給料</label>
-      <input type="text" class="form-control" name="money" value="{{$form->money}}">
+      <input type="text" class="form-control" name="money" value="{{$company->money}}">
       @if($errors -> has('money'))
-      <tr><th>ERROR</th><td>{{$errors->first('money')}}</td></tr>
+      <tr><th>必須:</th><td>{{$errors->first('money')}}</td></tr>
       @endif
     </div>
 
     <div class="form-group">
       <label for="message">アピール</label>
-      <textarea class="form-control" rows="5" name="message" value="{{$form->message}}"></textarea>
+      <textarea class="form-control" rows="5" name="message" >{{$company->message}}</textarea>
       @if($errors -> has('message'))
-      <tr><th>ERROR</th><td>{{$errors->first('message')}}</td></tr>
+      <tr><th>必須:</th><td>{{$errors->first('message')}}</td></tr>
       @endif
     </div>
 

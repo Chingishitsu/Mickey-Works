@@ -18,7 +18,7 @@
 
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
-            <a class="navbar-brand" href="http://localhost/mickey/public">
+            <a class="navbar-brand" href="http://localhost/Mickey-Works/public/admin/index">
                 Mickey_Works
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,8 +29,8 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
-                    <li><a class="nav-link" href="{{url('admin/index')}}">管理画面に戻す</a></li>
-                    <li><a class="nav-link" href="{{url('admin/logout')}}">log out</a></li>
+                    <li><a class="btn btn-outline-info" href="{{url('admin/index')}}">管理画面に戻す</a></li>
+                    <li><a class="btn btn-outline-info" href="{{url('admin/logout')}}">log out</a></li>
 
 
                 </ul>

@@ -165,7 +165,7 @@ class CompanyController extends Controller
   public function view(Request $request)
   {
     if ($request->isMethod('get')) {
-      if (Auth::guard('company')->id()){
+      if (Auth::guard('company')->user()){
         $results = MstResult::all();
         //AuthコンポーネントからIDを取得する。
         $item = Company::find(Auth::guard('company')->id());
@@ -254,5 +254,11 @@ class CompanyController extends Controller
   {
       Auth::guard('company')->logout();
       return redirect('/company/login');
+  }
+
+  public function clickrank()
+  {
+      $clicks = Company::orderBy('clicks','desc')->take(5)->get();
+      return view('company.clickrank',['clicks' => $clicks]);
   }
 }

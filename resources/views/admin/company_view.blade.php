@@ -46,11 +46,12 @@
 
 
     <li class="list-group-item list-group-item-dark">ID:{{$item->id}}</li>
-    <li class="list-group-item list-group-item-secondary">企業名：{{$item->username}}</li>
-    <li class="list-group-item list-group-item-dark">本社所在地：{{$item->address}}</li>
-    <li class="list-group-item list-group-item-secondary">E-mail：{{$item->email}}</li>
-    <li class="list-group-item list-group-item-dark">分野：{{$item->csub->name}}</li>
-    <li class="list-group-item list-group-item-secondary">給料：{{$item->money}}</li>
+    <li class="list-group-item list-group-item-secondary">ユーザー名：{{$item->username}}</li>
+    <li class="list-group-item list-group-item-dark">企業名：{{$item->name}}</li>
+    <li class="list-group-item list-group-item-secondary">本社所在地：{{$item->address}}</li>
+    <li class="list-group-item list-group-item-dark">E-mail：{{$item->email}}</li>
+    <li class="list-group-item list-group-item-secondary">分野：{{$item->csub->name}}</li>
+    <li class="list-group-item list-group-item-dark">給料：{{$item->money}}</li>
     <li class="list-group-item list-group-item-secondary">アピール：{{$item->message}}</li>
 
   </ul>
