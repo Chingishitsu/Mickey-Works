@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Auth;
 
-class ForgotPasswordController extends Controller
+class CompanyForgotPasswordController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -35,5 +35,10 @@ class ForgotPasswordController extends Controller
     {
       return Password::broker('companies');
     }
+    public function email_requst()
+    {
+        return view('company.email_request');
+    }
+
 
 }

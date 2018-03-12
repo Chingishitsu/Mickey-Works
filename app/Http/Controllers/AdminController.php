@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Company;
-use App\MstResult;
 use Illuminate\Http\Request;
 use App\Match;
 use App\Student;
 use App\MstSsub;
 use App\MstDegree;
 use App\Admin;
+use App\Company;
+use App\MstCsub;
+use App\MstResult;
+use Illuminate\Support\Facades\Hash;
 use Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+
+
+
 
 class AdminController extends Controller
 {
@@ -38,6 +43,9 @@ class AdminController extends Controller
     {
       if ($request->isMethod('get')){
           $item = Match::find($request->id);
+          if ($item == null){
+              return view('admin.index');
+          }
           $students = Student::all();
           $companies = Company::all();
           $results = MstResult::all();
@@ -60,10 +68,10 @@ class AdminController extends Controller
     public function matchadd(Request $request)
     {
       if ($request->isMethod('get')) {
-          $items = MstResult::all();
-          $students = Student::all();
-          $companies = Company::all();
-          return view('admin.matchadd',['items' => $items,'students'=>$students,'companies'=>$companies]);
+        $students = Student::all();
+        $companies = Company::all();
+        $results = MstResult::all();
+        return view('admin.matchadd',['students'=>$students,'companies'=>$companies,'results'=>$results]);
       }else {
         $validator = Validator::make($request->all(),Match::$rules,Match::$messages);
         if ($validator->fails()) {
@@ -82,36 +90,70 @@ class AdminController extends Controller
     public function matchview(Request $request)
     {
       $item = Match::find($request->id);
+      if ($item == null){
+          return view('admin.index');
+      }
       return view('admin.matchview',['item'=>$item]);
     }
 
     public function matchdelete(Request $request)
     {
-      Match::find($request->id)->delete();
+      $item = Match::find($request->id);
+      if ($item == null){
+          return redirect('admin/index');
+      }
+      $item->delete();
       return redirect('admin/matchindex');
+    }
+
+    public function index()
+    {
+        return view('admin.index');
+    }
+
+    public function login(Request $request)
+    {
+      if ($request->isMethod("get"))
+      {
+          return view('admin.login',['msg'=>'']);
+        } else {
+            $username = $request->username;
+            $password = $request->password;
+            if (Auth::guard('admin')->attempt(['username'=>$username,'password'=>$password])){
+                return view('admin.index');
+            } else {
+                return view('admin.login',['msg'=>'ユーザー名またはパスワードが違う']);
+            }
+      }
+
+    }
+
+
+    public function logout()
+    {
+        Auth::guard('admin')->logout();
+        return redirect('admin/login');
     }
 
     public function studentIndex(Request $request)
     {
-      //requestのqueryから入力するユーザー名を取得する。
-      $student_name = $request->student_name;
-
-      //入力されてない場合は、「""」空文字列を認める。
-      $student_name = empty($student_name) ? "" : $student_name;
-
-      //モデルのWhereメソッドを利用し、上記情報を検索する。
-
-      $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(5);
-
-
-      //検索の結果をテンプレートに渡す。
-    return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
+        //requestのqueryから入力するユーザー名を取得する。
+        $student_name = $request->student_name;
+        //入力されてない場合は、「""」空文字列を認める。
+        $student_name = empty($student_name) ? "" : $student_name;
+        //モデルのWhereメソッドを利用し、上記情報を検索する。
+        $items = Student::where('name', 'LIKE', "%$student_name%")->paginate(5);
+        //検索の結果をテンプレートに渡す。
+        return view("admin.student_index", array("items" => $items, "student_name" => $student_name));
     }
+
 
     public function studentInfo(Request $request)
     {
         $item = Student::find($request ->id);
-
+        if ($item == null) {
+            return view('admin.index');
+        }
         return view('admin.student_info',['item' => $item]);
     }
 
@@ -122,17 +164,6 @@ class AdminController extends Controller
       $degrees = MstDegree::all();
 
       if($request->isMethod("get")) {
-
-      /* $username = DB::table('student')->all();
-        $name = DB::table('student')->all();
-        $password = DB::table('student')->all();
-        $email = DB::table('student')->all();
-        $birth = DB::table('student')->all();
-        $mst_degree_id = DB::table('student')->all();
-        $mst_ssub_id = DB::table('student')->all();
-<<<<<<< HEAD
-        $message = DB::table('student')->all();*/
-
 
 
         return view('admin.student_add', array('ssubs' => $ssubs, "degrees" => $degrees));
@@ -156,7 +187,6 @@ class AdminController extends Controller
 
 
         return redirect('admin/student_index'/*,array('ssubs' => $ssubs, "degrees" => $degrees)*/);
-
       }
 
     }
@@ -165,44 +195,39 @@ class AdminController extends Controller
       {
         $ssubs = MstSsub::all();
         $degrees = MstDegree::all();
-        $item = DB::table('students')->where('id',$request->id)->first();
+
+        $student = Student::find($request->id);
 
         if($request->isMethod("get")){
-
-          return view('admin.student_edit',['item' => $item],array('ssubs' => $ssubs, "degrees" => $degrees));
+            if ($student == null){
+                return view('admin.index');
+            }
+          return view('admin.student_edit',['student' => $student],array('ssubs' => $ssubs, "degrees" => $degrees));
         }else{
-          $validator = Validator::make($request->all(),Student::$rules,Student::$messages);
+          $validator = Validator::make($request->all(),Student::$editrules,Student::$messages);
           if ($validator->fails()){
+
+            // var_dump($validator->errors());
+            // exit;
+
             return redirect('admin/student_edit/'.$request->id)
             ->withErrors($validator)
             ->withInput();
           }
 
-        $param = [
-          'id' => $request->id,
-          'name' => $request->name,
-          'password' => $request->password,
-          'email' => $request->email,
-          'tel' => $request->tel,
-          'birth' => $request->birth,
-          'mst_degree_id' => $request->mst_degree_id,
-          'mst_ssub_id' => $request->mst_ssub_id,
-          'message' => $request->message,
-        ];
+          $form = $request -> all();
 
-        unset($param['_token']);
-        unset($param['password_confirmation']);
+        unset($form['_token']);
 
-        DB::table('students')->where('id',$request->id)->update($param);
+        unset($form['password_confirmation']);
+
+        $student ->fill($form) ->save();
+
+        // DB::table('students')->where('id',$request->id)->update($form);
         return redirect('admin/student_index');
 
         }
       }
-
-        public function index(Request $request)
-        {
-          return view('admin/index');
-        }
 
         public function studentDelete(Request $request)
         {
@@ -210,95 +235,102 @@ class AdminController extends Controller
           return redirect('admin/student_index');
         }
 
-/*      public function studentEdit(Request $request)
-      {
-        $ssubs = MstSsub::all();
-        $degrees = MstDegree::all();
-
-        //Routeのparameterからidを取得する。
 
 
+    public function companyIndex(Request $request)
+    {
+        //requestのqueryから入力するのユーザー名、会社名、Email、給料、分野を取得する。
+        $company_username = $request->company_username;
+        //requestのqueryから入力するのユーザー名、会社名、Email、給料、分野を取得する。
+        $company_username = empty($company_username) ? "" : $company_username;
+        //モデルのWhereメソッドを利用し、上記情報を検索する。
+        $items = Company::where('name','LIKE',"%".$company_username."%")->paginate(3);
 
-        if ($request->isMethod('get')){
-          $item = Student::find($request->id);
+        //検索の結果をテンプレートに渡す。
 
-          return view('admin.student_edit',array('ssubs' => $ssubs, 'degrees' => $degrees , 'item'=>$item));
 
-        }else {
-          $validator = Validator::make($request->all(),Student::$rules);
-          if ($validator->fails()) {
-            return redirect('admin.student_edit'.$request->id)
-            ->withErrors($validator)
-            ->withInput();
-          }
-          $item = Student::find($request->id);
-          $form = $request->all();
-          unset($form['_token']);
-          $item->fill($form)->save();
-          return redirect('admin.student_edit'.$request->id);
-        }
-
-//        return view('admin.student_edit',array('ssubs' => $ssubs, 'degrees' => $degrees));
-      }
-*/
+        return view("admin.company_index",array("items" => $items, "company_username" => $company_username));
+    }
 
 
 
-      public function companyAdd(Request $request)
-      {
-      //getの場合 会社の新規ページーをレンダル。
+    public function companyAdd(Request $request)
+    {
+        $csubs = MstCsub::all();
+        //getの場合 会社の新規ページーをレンダル。
         if ($request->isMethod('get'))
         {
-          $companys = DB::table('companys')->all();
-          return view("admin.company_add");
+            return view('admin/company_add',array('csubs'=> $csubs));
+        }else {
+            $validator = Validator::make($request->all(),Company::$rules,Company::$messages);
+            if ($validator->fails()) {
+                return redirect('admin/company_add')
+                    ->withErrors($validator)
+                    ->withInput();
+                //失敗の場合は、エラーメッセージを連れて、本ページを戻す。
+            }
+            //成功の場合は、新しいDATAをsave()で新規する、詳細ページを戻す
+            $company = new Company;
+            $form = $request->all();
+            unset($form['_token']);
+
+            $company->username = $form["username"];
+            $company->name = $form["name"];
+            $company->password = Hash::make($form["password"]);
+            $company->email = $form["email"];
+            $company->mst_csub_id = $form["mst_csub_id"];
+
+            $company->save();
+            return redirect('admin/company_index');
         }
-      //postの場合 requestのpostから会社ユーザー名、会社本名、パスワード、パスワード確認、emailを取得する。
-        if($request->isMethod('post'))
+    }
+
+
+    public function companyEdit(Request $request)
+    {
+        if ($request->isMethod('get'))
         {
-
-
-      {
-        $mstssub = MstSsub::all();
-        $mstdegree = MstDegree::all();
-        return view("admin.student_add",['mstssub'=>$mstssub,'mstdegree'=>$mstdegree]);
-        //postでアクセスする場合、以下の処理を行う。
-        //requestのpostから、登録情報を取得する
-      } else {
-　　　　//上記情報をValidatorで検証する。
-        $validator = Validator::make($request->all(),Student::$rules,Studnet::$messages);
-        //失敗した場合：
-        //エラーメッセージを連れて、本ページを戻す
-        if ( $validator->fails() ) {
-          return redirect('student/add')
-            ->withErrors($validator)
-            ->withInput();
+            $csubs = MstCsub::all();
+            $company = Company::find($request->id);
+            if ($company == null){
+                return view('admin.index');
+            }
+            return view('admin.company_edit',['company'=>$company,'csubs'=>$csubs]);
+        }else{
+            $validator = Validator::make($request->all(),Company::$editrules, Company::$messages);
+            if ($validator->fails()){
+                return redirect('admin/company_edit/'.$request->id)
+                    ->withErrors($validator)
+                    ->withInput();
+            }
+            //成功の場合は、新しいDATAをsave()で更新する、詳細ページを戻す
+            $company = Company::find($request->id);
+            $form = $request->all();
+            unset($form['_token']);
+            $company->username = $request->username;
+            $company->name = $form["name"];
+            // // $company->password = $form["password"];
+            $company->email = $request->email;
+            $company->mst_csub_id = $request->mst_csub_id;
+            $company->money = $request->money;
+            $company->message = $request->message;
+            $company->address = $request->address;
+            $company->save();
+            return redirect("admin/company_index");
         }
-        //成功した場合：
-        //新しいDATAをsave()で新規する、詳細ページを戻す
-        $student = new Student;
-        $form = $request->all();
-        unset($form['_token']);
-        $student->fill($form)->save();
-        return redirect('admin/student');
-      }
- 　}
-
-    public function logout(Request $request)
+    }
+    public function companyView(Request $request)
     {
-      Auth::logout();
-      return view('home.index');
+        $item = Company::find($request->id);
+        if ($item == null){
+            return view('admin.index');
+        }
+        return view('admin/company_view',['item' => $item]);
+    }
+    public function companyDelete(Request $request)
+    {
+        Company::find($request->id)->delete();
+        return redirect('admin/company_index');
     }
 
-    public function login(Request $request)
-    {
-      $username = $request->username;
-      $password = $request->password;
-      if (Auth::guard('admin')->attempt(['username'=>$username,'password'=>$password])) {
-        return view('admin.index');
-      }else {
-        return view('hello.index');
-      }
-
-    }
-
-  
+}

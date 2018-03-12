@@ -34,7 +34,7 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                                                     <li><a class="nav-link" href="http://localhost/mickey/public/login">企業ユーザー</a></li>
-                            <li><a class="nav-link" href="http://localhost/mickey/public/login">留学生ユーザー</a></li>
+                            <li><a class="nav-link" href="{{url('/student/student_login')}}">留学生ユーザー</a></li>
 
                                             </ul>
                 </div>

@@ -9,15 +9,15 @@
 
                 <div class="card-body">
                     <form method="POST" action="{{ url('company/reset') }}">
-                        @csrf
+                        {{ csrf_field() }}
 
-                        <input type="hidden" name="token" value="{{ $token }}">
+                        <input type="hidden" name="token" value="{{ $token or old('token') }}">
 
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">E-Mail Address</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ $email or old('email') }}" required autofocus>
+                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ $email  }}" >
 
                                 @if ($errors->has('email'))
                                     <span class="invalid-feedback">

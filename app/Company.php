@@ -5,23 +5,32 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Http\Request;
+use App\Notifications\CompanyPasswordResetNotification;
+
 class Company extends Authenticatable
 {
-  use SoftDeletes;
+  use Notifiable;
+  public function sendPasswordResetNotification($token)
+  {
+    $this->notify(new CompanyPasswordResetNotification($token));
+  }
   protected $dates = ['deleted_at'];
 
   protected $table = 'companies';
-
-
 
   public function csub()
   {
     return $this->belongsTo("App\MstCsub","mst_csub_id");
   }
-  public function matchs()
-  {
-    return $this->hasMany("App\Match");
-  }
+  public static $rules_reset = array(
+    'email' => 'required|unique:companies|email',
+    'password' => 'required|alpha_num|between:6,16',
+    'password_confirmation' => 'required|same:password',
+  );
+
   public static $rules = array(
     'username' => 'required|between:4,30',
     'name' => 'required|between:5,50',
@@ -52,6 +61,7 @@ class Company extends Authenticatable
     'password_confirmation.same' => '同じパスワードではありません',
 
     'email.required' => 'メールアドレスを入力してください',
+    'email.unique' => '既に使われているメールアドレスです',
     'email.email' => '正しいメールアドレスを入力してください',
 
     'mst_csub_id.required' => '分野を選んでください',
@@ -59,7 +69,7 @@ class Company extends Authenticatable
     'address' => '会社本社所在地を入力してください' ,
 
     'money' => '給料を入力してください'
-  );*/
+  );
     public static $editrules = array(
       'name' => 'alpha_dash|between:4,30',
       'address' => 'required',
@@ -67,13 +77,12 @@ class Company extends Authenticatable
       'message' => 'required' ,
       'money' => 'required',
       'mst_csub_id' => 'required'
+    );
 
-    );
-    public static $messages = array(
-      'address' => '会社所在地を入力してください',
-      'email.required' => 'メールアドレスを入力してください',
-      'message' => '最大500文字' ,
-      'money' => '給料を入力してください',
-      'mst_csub_id' => '分野を選んでください'
-    );
+
+  public function matchs()
+  {
+      return $this->hasMany("App\Match");
+  }
+
 }

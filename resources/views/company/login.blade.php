@@ -17,7 +17,7 @@
                 <div class="card-body">
                     <form method="POST" action="">
                       {{ csrf_field() }}
-                        
+
                         <div class="form-group row">
                             <label for="" class="col-sm-4 col-form-label text-md-right">企業ユーザー名</label>
 
@@ -51,8 +51,11 @@
                                 <button type="submit" class="btn btn-primary">
                                     ログイン
                                 </button>
+                                <a class="btn btn-link" href="{{ url('company/email_request') }}">
+                                    Forgot Your Password?
+                                </a>
 
-                                <a class="btn btn-link" href="http://localhost/Mickey-Works/public/company/register">
+                                <a class="btn btn-link" href="company/register">
                                     新規入会
                                 </a>
                             </div>

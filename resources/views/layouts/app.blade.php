@@ -34,8 +34,8 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a class="nav-link" href="{{ route('login') }}">企業ユーザー</a></li>
-                            <li><a class="nav-link" href="{{ route('login') }}">留学生ユーザー</a></li>
+                            <li><a class="nav-link" href="{{ url('company/login') }}">企業ユーザー</a></li>
+                            <li><a class="nav-link" href="{{ url('student/student_login') }}">留学生ユーザー</a></li>
 
                         @else
                             <li class="nav-item dropdown">

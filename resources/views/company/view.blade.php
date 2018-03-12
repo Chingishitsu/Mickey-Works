@@ -35,10 +35,13 @@
               <!-- Right Side Of Navbar -->
               <ul class="navbar-nav ml-auto">
                   <!-- Authentication Links -->
-                                              <li><a class="nav-link" href="company/view">情報編集</a></li>
-                      <li><a class="nav-link" href="http://localhost/mickey/public/login">ログアウト</a></li>
-
-                                      </ul>
+                  @if (Auth::guard('company')->id())
+                  <li><a class="nav-link" href="{{url('company/logout')}}">ログアウト</a></li>
+                  @elseif (Auth::guard('student')->id())
+                  <li><a class="nav-link" href="{{url('student/student_logout')}}">ログアウト</a></li>
+                  <li><a class="nav-link" href="{{url('student/student_index')}}">自分のページに戻る</a></li>
+                  @endif
+              </ul>
           </div>
       </div>
   </nav>
@@ -58,7 +61,12 @@
 
     <thead>
       <tr>
-        <th style="width:15%;text-align:center;font-size:18px">企業名</th><td>{{$item->username}}</td>
+        <th style="width:15%;text-align:center;font-size:18px">ユーザー名</th><td>{{$item->username}}</td>
+      </tr>
+    </thead>
+    <thead>
+      <tr>
+        <th style="width:15%;text-align:center;font-size:18px">企業名</th><td>{{$item->name}}</td>
       </tr>
     </thead>
 
@@ -76,10 +84,7 @@
 
     <thead>
       <tr>
-        <th style="width:15%;text-align:center;font-size:18px">分野</th>
-        <td>
-        {{$item->csub->name}}
-        </td>
+        <th style="width:15%;text-align:center;font-size:18px">分野</th><td>{{$item->csub->name}}</td>
       </tr>
     </thead>
 
@@ -96,21 +101,27 @@
     </thead>
 
   </table>
-
-  <!-- <div class="form-group">
-    <label for="message">応募したい留学生のアピール（留学生ユーザーのみ）</label>
-    <textarea class="form-control" rows="5" id="message"></textarea>
-
-  </div> -->
-  <!-- <button type="button" class="btn btn-info">この企業を応募します（留学生ユーザーのみ）</button>
-  <button type="button" class="btn btn-info">企業情報編集（企業ユーザーのみ）</button> -->
-
+  @if (Auth::guard('student')->id())
+  <div class="form-group">
+    <form method="POST" action="">
+      {{ csrf_field() }}
+    <input type="hidden" name="student_id" value="{{Auth::guard('student')->id()}}" >
+    <input type="hidden" name="company_id" value="{{$item->id}}" >
+    <textarea class="form-control" rows="5" id="message" name="student_comment"></textarea>
+    <button type="submit" class="btn btn-info">この企業を応募します</button>
+    </form>
+  </div>
+  @endif
 
 </div>
+@if ( Auth::guard('company')->id())
+<p align="center">
+  <a class="btn btn-info"  href="{{url('company/edit')}}">情報編集</a>
+</p>
+<div class="container"  style="margin-top:50px">
 
-<div class="container" style="margin-top:50px">
-  <h2>応募した留学生の情報一覧</h2>
   <table class="table table-striped">
+    <h2>応募した留学生の情報一覧</h2>
     <thead>
       <tr>
         <th>氏名</th>
@@ -119,7 +130,8 @@
         <th>学生アピール</th>
         <th>詳細情報</th>
         <th>結果</th>
-
+        <th>コメント</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -129,14 +141,36 @@
         <td>{{$match->student->degree->name}}</td>
         <td>{{$match->student->ssub->name}}</td>
         <td>{{$match->student_comment}}</td>
-        <td><a href="student/index/{{$match->id}}">詳細情報</a></td>
-        <td>{{$match->result->name}}</td>
+        <td><a href="url('student/index/{{$match->id}}')">詳細情報</a></td>
+        <form method="POST" action="">
+          {{ csrf_field() }}
+          <td>
+            <input type="hidden" name="id" value="{{$match->id}}">
+            <select class="form-control" name="result_id">
+              @foreach($results as $result)
 
+              <option value="{{ $result->id }}"
+                @if($match->result_id == $result->id)
+                {{ "selected" }}
+                @endif
+                >{{$result->name}}
+              </option>
+              @endforeach
+            </select>
+          </td>
+          <td>
+            <input type="text" class="form-control" name="company_comment" value="{{ $match->company_comment }}">
+          </td>
+          <td>
+            <button type="submit" class="btn btn-info">送信</button>
+          </td>
+        </form>
       </tr>
       @endforeach
     </tbody>
   </table>
 </div>
+@endif
 
 
 </body>

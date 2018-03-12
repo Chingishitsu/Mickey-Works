@@ -33,10 +33,10 @@
               <!-- Right Side Of Navbar -->
               <ul class="navbar-nav ml-auto">
                   <!-- Authentication Links -->
-                                              <li><a class="nav-link" href="http://localhost/mickey/public/login">ログアウト</a></li>
-                      <li><a class="nav-link" href="http://localhost/mickey/public/login">留学生ユーザー</a></li>
+                      <li><a class="nav-link" href="{{url('company/logout')}}">ログアウト</a></li>
+                      <li><a class="nav-link" href="{{url('company/view')}}">詳細情報ページ</a></li>
 
-                                      </ul>
+              </ul>
           </div>
       </div>
   </nav>
@@ -47,7 +47,7 @@
     {{ csrf_field() }}
     <div class="form-group">
       <label for="name">企業名</label>
-      <input type="text" class="form-control" name="name" value="{{ $items->name }}">
+      <input type="text" class="form-control" name="name" value="{{ old('name',$items->name) }}">
     </div>
     @if ($errors->has('name'))
     <p align="center" >
@@ -57,13 +57,13 @@
 
     <div class="form-group">
       <label for="address">本社所在地</label>
-      <input type="text" class="form-control" name="address" value="{{ $items->address }}">
+      <input type="text" class="form-control" name="address" value="{{ old('address',$items->address)}}">
     </div>
 
 
     <div class="form-group">
       <label for="mail">E-mail</label>
-      <input type="text" class="form-control" name="email" value="{{ $items->email }}">
+      <input type="text" class="form-control" name="email" value="{{ old('email',$items->email) }}">
     </div>
     @if ($errors->has('email'))
     <p align="center" >
@@ -76,7 +76,7 @@
       <select class="form-control" name="mst_csub_id">
         @foreach($csubs as $csub)
         <option value="{{$csub->id}}"
-          @if (old('mst_csub_id') == $csub->id)
+          @if ($items->mst_csub_id == $csub->id)
           {{ "selected" }}
           @endif
           >{{$csub->name}}
@@ -92,25 +92,16 @@
 
     <div class="form-group">
       <label for="money">年俸</label>
-      <input type="text" class="form-control" name="money" value=
-      @if (old('$items->money') != null)
-      {{old('$items->moneyt')}}
-      @else
-      "{{ $items->money }}"
-      @endif
+      <input type="text" class="form-control" name="money" value="{{  old('money',$items->money)}}"
+
       >
     </div>
 
 
     <div class="form-group">
       <label for="message">アピール</label>
-      <textarea class="form-control" rows="5" name="message">
-        @if (old('$items->company_comment') != null)
-        {{old('$items->company_comment')}}
-        @else
-        {{ $items->company_comment }}
-        @endif
-      </textarea>
+      <textarea class="form-control" rows="5" name="message">{{ old('message',$items->message)}}</textarea>
+      {{var_dump(old('message'))}}
     </div>
 
     <button type="submit" class="btn btn-primary">提出</button>

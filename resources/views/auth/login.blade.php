@@ -55,8 +55,8 @@
                                     ログイン
                                 </button>
 
-                                <a class="btn btn-link" href="{{ route('register')  }}">
-                                    新規入会
+                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                    Forgot Your Password?
                                 </a>
                             </div>
                         </div>

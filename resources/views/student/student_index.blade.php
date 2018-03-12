@@ -24,9 +24,9 @@
       <!-- Right Side Of Navbar -->
       <ul class="navbar-nav ml-auto">
       <!-- Authentication Links -->
-      <li><a class="nav-link" href="#">マックング</a></li>
-      <li><a class="nav-link" href="#">個人情報編集</a></li>
-      <li><a class="nav-link" href="#">log out</a></li>
+      <li><a class="nav-link" href="{{url('student/student_match')}}">マックング</a></li>
+      <li><a class="nav-link" href="{{url('student/student_edit')}}">個人情報編集</a></li>
+      <li><a class="nav-link" href="{{url('student/student_logout')}}">log out</a></li>
       </ul>
       </div>
       </div>
